@@ -9,13 +9,13 @@ A successful build is necessary but not sufficient.
 
 ## Deterministic checks
 
-Inspect project scripts first, then run the fastest relevant checks, typically:
+Inspect project scripts first and use the detected package manager.
 
-- TypeScript/typecheck;
-- production build;
-- relevant lint/tests.
+For greenfield React projects, `typecheck`, `lint`, and `build` are required gates. Run relevant tests when they exist or when risk justifies them.
 
-Do not invent commands.
+For an existing repository, preserve its established check commands and quality conventions.
+
+Do not invent commands and do not hide failures with blanket TypeScript/ESLint suppression.
 
 ## Acceptance verification
 
@@ -44,19 +44,13 @@ Do not turn this into visual-regression infrastructure unless requested.
 
 ## Independence
 
-When a verifier subagent is available, give it only:
-
-- acceptance criteria;
-- running URL/environment;
-- demo identity/data if required.
-
-Do not preload the implementer's reasoning or confidence claims.
+When a verifier subagent is available, give it only the acceptance criteria, running URL/environment, and demo identity/data if required. Do not preload the implementer's reasoning or confidence claims.
 
 ## Verdict
 
 Return one of:
 
-- `PREVIEW_READY` — primary journey verified and safe to share;
+- `PREVIEW_READY` — deterministic checks and primary journey verified;
 - `VERIFY_FAILED` — observed failure with concise evidence;
 - `VERIFY_BLOCKED` — environment/tool issue prevents meaningful verification.
 
