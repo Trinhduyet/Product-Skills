@@ -14,7 +14,7 @@ The goal is simple: **describe a business workflow, get a credible React experie
   <img src="./docs/assets/architecture-v2.svg" alt="Product-Skills architecture" width="560" />
 </p>
 
-The diagram intentionally shows only the architecture flow. The details live in the sections below so the visual stays readable on desktop and mobile.
+The diagram intentionally shows only the architecture flow. Details stay in text so the visual remains readable on desktop and mobile.
 
 - **PM / BA** provides business intent.
 - **Product-Skills** guides the coding agent with skills, context, memory, guardrails, tools, and verification.
@@ -41,11 +41,13 @@ Extra review, subagents, backend infrastructure, and hardening are conditional. 
 
 ## ⚡ Default flow
 
-**① Definition → ② UX/UI → ③ React → ④ Verify → ⑤ Delivery**
+<p align="center">
+  <img src="./docs/assets/default-flow.svg" alt="Default Product-Skills delivery flow" width="560" />
+</p>
 
-Use **Supabase only when a real backend materially improves the experience** — for persistence, authentication, storage, shared data, or server-side behavior.
+**Definition → UX/UI → React → Verify → Delivery** is the happy path.
 
-Repository exploration, deeper review, debugging, and hardening are activated only when they reduce real risk.
+Use **Supabase only when a real backend materially improves the experience** — for persistence, authentication, storage, shared data, or server-side behavior. Repository exploration, deeper review, debugging, and hardening are also activated only when they reduce real risk.
 
 ## 🧩 Six core skills
 
@@ -110,6 +112,12 @@ See [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md).
 
 ## 🧱 Code developers can continue
 
+<p align="center">
+  <img src="./docs/assets/production-path.svg" alt="React production continuation path" width="560" />
+</p>
+
+The important frontend seam is **Component → Feature Hook → Feature API → Provider**. The provider may start as mock data, use Supabase, or later move behind a dedicated backend without rewriting the UI.
+
 For greenfield interfaces, use a small feature-based React structure:
 
 - `src/app/` — app shell, routing, providers
@@ -120,12 +128,6 @@ For greenfield interfaces, use a small feature-based React structure:
 - `src/testing/` — test utilities and fixtures
 
 Create only the folders a feature actually needs.
-
-The important frontend seam is:
-
-**Component → Feature Hook → Feature API → Provider**
-
-The provider may start as mock data, use Supabase, or later move behind a dedicated backend without rewriting the UI.
 
 When Supabase is used, the repository must preserve the pieces developers can own and evolve:
 
@@ -241,7 +243,7 @@ See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
 
 - [`docs/HARNESS-ENGINEERING.md`](./docs/HARNESS-ENGINEERING.md) — model vs harness, context, memory, subagents, verification
 - [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) — GitHub/Vercel/Supabase MCP, OAuth, approvals, local-tool policy
-- [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — runtime compatibility and preconfigured adapters
+- [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — runtime compatibility and current preconfigured runtime integration
 
 ## Principles
 
