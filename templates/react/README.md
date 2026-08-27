@@ -13,14 +13,23 @@ src/
 └── types/
 ```
 
-Default stack: React + TypeScript + Vite + Tailwind + shadcn/ui.
+## Required greenfield baseline
 
-Package manager policy:
+- React + TypeScript + Vite
+- TypeScript strict mode
+- ESLint configured for React + TypeScript
+- Tailwind CSS
+- shadcn/ui or equivalent mature primitives
+- package manager: prefer pnpm when no project convention exists; npm/yarn remain supported
 
-- respect an existing repository's `packageManager` metadata/lockfile;
-- prefer pnpm for a new project when none is selected;
-- keep npm and yarn compatible.
+The generated project must expose deterministic scripts named at least:
+
+- `typecheck`
+- `lint`
+- `build`
+
+`typecheck`, `lint`, and `build` must pass before the project is considered ready to share.
 
 Do not create every folder eagerly. Generate only what the current experience needs.
 
-Data can start as mock data. Add Supabase only when a real backend improves the experience. If Supabase is used, keep SQL/migrations, policies, types, feature API contracts, and server-side logic in source control so developers can continue or migrate the backend later.
+Data can start as mock data. Add Supabase only when a real backend improves the experience. When Supabase is used, keep migrations/SQL, policies, types, API/data contracts, and server-side logic in source control so developers can continue or migrate the backend later.
