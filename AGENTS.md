@@ -34,13 +34,15 @@ Conditional capabilities:
 2. Do not invent business behavior that materially changes the user flow; surface blocking ambiguity.
 3. Prefer existing project patterns over introducing new architecture.
 4. Keep React architecture feature-based and simple.
-5. Keep remote data access behind a feature API/hook boundary when practical.
-6. Never expose secrets or privileged service credentials in browser code.
-7. Persistent schema changes must be reproducible through source-controlled migrations/SQL.
-8. Backend tooling must leave reusable contracts/artifacts for developer continuation.
-9. Do not add abstraction without demonstrated need.
-10. Do not claim success without executing relevant verification.
-11. Treat `PREVIEW_READY` and `DEV_READY` as different gates.
+5. Greenfield React uses TypeScript with strict mode and ESLint as the default code-quality baseline.
+6. Do not suppress type/lint failures with blanket disables, unsafe `any`, or casts merely to pass checks.
+7. Keep remote data access behind a feature API/hook boundary when practical.
+8. Never expose secrets or privileged service credentials in browser code.
+9. Persistent schema changes must be reproducible through source-controlled migrations/SQL.
+10. Backend tooling must leave reusable contracts/artifacts for developer continuation.
+11. Do not add abstraction without demonstrated need.
+12. Do not claim success without executing relevant verification.
+13. Treat `PREVIEW_READY` and `DEV_READY` as different gates.
 
 ## Package manager policy
 
@@ -76,9 +78,11 @@ Use the main agent for low-complexity work. Use `explorer` for unfamiliar patter
 
 ## Verification
 
-For `PREVIEW_READY`, verify the primary business journey in the running application, not only a successful build.
+For greenfield React, `typecheck`, `lint`, and `build` are required deterministic gates before `PREVIEW_READY`; use the detected package manager.
 
-For `DEV_READY`, additionally verify engineering checks, reproducible setup, relevant tests, documentation, and backend artifacts when a backend exists.
+For `PREVIEW_READY`, also verify the primary business journey in the running application, not only a successful build.
+
+For `DEV_READY`, additionally verify reproducible setup, relevant tests, documentation, and backend artifacts when a backend exists.
 
 ## Architecture escalation
 
