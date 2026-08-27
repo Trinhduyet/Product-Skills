@@ -8,152 +8,167 @@ The goal is simple: **describe a business workflow, get a credible React experie
 
 ## 🧭 System overview
 
-The project is intentionally simple: PM/BA business intent goes into an AI coding agent; Product-Skills supplies the instructions, skills, context, memory, guardrails, and tool access needed to produce a verified React interface and deploy it to Vercel.
-
 <p align="center">
-  <img src="./docs/assets/architecture.svg" alt="Product-Skills system architecture" width="100%" />
+  <img src="./docs/assets/architecture.svg" alt="Product-Skills architecture" width="100%" />
 </p>
+
+The main path is intentionally short:
+
+**PM / BA intent → AI Coding Agent → React + Vite → Vercel preview**
+
+Product-Skills sits around that path and supplies only the guidance and tools needed for the current task.
 
 ## 🎯 What it solves
 
-| | Without guidance | With Product-Skills |
-|---|---|---|
-| 🧭 **Product intent** | Agent guesses missing behavior | Goal, actors, rules, and acceptance path stay visible |
-| 🎨 **UX/UI** | Generic screens and missing states | Flow, hierarchy, responsive states, and accessibility basics |
-| 🧱 **Code quality** | Fast demo code becomes rewrite debt | Feature boundaries and replaceable data providers |
-| ✅ **Confidence** | “Build passed” is treated as done | Main user journey is actually verified |
-| ⚡ **Speed** | Too much ceremony or too much improvisation | Short happy path; extra machinery only when useful |
+### 🧭 Keep product intent visible
+Goal, actors, business rules, and the acceptance path stay explicit so the agent does not silently invent important behavior.
+
+### 🎨 Improve UX/UI output
+The agent reasons about the main user journey, important states, responsive behavior, and accessibility basics instead of producing generic screens.
+
+### 🧱 Preserve a production path
+Generated React stays feature-oriented, typed, and separated from its data provider so developers can continue the same repository.
+
+### ✅ Verify before sharing
+A successful build is not treated as proof. The main user journey must actually work in the running application.
+
+### ⚡ Stay fast
+Extra review, subagents, data infrastructure, and hardening are conditional. Straightforward work should remain straightforward.
 
 ## ⚡ Default flow
 
-For a new interface, the agent should normally follow one short path:
-
 **① Definition → ② UX/UI → ③ React → ④ Verify → ⑤ Delivery**
 
-**Supabase is conditional.** Add it only when the experience needs persistence, authentication, storage, or realistic shared data.
+Use **Supabase only when persistence, authentication, storage, or realistic shared data is needed**.
 
-Repository exploration, deeper review, debugging, and hardening are also conditional. The harness should be mostly invisible when the task is straightforward.
+Repository exploration, deeper review, debugging, and hardening are also activated only when they reduce real risk.
 
 ## 🧩 Six core skills
 
-| Skill | Purpose | Load when |
-|---|---|---|
-| 🧭 [`definition`](./skills/definition/) | Goal, actors, journey, business rules, screens, acceptance criteria | New or ambiguous work |
-| 🎨 [`ux-ui`](./skills/ux-ui/) | User flow, hierarchy, states, responsive and accessibility direction | UI work |
-| ⚛️ [`react`](./skills/react/) | Maintainable React implementation and feature boundaries | React implementation |
-| 🗄️ [`supabase`](./skills/supabase/) | Reproducible data/auth/storage with safe client boundaries | Data is required |
-| ✅ [`verify`](./skills/verify/) | Deterministic checks plus the primary user journey | Before sharing |
-| 🚀 [`delivery`](./skills/delivery/) | Vercel preview, environment checks, developer-ready hardening | Share or hand off |
+### 🧭 [`definition`](./skills/definition/)
+Turns business intent into the minimum buildable definition: goal, actors, journey, rules, screens, and acceptance criteria.
 
-Skills are deliberately broad. **Split by independent reuse, not conceptual purity.**
+### 🎨 [`ux-ui`](./skills/ux-ui/)
+Defines flow, hierarchy, states, responsive behavior, and practical accessibility direction.
+
+### ⚛️ [`react`](./skills/react/)
+Builds maintainable React with simple feature boundaries and reusable UI primitives.
+
+### 🗄️ [`supabase`](./skills/supabase/)
+Adds persistence/auth/storage only when needed, with reproducible migrations and safe client boundaries.
+
+### ✅ [`verify`](./skills/verify/)
+Runs deterministic checks and proves the primary user journey in the running application.
+
+### 🚀 [`delivery`](./skills/delivery/)
+Publishes a verified preview to Vercel and later raises the same repository to developer-ready quality.
+
+Skills are intentionally broad: **split by independent reuse, not conceptual purity.**
 
 ## 🔌 Tools & MCP
 
-The harness includes real project-scoped MCP wiring — not just documentation about tools.
+**Rule: local deterministic tools first; MCP for remote state and remote actions.**
 
-**Rule:** local deterministic tools first; MCP for remote state/actions.
+- 📁 **Filesystem / shell** — native coding-agent tools
+- 🌿 **Git** — local diff, status, commit, history
+- 📦 **Node / npm** — install, typecheck, lint, test, build
+- 🌐 **Browser verification** — Playwright CLI when available
+- 🗃️ **Supabase CLI** — migrations and reproducible schema work
+- 🐙 **GitHub MCP** — repository, PR, issue, and remote state
+- ▲ **Vercel MCP** — projects, deployments, preview state, and logs
+- 🟢 **Supabase MCP** — remote database/docs/debugging context, read-only by default
 
-| Capability | Default |
-|---|---|
-| 📁 Files / shell | Native coding-agent tools |
-| 🌿 Git / diff / commit | Local `git` |
-| 📦 Build / typecheck / test | Node + npm project commands |
-| 🌐 Browser acceptance | Playwright CLI when available |
-| 🗃️ Schema changes | Supabase CLI + versioned migrations |
-| 🐙 GitHub remote state | GitHub MCP |
-| ▲ Vercel projects/deployments | Vercel MCP |
-| 🟢 Supabase remote context | Supabase MCP — **read-only by default** |
+Project-scoped MCP configuration is committed for supported coding runtimes:
 
-Native project configs are committed:
+- **Claude Code:** [`.mcp.json`](./.mcp.json)
+- **OpenAI Codex:** [`.codex/config.toml`](./.codex/config.toml)
+- **Cursor:** [`.cursor/mcp.json`](./.cursor/mcp.json)
+- **ChatGPT:** remote capabilities use Plugins/Connectors/Work rather than repository-local MCP files
 
-| Runtime | MCP config |
-|---|---|
-| Claude Code | [`.mcp.json`](./.mcp.json) |
-| OpenAI Codex | [`.codex/config.toml`](./.codex/config.toml) |
-| Cursor | [`.cursor/mcp.json`](./.cursor/mcp.json) |
-| ChatGPT web | Plugins/Connectors/Work integrations; web ChatGPT does not read local MCP files |
+Authentication uses OAuth where supported. **Tokens and privileged credentials must never be committed.**
 
-The shared endpoints use OAuth, so **no PAT/token is committed**. GitHub and Vercel can perform remote actions after authentication. Supabase starts read-only; schema writes stay reproducible through migrations unless a project-scoped write connection is deliberately enabled.
-
-See [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) for login commands, approval policy, and safe Supabase write setup.
+See [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md).
 
 ## 🧱 Code developers can continue
 
-For greenfield work, prefer a small feature-based React structure rather than a throw-away demo architecture.
+For greenfield interfaces, use a small feature-based React structure:
 
-| Area | Responsibility |
-|---|---|
-| `src/app/` | App shell, routing, providers |
-| `src/components/ui/` | Shared UI primitives |
-| `src/features/<feature>/` | Feature UI, hooks, schemas, types, and data access |
-| `src/config/` | Environment and application configuration |
-| `src/lib/` | Shared infrastructure helpers |
-| `src/testing/` | Test utilities and fixtures |
+- `src/app/` — app shell, routing, providers
+- `src/components/ui/` — shared UI primitives
+- `src/features/<feature>/` — feature UI, hooks, schemas, types, and data access
+- `src/config/` — environment/application configuration
+- `src/lib/` — shared infrastructure helpers
+- `src/testing/` — test utilities and fixtures
 
 Create only the folders a feature actually needs.
 
-The important production seam is the data boundary:
+The important production seam is:
 
-<p align="center">
-  <img src="./docs/assets/continuation.svg" alt="React feature data boundary" width="100%" />
-</p>
+**Component → Feature Hook → Feature API → Provider**
 
-A feature can start with mock data, move to Supabase, and later use a dedicated backend without forcing the UI to be rewritten.
+The provider can evolve without rewriting the UI:
+
+**Mock data → Supabase → dedicated HTTP API/backend**
+
+This is the key reason a fast first version can remain useful to the developer team.
 
 ## 🎨 UX/UI baseline
 
-The UX/UI capability is practical, not ceremonial. Before implementation, make the **primary journey** clear and identify the states that matter: loading, empty, validation, error, success, permissions, and confirmation where relevant.
+Before implementation, make the **primary journey** clear and identify the states that materially affect it:
 
-For a greenfield business interface, prefer mature primitives and a restrained visual system:
+- loading
+- empty
+- validation
+- error
+- success
+- permissions
+- confirmation when needed
+
+For a greenfield business interface, the default visual stack is:
 
 **React · TypeScript · Vite · Tailwind CSS · shadcn/ui**
 
 Use the existing stack and design language when working inside an established repository.
 
-Responsive smoke targets: **375 · 768 · 1024 · 1440**, with visible focus, understandable validation, readable contrast, and usable primary actions at each breakpoint.
+Responsive smoke targets: **375 · 768 · 1024 · 1440**.
 
 ## 🧠 How the harness stays fast
 
-The harness is the behavior created by the repository as a whole — **instructions, skills, context, memory, tools, guardrails, verification, and conditional subagents**. It is not a `harness/` directory.
+The harness is the repository behavior as a whole — **instructions, skills, context, memory, tools, guardrails, verification, and conditional subagents**. It is not a `harness/` directory.
 
 ### Small context
-
-A normal implementation task should receive only what it needs: `AGENTS.md`, current product/UI notes, verified project facts, one relevant skill, and the relevant feature files.
-
-Do not load every skill, the entire repository, or the whole conversation by default.
+A normal task gets only what it needs: `AGENTS.md`, current product/UI notes, verified project facts, the relevant skill, and relevant feature files.
 
 ### Small memory
-
-| File | Stores |
-|---|---|
-| `memory/PROJECT.md` | Verified project facts and conventions |
-| `memory/DECISIONS.md` | Durable technical/product decisions |
-| `memory/LESSONS.md` | Verified mistakes worth preventing again |
+- `memory/PROJECT.md` — verified project facts and conventions
+- `memory/DECISIONS.md` — durable technical/product decisions
+- `memory/LESSONS.md` — verified mistakes worth preventing again
 
 Memory is not a transcript archive.
 
 ### Conditional subagents
-
 - 🔎 **explorer** — unfamiliar repository or pattern search
 - 👀 **reviewer** — large, risky, or cross-feature change
-- ✅ **verifier** — independent evidence for the main acceptance journey
+- ✅ **verifier** — independent proof of the main acceptance journey
 - 🛠️ **debugger** — observed failure with an unclear root cause
 
 Small greenfield work should not become a multi-agent ceremony.
 
 ### One execution loop
-
-Implementation has one simple control rule: **implement → verify → continue when it passes; diagnose, fix, and verify again when it fails.** No failure means no debugging loop.
+**Implement → verify → continue when it passes; diagnose, fix, and verify again when it fails.**
 
 ## ✅ Quality path
 
-| Gate | Purpose | Evidence |
-|---|---|---|
-| **PREVIEW_READY** | Stakeholder can evaluate the real journey | Main flow works, desktop/mobile usable, preview reachable |
-| **DEV_READY** | Developer can safely continue the same repository | Build/type/lint, tests, reproducible setup/data, known debt visible |
-| **Production** | Product operates on production infrastructure | Same frontend can evolve to dedicated backend/services when needed |
+### `PREVIEW_READY`
+Ready for stakeholder feedback when the primary journey works, the interface is usable on desktop/mobile, the preview is reachable, and the acceptance path has been exercised.
 
-This separation keeps early feedback fast without hiding the work needed for production.
+### `DEV_READY`
+The same repository reaches a higher engineering bar: clean feature boundaries, build/type/lint checks, proportionate tests, reproducible data setup, accurate environment documentation, and visible known debt.
+
+### Production
+The same frontend can continue while infrastructure evolves from mock data or Supabase toward dedicated backend services when the product needs them.
+
+This separation keeps early feedback fast without hiding future engineering work.
 
 ## 🚀 Try it
 
@@ -165,33 +180,29 @@ The agent should resolve only ambiguity that materially changes behavior, then m
 
 ## 🤖 Supported coding agents
 
-| Runtime | Project integration |
-|---|---|
-| **ChatGPT** | Repository context + canonical instructions/skills; remote tools through Plugins/Connectors/Work |
-| **Claude Code** | `CLAUDE.md` → `AGENTS.md`; project MCP via `.mcp.json` |
-| **OpenAI Codex** | `AGENTS.md`; project MCP and approval policy via `.codex/config.toml` |
-| **Cursor** | `AGENTS.md`; project MCP via `.cursor/mcp.json` |
+- **ChatGPT** — repository context + canonical instructions/skills; remote tools through Plugins/Connectors/Work
+- **Claude Code** — `CLAUDE.md` → `AGENTS.md`; project MCP via `.mcp.json`
+- **OpenAI Codex** — `AGENTS.md`; project MCP and approval policy via `.codex/config.toml`
+- **Cursor** — `AGENTS.md`; project MCP via `.cursor/mcp.json`
 
 See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
 
 ## 🗂 Repository map
 
-| Path | Role |
-|---|---|
-| `README.md` | Human entry point |
-| `AGENTS.md` | Shared coding-agent map and invariants |
-| `.mcp.json` | Claude Code project MCP servers |
-| `.codex/config.toml` | Codex MCP + project config |
-| `.cursor/mcp.json` | Cursor MCP config |
-| `skills/` | Canonical reusable capabilities |
-| `workflows/` | Short execution recipes |
-| `subagents/` | Optional isolated role contracts |
-| `memory/` | Small durable project context |
-| `rules/` | Engineering, security, delivery invariants |
-| `hooks/` | Deterministic safety and ship checks |
-| `scripts/` | Validation and setup utilities |
-| `templates/` | React starter contract |
-| `docs/` | Deeper architecture, runtime, and tool documentation |
+- `README.md` — human entry point
+- `AGENTS.md` — shared coding-agent map and invariants
+- `skills/` — canonical reusable capabilities
+- `workflows/` — short execution recipes
+- `subagents/` — optional isolated role contracts
+- `memory/` — small durable project context
+- `rules/` — engineering, security, and delivery invariants
+- `hooks/` — deterministic safety and ship checks
+- `scripts/` — validation/setup utilities
+- `templates/` — React starter contract
+- `.mcp.json` — Claude Code project MCP servers
+- `.codex/config.toml` — Codex MCP/project configuration
+- `.cursor/mcp.json` — Cursor MCP configuration
+- `docs/` — deeper architecture, runtime, and tool documentation
 
 `skills/` is the canonical skill source. Runtime-specific directories must not become duplicated skill libraries.
 
