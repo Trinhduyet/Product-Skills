@@ -6,13 +6,11 @@ The library is intentionally small. A concept becomes a separate skill only when
 
 ## Core skills
 
-1. `poc-definition`
-2. `ux-ui-design`
-3. `react-poc`
-4. `supabase`
-5. `verify-poc`
-6. `debug`
-7. `deploy-vercel`
-8. `dev-handoff`
+1. `definition`
+2. `ux-ui`
+3. `react`
+4. `supabase` — conditional
+5. `verify`
+6. `delivery`
 
-A normal POC should load only 4–6 of these.
+A normal task should load only the skills it actually needs.

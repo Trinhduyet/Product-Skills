@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Independently prove whether the POC's primary acceptance journey works.
+Independently prove whether the primary acceptance journey works.
 
 ## Input capsule
 
@@ -18,17 +18,15 @@ Do not receive the implementer's reasoning or success claims.
 - deterministic build/check status when relevant;
 - primary end-to-end business journey;
 - important form/action feedback;
-- persistence/role behavior if part of the POC;
+- persistence/role behavior when required;
 - basic responsive/usability smoke.
 
 ## Output
 
 One of:
 
-- `POC_READY`
+- `PREVIEW_READY`
 - `VERIFY_FAILED`
 - `VERIFY_BLOCKED`
 
-Include concise evidence for any failure/blocker.
-
-Never infer PASS from source inspection alone.
+Include concise evidence for any failure or blocker. Never infer PASS from source inspection alone.

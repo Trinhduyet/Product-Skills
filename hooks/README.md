@@ -5,6 +5,6 @@ Product-Skills is runtime-neutral, so this directory contains deterministic chec
 Recommended checks:
 
 - `check-secrets.mjs` before commit/deploy;
-- `ship-gate.mjs` before declaring POC_READY/DEV_HANDOFF_READY.
+- `ship-gate.mjs` before declaring PREVIEW_READY/DEV_READY.
 
 Runtime-specific hook wiring belongs in `.claude/`, `.codex/`, or `.cursor/` only when that runtime supports it.

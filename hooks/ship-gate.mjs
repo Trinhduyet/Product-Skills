@@ -23,4 +23,4 @@ for (const name of candidates) {
 }
 
 if (failed) process.exit(1);
-console.log('\nDeterministic ship checks passed. Functional/browser verification is still required for POC_READY.');
+console.log('\nDeterministic ship checks passed. Functional/browser verification is still required for PREVIEW_READY.');

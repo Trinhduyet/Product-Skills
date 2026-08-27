@@ -1,12 +1,12 @@
 # Project Memory
 
-Keep this file short and factual. It is intended to be cheap enough to load frequently.
+Keep this file short and factual. It should be cheap enough to load frequently.
 
 ## Product
 
-- Purpose: Product-Skills is a lightweight AI coding harness for PMs/BAs to create deployable React POCs that developers can continue toward production.
+- Purpose: Product-Skills is a lightweight AI coding harness for PMs/BAs to create deployable React experiences that developers can continue toward production.
 
-## Default POC stack
+## Default frontend stack
 
 - React
 - TypeScript
@@ -19,14 +19,14 @@ Keep this file short and factual. It is intended to be cheap enough to load freq
 ## Architecture
 
 - Feature-based React structure.
-- Prefer `Component → feature hook → feature API → provider` for remote data.
-- Do not force DDD/Clean Architecture layers into simple POCs.
+- Prefer `component → feature hook → feature API → provider` for remote data.
+- Do not force DDD/Clean Architecture layers into simple frontend work.
 
-## Core workflow
+## Core path
 
-`poc-definition → ux-ui-design → react-poc → verify-poc → deploy-vercel`
+`definition → ux-ui → react → verify → delivery`
 
-Conditional: `supabase`, `debug`, `dev-handoff`.
+Conditional: `supabase`, `explorer`, `reviewer`, `debugger`.
 
 ## Runtime focus
 

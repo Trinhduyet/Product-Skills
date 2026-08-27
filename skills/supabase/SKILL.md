@@ -1,25 +1,28 @@
 ---
 name: supabase
-description: Add Supabase only when a POC needs persistence, authentication, storage, or database-backed behavior. Use to design a minimal reproducible schema, migrations, client access, and RLS appropriate for the POC without coupling React components directly to Supabase.
+description: Add Supabase only when the experience needs persistence, authentication, storage, or realistic shared data. Keep schema and policies reproducible and client boundaries safe enough for continued development.
 ---
 
-# Supabase for POCs
+# Supabase
 
-Supabase is conditional. Do not add it to UI-only POCs.
+Use this skill only when data/auth/storage materially improves the experience being built.
 
-## Use when
+## Default posture
 
-The POC needs one or more of:
+For UI-only work, prefer mock data and skip Supabase.
 
-- data that persists across sessions;
-- multiple users/roles seeing shared or different records;
-- authentication;
-- storage;
-- realistic CRUD behavior that mock state cannot demonstrate credibly.
+When Supabase is needed:
 
-## Repository setup
+- keep migrations/versioned schema in the repository;
+- use publishable/browser-safe credentials only in frontend code;
+- never expose service-role or other privileged keys to the browser;
+- add RLS for user- or role-owned data where relevant;
+- keep provider calls behind feature-level API/hooks rather than scattering them through page components;
+- keep seed/demo data non-sensitive and reproducible.
 
-Keep reproducible database assets in the repository:
+## Repository shape
+
+Prefer:
 
 ```text
 supabase/
@@ -28,41 +31,12 @@ supabase/
 └── seed.sql
 ```
 
-Prefer migrations over undocumented dashboard-only changes.
+Use the project's existing Supabase conventions when they already exist.
 
-## Frontend boundary
+## Auth
 
-Do not put privileged credentials in the browser.
+Do not add real authentication merely to make a demo look complete. Use real auth when identity/permissions are part of the behavior being validated or are needed for the next development stage.
 
-Keep Supabase access behind feature API modules/hooks rather than scattering `supabase.from(...)` across page components.
+## Completion
 
-## RLS
-
-When authenticated users access user-owned or role-sensitive data, use Row Level Security appropriate to the POC.
-
-For a demo-role-only POC with no real authentication, be explicit that the authorization model is simulated and must be hardened before production.
-
-## Scope
-
-Create only the tables/relations required by the primary POC journey.
-
-Do not build a complete enterprise data model before stakeholders validate the workflow.
-
-## Seed data
-
-Use deterministic, non-sensitive seed data that makes the primary journey easy to verify.
-
-## Environment
-
-Document required variables in `.env.example` without secrets.
-
-Never expose service-role or privileged server credentials in client code.
-
-## Before verification
-
-Confirm:
-
-- migrations can reproduce the required schema;
-- the primary POC data journey works;
-- expected roles/users can access the expected records;
-- destructive or unrestricted policies are not accidentally treated as production-ready.
+Before sharing or handoff, verify that a fresh environment can reproduce the schema and that the frontend does not require privileged credentials.

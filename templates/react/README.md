@@ -1,8 +1,6 @@
-# React POC Template Contract
+# React Template Contract
 
-This directory documents the default structure expected for greenfield generated POCs.
-
-Recommended baseline:
+Default structure for greenfield generated interfaces:
 
 ```text
 src/
@@ -17,6 +15,6 @@ src/
 
 Default stack: React + TypeScript + Vite + Tailwind + shadcn/ui.
 
-Do not create every folder eagerly. Generate only what the POC needs.
+Do not create every folder eagerly. Generate only what the current experience needs.
 
 Data can start as mock data. Add Supabase only when persistence/auth/storage is required.

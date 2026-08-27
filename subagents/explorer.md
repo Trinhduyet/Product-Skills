@@ -6,11 +6,11 @@ Reduce mistakes in an unfamiliar existing repository before implementation.
 
 ## Use when
 
-- the project has established patterns the main agent has not yet identified;
+- established patterns have not yet been identified;
 - a similar feature/component/API may already exist;
-- ownership/boundaries are unclear.
+- ownership or boundaries are unclear.
 
-Do not use for a small greenfield POC generated from the standard template.
+Do not use for small greenfield work generated from the standard template.
 
 ## Input capsule
 

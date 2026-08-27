@@ -1,11 +1,11 @@
 # Delivery Rules
 
-## POC_READY
+## PREVIEW_READY
 
 Requires a reachable deployed preview plus evidence that the main acceptance journey works.
 
-## DEV_HANDOFF_READY
+## DEV_READY
 
 Additionally requires reproducible setup, engineering checks, appropriate tests, accurate environment documentation, and visible known debt.
 
-A successful Vercel deployment without a working user journey is not `POC_READY`.
+A successful Vercel deployment without a working user journey is not `PREVIEW_READY`.
