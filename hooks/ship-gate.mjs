@@ -10,12 +10,28 @@ if (!fs.existsSync('package.json')) {
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const scripts = pkg.scripts || {};
 const candidates = ['typecheck', 'lint', 'test', 'build'];
+
+function detectPackageManager() {
+  const declared = typeof pkg.packageManager === 'string' ? pkg.packageManager.split('@')[0] : null;
+  if (declared && ['pnpm', 'yarn', 'npm'].includes(declared)) return declared;
+  if (fs.existsSync('pnpm-lock.yaml')) return 'pnpm';
+  if (fs.existsSync('yarn.lock')) return 'yarn';
+  if (fs.existsSync('package-lock.json') || fs.existsSync('npm-shrinkwrap.json')) return 'npm';
+  return 'pnpm';
+}
+
+const manager = detectPackageManager();
+const argsFor = (name) => manager === 'npm' ? ['run', name] : [name];
 let failed = false;
 
+console.log(`Using package manager: ${manager}`);
 for (const name of candidates) {
   if (!scripts[name]) continue;
-  console.log(`\n> npm run ${name}`);
-  const result = spawnSync('npm', ['run', name], { stdio: 'inherit', shell: process.platform === 'win32' });
+  console.log(`\n> ${manager} ${argsFor(name).join(' ')}`);
+  const result = spawnSync(manager, argsFor(name), {
+    stdio: 'inherit',
+    shell: process.platform === 'win32',
+  });
   if (result.status !== 0) {
     failed = true;
     break;

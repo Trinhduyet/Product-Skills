@@ -2,6 +2,8 @@
 
 Product-Skills helps PMs and BAs turn business ideas into deployable React experiences quickly while preserving a codebase developers can continue toward production.
 
+The core harness is runtime-agnostic. Use native runtime configuration when available, but never assume a task must run in Claude Code, Codex, Cursor, ChatGPT, or any other named agent.
+
 Keep the harness lightweight. Prefer the shortest path that can produce verified evidence.
 
 ## Read order
@@ -16,13 +18,11 @@ Do not load every skill or every memory file by default.
 
 ## Default path
 
-```text
-definition → ux-ui → react → verify → delivery
-```
+`definition → ux-ui → react → verify → delivery`
 
 Conditional capabilities:
 
-- use `supabase` only when persistence/auth/storage is required;
+- use `supabase` only when a backend materially improves the experience;
 - use `debugger` only after an observed failure with an unclear cause;
 - use `explorer` only when an existing repository is unfamiliar;
 - use `reviewer` for large/risky/cross-feature work or before `DEV_READY`;
@@ -36,66 +36,60 @@ Conditional capabilities:
 4. Keep React architecture feature-based and simple.
 5. Keep remote data access behind a feature API/hook boundary when practical.
 6. Never expose secrets or privileged service credentials in browser code.
-7. Persistent schema changes must be reproducible, preferably through migrations.
-8. Do not add abstraction without demonstrated need.
-9. Do not claim success without executing relevant verification.
-10. Treat `PREVIEW_READY` and `DEV_READY` as different gates.
+7. Persistent schema changes must be reproducible through source-controlled migrations/SQL.
+8. Backend tooling must leave reusable contracts/artifacts for developer continuation.
+9. Do not add abstraction without demonstrated need.
+10. Do not claim success without executing relevant verification.
+11. Treat `PREVIEW_READY` and `DEV_READY` as different gates.
+
+## Package manager policy
+
+Respect the current repository first.
+
+Detect the package manager from `packageManager` metadata and lockfiles. Use `pnpm` for greenfield when no manager is established, but support `npm` and `yarn` without rewriting a project just to standardize tooling.
+
+Never hard-code `npm run` when the selected manager can be detected.
 
 ## Tool policy
 
-Use local deterministic tools first: filesystem, shell, `git`, Node/npm, project checks, Playwright CLI, and Supabase CLI.
+Use local deterministic tools first: filesystem, shell, `git`, the detected package manager, project checks, Playwright CLI, and Supabase CLI.
 
-Use MCP only for remote state/actions that local tools do not provide cleanly:
+Use MCP for remote state/actions when useful:
 
 - GitHub MCP — PRs, issues, remote repository state/actions;
 - Vercel MCP — projects, deployments, preview state/logs;
-- Supabase MCP — read-only database/docs/debugging by default.
+- Supabase MCP — optional backend/database context and actions.
 
-Project MCP config lives in `/.mcp.json` for Claude Code, `/.codex/config.toml` for Codex, and `/.cursor/mcp.json` for Cursor.
+Supabase is not mandatory. For UI-only work, mock data is usually faster. When Supabase is used, preserve migrations/SQL, policies, generated types, API/data contracts, and server-side logic in the repository so developers can keep or migrate the backend later.
 
-Prefer OAuth. Never commit remote-service tokens. Remote database writes, destructive repository actions, and production-impact changes require explicit human approval.
+Prefer OAuth. Never commit remote-service tokens. Destructive repository/database operations and production-impact changes require explicit human approval.
 
 ## Context discipline
 
-A task context should contain only:
-
-- task/goal;
-- relevant acceptance criteria;
-- relevant project facts;
-- relevant skill;
-- relevant source files/interfaces.
+A task context should contain only the task/goal, relevant acceptance criteria, relevant project facts, relevant skill, and relevant source files/interfaces.
 
 Avoid passing full conversation history, every skill, or the entire repository to a subagent.
 
 ## Subagent policy
 
-Use the main agent for low-complexity work.
-
-Use `explorer` when an existing pattern probably already exists.
-Use `reviewer` for large/risky/cross-feature changes or before developer handoff.
-Use `verifier` before declaring `PREVIEW_READY`.
-Use `debugger` only for focused root-cause analysis after a real failure.
-
-Subagents receive a compact context capsule and a clear completion contract.
+Use the main agent for low-complexity work. Use `explorer` for unfamiliar patterns, `reviewer` for large/risky changes, `verifier` before `PREVIEW_READY`, and `debugger` only for focused root-cause analysis after a real failure.
 
 ## Verification
 
 For `PREVIEW_READY`, verify the primary business journey in the running application, not only a successful build.
 
-For `DEV_READY`, additionally verify engineering checks, reproducible setup, relevant tests, and documentation.
+For `DEV_READY`, additionally verify engineering checks, reproducible setup, relevant tests, documentation, and backend artifacts when a backend exists.
 
 ## Architecture escalation
 
-Start simple.
+Start simple:
 
-```text
-Level 0: React + mock data
-Level 1: React + feature data boundary + Supabase
-Level 2: add feature service/domain logic only when complexity requires it
-Level 3: replace provider with a dedicated backend when production needs require it
-```
+- Level 0 — React + mock data.
+- Level 1 — React + feature data boundary + optional backend provider such as Supabase.
+- Level 2 — add service/domain logic only when complexity requires it.
+- Level 3 — dedicated backend/services when production needs require them.
 
-Do not force Level 2/3 architecture into a simple interface.
+Do not force later-stage architecture into a simple interface.
 
 ## Canonical locations
 
@@ -105,8 +99,6 @@ Do not force Level 2/3 architecture into a simple interface.
 - `memory/` — small verified project memory
 - `rules/` — stable invariants
 - `hooks/` / `scripts/` — deterministic checks
-- `.mcp.json` — Claude Code project MCP configuration
-- `.codex/`, `.cursor/` — runtime-native configuration
-- `.claude/` — Claude-specific settings/rules/role wrappers when needed
+- runtime-specific config files/directories — integration only
 
-Never duplicate canonical skill content into runtime-specific directories.
+Never duplicate canonical skill content into runtime-specific configuration.

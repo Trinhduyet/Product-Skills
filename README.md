@@ -1,15 +1,17 @@
 # Product-Skills
 
-> **Product-Skills is a lightweight AI coding harness for Product Managers and Business Analysts to turn business ideas into deployable React POCs while preserving a codebase developers can continue toward production.**
+> **Product-Skills is a lightweight AI coding harness for Product Managers and Business Analysts to turn business ideas into deployable React experiences while preserving a codebase developers can continue toward production.**
 
-Product-Skills adds just enough **product definition, UX/UI guidance, engineering conventions, context discipline, tools, and verification** around AI coding agents such as **ChatGPT, Claude Code, Codex, and Cursor**.
+Product-Skills adds just enough **product definition, UX/UI guidance, engineering conventions, context discipline, tools, and verification** around an AI coding agent.
+
+It is **runtime-agnostic**. Any capable coding agent can use the repository conventions. Claude Code, OpenAI Codex, and Cursor currently have project configuration committed in this repo; ChatGPT can use repository context and connected tools. More runtimes can be added without changing the canonical skills.
 
 The goal is simple: **describe a business workflow, get a credible React experience online quickly, then keep building from the same repository.**
 
 ## 🧭 System overview
 
 <p align="center">
-  <img src="./docs/assets/architecture.svg" alt="Product-Skills architecture" width="620" />
+  <img src="./docs/assets/architecture.svg" alt="Product-Skills architecture" width="100%" />
 </p>
 
 ## 🎯 What it solves
@@ -27,13 +29,13 @@ Generated React stays feature-oriented, typed, and separated from its data provi
 A successful build is not treated as proof. The main user journey must actually work in the running application.
 
 ### ⚡ Stay fast
-Extra review, subagents, data infrastructure, and hardening are conditional. Straightforward work should remain straightforward.
+Extra review, subagents, backend infrastructure, and hardening are conditional. Straightforward work should remain straightforward.
 
 ## ⚡ Default flow
 
 **① Definition → ② UX/UI → ③ React → ④ Verify → ⑤ Delivery**
 
-Use **Supabase only when persistence, authentication, storage, or realistic shared data is needed**.
+Use **Supabase only when a real backend materially improves the experience** — for persistence, authentication, storage, shared data, or server-side behavior.
 
 Repository exploration, deeper review, debugging, and hardening are activated only when they reduce real risk.
 
@@ -49,7 +51,7 @@ Defines flow, hierarchy, states, responsive behavior, and practical accessibilit
 Builds maintainable React with simple feature boundaries and reusable UI primitives.
 
 ### 🗄️ [`supabase`](./skills/supabase/)
-Adds persistence/auth/storage only when needed, with reproducible migrations and safe client boundaries.
+Optional backend accelerator. The agent can use Supabase tools to create data/auth/storage/server-side behavior while keeping SQL, migrations, policies, and API/data contracts reusable by developers later.
 
 ### ✅ [`verify`](./skills/verify/)
 Runs deterministic checks and proves the primary user journey in the running application.
@@ -65,19 +67,21 @@ Skills are intentionally broad: **split by independent reuse, not conceptual pur
 
 - 📁 **Filesystem / shell** — native coding-agent tools
 - 🌿 **Git** — local diff, status, commit, history
-- 📦 **Node / npm** — install, typecheck, lint, test, build
+- 📦 **Package manager** — respect the existing project; for greenfield prefer `pnpm`, while `npm` and `yarn` remain supported
+- 🧪 **Project checks** — typecheck, lint, test, build using the detected package manager
 - 🌐 **Browser verification** — Playwright CLI when available
-- 🗃️ **Supabase CLI** — migrations and reproducible schema work
+- 🗃️ **Supabase CLI** — reproducible migrations and local/backend workflows
 - 🐙 **GitHub MCP** — repository, PR, issue, and remote state
 - ▲ **Vercel MCP** — projects, deployments, preview state, and logs
-- 🟢 **Supabase MCP** — remote database/docs/debugging context, read-only by default
+- 🟢 **Supabase MCP** — optional backend context/actions; keep durable backend artifacts in source control
 
-Project-scoped MCP configuration:
+Project-scoped MCP configuration is committed for runtimes that support repository-local MCP config:
 
 - **Claude Code:** [`.mcp.json`](./.mcp.json)
 - **OpenAI Codex:** [`.codex/config.toml`](./.codex/config.toml)
 - **Cursor:** [`.cursor/mcp.json`](./.cursor/mcp.json)
-- **ChatGPT:** remote capabilities use Plugins/Connectors/Work rather than repository-local MCP files
+
+Other coding agents can use the same canonical skills and rules through their own tool/config mechanism. Runtime support is additive, not exclusive.
 
 Authentication uses OAuth where supported. **Tokens and privileged credentials must never be committed.**
 
@@ -96,27 +100,41 @@ For greenfield interfaces, use a small feature-based React structure:
 
 Create only the folders a feature actually needs.
 
-The important production seam is:
+The important frontend seam is:
 
 **Component → Feature Hook → Feature API → Provider**
 
-The provider can evolve without rewriting the UI:
+The provider may start as mock data, use Supabase, or later move behind a dedicated backend without rewriting the UI.
 
-**Mock data → Supabase → dedicated HTTP API/backend**
+When Supabase is used, the durable handoff is not “the Supabase project itself”. The repository must preserve the pieces developers can own and evolve:
 
-This is the key reason a fast first version can remain useful to the developer team.
+- migrations / SQL
+- RLS policies and auth assumptions
+- seed/demo data where useful
+- generated or handwritten types
+- feature API contracts
+- server-side functions/logic when used
+- environment requirements
+
+This lets a developer team keep Supabase, harden it, or migrate backend infrastructure while retaining the frontend and business/data contracts.
+
+## 📦 Package manager policy
+
+Product-Skills does not lock generated projects to one package manager.
+
+1. **Existing repository:** use the package manager already selected by lockfile or `packageManager` metadata.
+2. **Greenfield:** prefer **pnpm** for speed and efficient installs.
+3. **Compatibility:** npm and yarn remain valid; scripts and harness checks must not hard-code one manager.
+
+Typical lockfile detection:
+
+- `pnpm-lock.yaml` → pnpm
+- `yarn.lock` → yarn
+- `package-lock.json` / `npm-shrinkwrap.json` → npm
 
 ## 🎨 UX/UI baseline
 
-Before implementation, make the **primary journey** clear and identify only the states that materially affect it:
-
-- loading
-- empty
-- validation
-- error
-- success
-- permissions
-- confirmation when needed
+Before implementation, make the **primary journey** clear and identify the states that materially affect it: loading, empty, validation, error, success, permissions, and confirmation when needed.
 
 For a greenfield business interface, the default visual stack is:
 
@@ -157,27 +175,25 @@ Small greenfield work should not become a multi-agent ceremony.
 Ready for stakeholder feedback when the primary journey works, the interface is usable on desktop/mobile, the preview is reachable, and the acceptance path has been exercised.
 
 ### `DEV_READY`
-The same repository reaches a higher engineering bar: clean feature boundaries, build/type/lint checks, proportionate tests, reproducible data setup, accurate environment documentation, and visible known debt.
+The same repository reaches a higher engineering bar: clean feature boundaries, build/type/lint checks, proportionate tests, reproducible backend/data setup, accurate environment documentation, and visible known debt.
 
 ### Production
-The same frontend can continue while infrastructure evolves from mock data or Supabase toward dedicated backend services when the product needs them.
-
-This separation keeps early feedback fast without hiding future engineering work.
+The frontend, SQL/migrations, API/data contracts, and server-side logic created during the fast delivery phase become developer-owned assets. Infrastructure can evolve without discarding the useful work.
 
 ## 🚀 Try it
 
-Give the coding agent a **business request**, not an implementation blueprint:
+Give a coding agent a **business request**, not an implementation blueprint:
 
-> Build a purchase-request interface. Employees create and submit requests. Managers review, approve, or reject them. Start with the shortest credible workflow, use mock data unless persistence is necessary, and deploy a shareable preview to Vercel.
+> Build a purchase-request interface. Employees create and submit requests. Managers review, approve, or reject them. Start with the shortest credible workflow. Use a backend only if it improves the experience, then deploy a shareable preview to Vercel.
 
 The agent should resolve only ambiguity that materially changes behavior, then move to implementation quickly.
 
-## 🤖 Supported coding agents
+## 🤖 Coding-agent compatibility
 
-- **ChatGPT** — repository context + canonical instructions/skills; remote tools through Plugins/Connectors/Work
-- **Claude Code** — `CLAUDE.md` → `AGENTS.md`; project MCP via `.mcp.json`
-- **OpenAI Codex** — `AGENTS.md`; project MCP and approval policy via `.codex/config.toml`
-- **Cursor** — `AGENTS.md`; project MCP via `.cursor/mcp.json`
+Product-Skills is not limited to named vendors. A runtime can use it when it can read repository instructions/skills, edit files, run project commands, and access the tools required for the task.
+
+**Preconfigured today:** Claude Code, OpenAI Codex, Cursor.  
+**Also usable:** ChatGPT with repository context/connectors, and other compatible coding agents through their native project/tool configuration.
 
 See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
 
@@ -198,18 +214,21 @@ See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
 - `.cursor/mcp.json` — Cursor MCP configuration
 - `docs/` — deeper architecture, runtime, and tool documentation
 
-`skills/` is the canonical skill source. Runtime-specific directories must not become duplicated skill libraries.
+`skills/` is the canonical skill source. Runtime-specific configuration must not become duplicated skill libraries.
 
 ## 📚 Deeper docs
 
 - [`docs/HARNESS-ENGINEERING.md`](./docs/HARNESS-ENGINEERING.md) — model vs harness, context, memory, subagents, verification
 - [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) — GitHub/Vercel/Supabase MCP, OAuth, approvals, local-tool policy
-- [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — runtime-specific discovery and configuration
+- [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — runtime compatibility and preconfigured adapters
 
 ## Principles
 
 - **Speed is a feature.** Harness mechanisms must earn their latency.
-- **Local tools first; MCP for remote state.**
+- **Runtime-agnostic core, runtime-specific configuration.**
+- **Respect the project's package manager; prefer pnpm for greenfield.**
+- **Local tools first; MCP for remote state/actions.**
+- **Backend tooling must leave reusable artifacts in source control.**
 - **Verified evidence beats agent confidence.**
 - **Keep context small.** More context is not automatically better context.
 - **Do not abstract before the problem requires it.**

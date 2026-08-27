@@ -1,43 +1,48 @@
 # Runtime Compatibility
 
-Phase 1 targets:
+Product-Skills has a **runtime-agnostic core**. The canonical skills, rules, workflows, memory conventions, and engineering contracts are not tied to a specific AI coding vendor.
 
-- ChatGPT
-- Claude Code
-- OpenAI Codex
-- Cursor
+A coding runtime can use Product-Skills when it can reasonably:
+
+- read repository instructions and relevant skills;
+- inspect/edit files;
+- run project commands;
+- use browser/tool access required by the task;
+- preserve project state in the repository.
+
+## Preconfigured runtimes
+
+The repository currently includes native project configuration for:
+
+- Claude Code;
+- OpenAI Codex;
+- Cursor.
+
+ChatGPT can use repository context and connected tools when available. Other coding agents may use the canonical content through their own project instruction/tool configuration.
+
+**Preconfigured does not mean exclusive.** Adding a runtime must not require changing canonical skill semantics.
 
 ## Canonical content
 
 `skills/`, `subagents/`, `memory/`, `rules/`, and `workflows/` are runtime-neutral sources.
 
-## Runtime configuration
+Runtime-specific files should contain only the minimum integration needed by that runtime and should point back to canonical content rather than copy it.
 
-Runtime folders contain only native configuration required by that runtime. Canonical skill content must not be copied into them.
+## Current project configuration
 
-| Runtime | Shared instructions | MCP/tool configuration |
-|---|---|---|
-| Claude Code | `CLAUDE.md` → `AGENTS.md` | project `.mcp.json` at repository root |
-| Codex | `AGENTS.md` | `.codex/config.toml` |
-| Cursor | `AGENTS.md` + Cursor rules when needed | `.cursor/mcp.json` |
-| ChatGPT web | repository context when available | Plugins/Connectors/Work UI; it does not read local MCP config files |
+- Claude Code — `CLAUDE.md`, `.claude/`, root `.mcp.json`.
+- OpenAI Codex — `AGENTS.md`, `.codex/config.toml`.
+- Cursor — `AGENTS.md`, `.cursor/mcp.json` and other Cursor-only configuration when needed.
+- Other runtimes — use `AGENTS.md` + `/skills` through their native mechanism.
 
-Claude's `.mcp.json` is at the repository root because that is Claude Code's native project-scoped convention; this is not a separate canonical knowledge layer.
+## Runtime addition rule
 
-## MCP baseline
+When adding another coding agent:
 
-The default remote MCP surface is intentionally small:
+1. keep `/skills` as the canonical capability source;
+2. add only thin runtime-specific config/adapters;
+3. do not copy shared skill bodies;
+4. preserve the same default workflow and quality gates;
+5. expose only the tools needed for typical Product-Skills delivery.
 
-- GitHub — remote repository/PR/issue state;
-- Vercel — project/deployment state;
-- Supabase — read-only database/docs/debugging context by default.
-
-See [`TOOLS-AND-MCP.md`](./TOOLS-AND-MCP.md) for authentication and security policy.
-
-## AGENTS.md
-
-`AGENTS.md` is the shared project map and behavioral contract. Runtime-specific instructions should point back to it rather than duplicating it.
-
-## Future runtimes
-
-Add a runtime only after the core workflow is stable. Runtime support must not require changing canonical skill semantics.
+See [`TOOLS-AND-MCP.md`](./TOOLS-AND-MCP.md) for tool configuration policy.

@@ -1,118 +1,70 @@
 # Tools & MCP
 
-Product-Skills follows one rule: **local deterministic tools first; MCP for remote state and remote actions.**
+Product-Skills follows one rule: **local deterministic tools first; MCP for remote state/actions when it helps.**
 
-This keeps the happy path fast and reduces tool/context overhead.
+The tool surface is intentionally small so the harness stays fast.
 
-## Default tool surface
+## Local tool baseline
 
-| Capability | Default | Why |
-|---|---|---|
-| Filesystem / shell | Native agent tools | Fast local read/write and execution |
-| Git | Local `git` | Deterministic diff/status/commit operations |
-| Node / npm | Local CLI | Install, typecheck, build, lint, test |
-| Browser verification | Playwright CLI when available | Repeatable acceptance checks |
-| Supabase schema | Supabase CLI + migrations | Reproducible schema changes |
-| GitHub remote state | GitHub MCP | PRs, issues, repository state, remote actions |
-| Vercel remote state | Vercel MCP | Projects, deployments, logs, preview state |
-| Supabase remote state | Supabase MCP | Database/docs/debugging context |
+- filesystem / shell;
+- git;
+- package manager selected by the project;
+- TypeScript/build/lint/test commands;
+- Playwright CLI when browser verification is useful;
+- Supabase CLI when a Supabase backend is used.
 
-Do not expose every possible MCP server by default. Add a tool only when it materially helps the current workflow.
+### Package manager
 
-## Shared MCP endpoints
+Respect the existing repository first:
 
-The repository ships project configuration for three remote MCP servers:
+1. `packageManager` metadata when present;
+2. `pnpm-lock.yaml` → pnpm;
+3. `yarn.lock` → yarn;
+4. `package-lock.json` or `npm-shrinkwrap.json` → npm.
 
-- GitHub: `https://api.githubcopilot.com/mcp/`
-- Vercel: `https://mcp.vercel.com`
-- Supabase: `https://mcp.supabase.com/mcp?read_only=true&features=docs%2Cdatabase%2Cdebugging`
+For a greenfield project with no established manager, prefer **pnpm**. npm and yarn remain supported. Harness scripts must not hard-code npm.
 
-The committed Supabase connection is intentionally **read-only**. Schema writes should normally happen through versioned migrations and the Supabase CLI.
+## Remote MCP baseline
 
-If remote Supabase writes are truly useful, scope the MCP server to a non-production project first, for example:
+The repository currently provides config for:
 
-`https://mcp.supabase.com/mcp?project_ref=<PROJECT_REF>&features=docs%2Cdatabase%2Cdebugging%2Cdevelopment`
+- GitHub MCP — repository/PR/issue and remote source-control state;
+- Vercel MCP — projects/deployments/logs/preview state;
+- Supabase MCP — optional backend/database context and supported actions.
 
-Do not enable write-capable database MCP access against production as a default.
+MCP is not required merely because a config exists. Expose/use a remote server only when the current task benefits from it.
 
-## Claude Code
+## Supabase: optional backend accelerator
 
-Claude Code project-scoped MCP configuration lives at the repository root in `.mcp.json`.
+Supabase is optional. For a frontend-only experience, mock data is usually faster.
 
-After opening the repository:
+When a real backend is valuable, the coding agent may use Supabase MCP and CLI so the PM/BA does not have to write backend code or SQL manually. Speed does not remove the requirement for a reusable handoff.
 
-1. run `/mcp`;
-2. approve the project MCP configuration;
-3. authenticate `github`, `vercel`, and `supabase` through their OAuth flows.
+Preserve durable backend assets in the repository:
 
-No PAT/token belongs in `.mcp.json`.
+- migrations and SQL;
+- policies/auth assumptions;
+- generated types;
+- feature API/data contracts;
+- Edge Functions/server-side logic when used;
+- environment requirements;
+- safe seed/demo data when useful.
 
-## OpenAI Codex
+A developer team can then keep Supabase, harden it, or replace the provider while retaining business/data knowledge and frontend boundaries.
 
-Codex project MCP configuration lives in `.codex/config.toml` for trusted projects.
+Remote MCP state must never be the only source of truth for schema/backend behavior.
 
-Useful commands:
+## Authentication and safety
 
-```bash
-codex mcp list
-codex mcp login github
-codex mcp login vercel
-codex mcp login supabase
-```
+Prefer OAuth where supported. Never commit PATs, access tokens, service-role keys, or other privileged credentials.
 
-The committed config uses `default_tools_approval_mode = "writes"` so reads can stay lightweight while mutation-capable tools require approval.
+Write-capable remote tools should be scoped to the smallest useful environment. Destructive database/repository operations and production-impact actions require explicit human approval.
 
-## Cursor
+## Runtime configuration
 
-Cursor project MCP configuration lives in `.cursor/mcp.json`.
+- Claude Code: root `.mcp.json`.
+- OpenAI Codex: `.codex/config.toml`.
+- Cursor: `.cursor/mcp.json`.
+- Other coding agents: configure equivalent servers through their own native MCP/tool mechanism.
 
-Authenticate from **Settings → Tools & MCP**, or with the Cursor CLI when available:
-
-```bash
-agent mcp login github
-agent mcp login vercel
-agent mcp login supabase
-```
-
-## ChatGPT
-
-ChatGPT web does not read repository-local Codex/Claude/Cursor MCP config files. Use ChatGPT Plugins/Connectors/Work integrations for remote GitHub, Vercel, or Supabase access.
-
-The repository config is still useful for Codex CLI/IDE and other local coding-agent runtimes working on the same project.
-
-## Approval policy
-
-PM/BA should approve **business/security/production-impact decisions**, not low-level shell commands.
-
-Human approval is appropriate for:
-
-- destructive GitHub actions or force operations;
-- production deployment changes;
-- write-capable remote database operations;
-- deleting or rewriting persistent data;
-- enabling privileged credentials or broad access.
-
-Normal local reads, builds, typechecks, linting, and non-destructive verification should not require ceremony.
-
-## Secrets
-
-Prefer OAuth for remote MCP servers.
-
-Never commit:
-
-- GitHub PATs;
-- Vercel tokens;
-- Supabase access tokens;
-- service-role keys;
-- production secrets.
-
-Keep credentials in the runtime's OAuth/keychain/session store or local environment only.
-
-## Official references
-
-- Claude Code MCP: https://code.claude.com/docs/en/mcp
-- Codex MCP: https://developers.openai.com/codex/mcp
-- Cursor MCP: https://cursor.com/docs/mcp
-- GitHub MCP: https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server
-- Vercel MCP: https://vercel.com/docs/agent-resources/vercel-mcp
-- Supabase MCP: https://supabase.com/docs/guides/ai-tools/mcp
+These files are adapters for current runtimes, not a definition of which AI coding agents Product-Skills supports.
