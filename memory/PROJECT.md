@@ -10,6 +10,8 @@ Keep this file short and factual. It should be cheap enough to load frequently.
 ## Default frontend stack
 
 - React + TypeScript + Vite
+- TypeScript strict mode for greenfield
+- ESLint required for greenfield React; lint/typecheck/build must pass before sharing
 - Tailwind CSS + shadcn/ui
 - package manager: respect existing; prefer pnpm for greenfield; npm/yarn supported
 - optional backend: Supabase when persistence/auth/storage/server behavior is useful
