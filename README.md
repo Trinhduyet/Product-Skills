@@ -6,8 +6,12 @@ Product-Skills adds just enough **product definition, UX/UI guidance, engineerin
 
 The goal is simple: **describe a business workflow, get a credible React experience online quickly, then keep building from the same repository.**
 
+## 🧭 System overview
+
+The project is intentionally simple: PM/BA business intent goes into an AI coding agent; Product-Skills supplies the instructions, skills, context, memory, guardrails, and tool access needed to produce a verified React interface and deploy it to Vercel.
+
 <p align="center">
-  <img src="./docs/assets/architecture.svg" alt="Product-Skills architecture" width="100%" />
+  <img src="./docs/assets/architecture.svg" alt="Product-Skills system architecture" width="100%" />
 </p>
 
 ## 🎯 What it solves
@@ -24,9 +28,7 @@ The goal is simple: **describe a business workflow, get a credible React experie
 
 For a new interface, the agent should normally follow one short path:
 
-<p align="center">
-  <img src="./docs/assets/workflow.svg" alt="Definition to delivery workflow" width="100%" />
-</p>
+**① Definition → ② UX/UI → ③ React → ④ Verify → ⑤ Delivery**
 
 **Supabase is conditional.** Add it only when the experience needs persistence, authentication, storage, or realistic shared data.
 
@@ -90,10 +92,10 @@ For greenfield work, prefer a small feature-based React structure rather than a 
 
 Create only the folders a feature actually needs.
 
-The most important production seam is the data boundary:
+The important production seam is the data boundary:
 
 <p align="center">
-  <img src="./docs/assets/continuation.svg" alt="React feature data boundary and provider evolution" width="100%" />
+  <img src="./docs/assets/continuation.svg" alt="React feature data boundary" width="100%" />
 </p>
 
 A feature can start with mock data, move to Supabase, and later use a dedicated backend without forcing the UI to be rewritten.
@@ -145,19 +147,11 @@ Implementation has one simple control rule: **implement → verify → continue 
 
 ## ✅ Quality path
 
-The same repository moves forward instead of being replaced after the first stakeholder review.
-
-<p align="center">
-  <img src="./docs/assets/quality.svg" alt="Preview ready to production quality path" width="100%" />
-</p>
-
-### `PREVIEW_READY`
-
-Ready for stakeholder feedback when the primary journey works, the interface is understandable on desktop and mobile, there is no obvious runtime failure, the preview is reachable, and the acceptance path has been exercised.
-
-### `DEV_READY`
-
-The same repository reaches a higher engineering bar: clean feature boundaries, build/type/lint checks, tests for important behavior, reproducible migrations when data is used, accurate environment setup, and visible known debt.
+| Gate | Purpose | Evidence |
+|---|---|---|
+| **PREVIEW_READY** | Stakeholder can evaluate the real journey | Main flow works, desktop/mobile usable, preview reachable |
+| **DEV_READY** | Developer can safely continue the same repository | Build/type/lint, tests, reproducible setup/data, known debt visible |
+| **Production** | Product operates on production infrastructure | Same frontend can evolve to dedicated backend/services when needed |
 
 This separation keeps early feedback fast without hiding the work needed for production.
 
