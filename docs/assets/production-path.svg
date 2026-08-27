@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="520" viewBox="0 0 560 520" role="img" aria-labelledby="title desc">
+  <title id="title">Production continuation path</title>
+  <desc id="desc">React UI uses a Feature API that can evolve from mock data to Supabase or a dedicated backend.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#64748b"/></marker>
+    <path id="a1" d="M280 138V190"/><path id="a2" d="M280 268V320"/>
+  </defs>
+  <rect width="560" height="520" fill="#fff"/>
+  <g font-family="system-ui,-apple-system,Segoe UI,sans-serif" fill="#0f172a" font-weight="700">
+    <g transform="translate(80 58)"><rect width="400" height="80" rx="16" fill="#f8fafc" stroke="#0ea5e9" stroke-width="2"/><text x="200" y="50" text-anchor="middle" font-size="24">React UI</text></g>
+    <g transform="translate(80 190)"><rect width="400" height="78" rx="16" fill="#f8fafc" stroke="#8b5cf6" stroke-width="2"/><text x="200" y="49" text-anchor="middle" font-size="24">Feature API</text></g>
+    <g transform="translate(80 320)"><rect width="400" height="78" rx="16" fill="#f8fafc" stroke="#10b981" stroke-width="2"/><text x="200" y="49" text-anchor="middle" font-size="24">Provider</text></g>
+    <g font-size="17">
+      <rect x="48" y="440" width="135" height="52" rx="13" fill="#f8fafc" stroke="#cbd5e1"/><text x="115" y="472" text-anchor="middle">Mock</text>
+      <rect x="212" y="440" width="135" height="52" rx="13" fill="#ecfdf5" stroke="#34d399"/><text x="279" y="472" text-anchor="middle">Supabase</text>
+      <rect x="376" y="440" width="135" height="52" rx="13" fill="#f8fafc" stroke="#334155"/><text x="443" y="472" text-anchor="middle">Backend</text>
+    </g>
+  </g>
+  <g stroke="#64748b" stroke-width="3" fill="none" marker-end="url(#arrow)"><use href="#a1"/><use href="#a2"/></g>
+  <path d="M280 398V418H115V432M280 418V432M280 418H443V432" stroke="#94a3b8" stroke-width="2.5" fill="none"/>
+  <g fill="#2563eb"><circle r="5"><animateMotion dur="1.8s" repeatCount="indefinite"><mpath href="#a1"/></animateMotion></circle><circle r="5"><animateMotion dur="1.8s" begin=".9s" repeatCount="indefinite"><mpath href="#a2"/></animateMotion></circle></g>
+</svg>
