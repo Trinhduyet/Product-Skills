@@ -11,11 +11,28 @@ Phase 1 targets:
 
 `skills/`, `subagents/`, `memory/`, `rules/`, and `workflows/` are runtime-neutral sources.
 
-## Runtime directories
+## Runtime configuration
 
-`.claude/`, `.codex/`, and `.cursor/` are configuration-only areas. They should contain only settings/rules/role wrappers required by that runtime.
+Runtime folders contain only native configuration required by that runtime. Canonical skill content must not be copied into them.
 
-Do not copy canonical skill content into those directories.
+| Runtime | Shared instructions | MCP/tool configuration |
+|---|---|---|
+| Claude Code | `CLAUDE.md` → `AGENTS.md` | project `.mcp.json` at repository root |
+| Codex | `AGENTS.md` | `.codex/config.toml` |
+| Cursor | `AGENTS.md` + Cursor rules when needed | `.cursor/mcp.json` |
+| ChatGPT web | repository context when available | Plugins/Connectors/Work UI; it does not read local MCP config files |
+
+Claude's `.mcp.json` is at the repository root because that is Claude Code's native project-scoped convention; this is not a separate canonical knowledge layer.
+
+## MCP baseline
+
+The default remote MCP surface is intentionally small:
+
+- GitHub — remote repository/PR/issue state;
+- Vercel — project/deployment state;
+- Supabase — read-only database/docs/debugging context by default.
+
+See [`TOOLS-AND-MCP.md`](./TOOLS-AND-MCP.md) for authentication and security policy.
 
 ## AGENTS.md
 

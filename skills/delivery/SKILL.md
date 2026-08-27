@@ -7,6 +7,14 @@ description: Publish a verified React experience to Vercel and, when requested, 
 
 Delivery has two depths: stakeholder preview and developer-ready handoff.
 
+## Tool policy
+
+Use local `git` for deterministic repository operations. Use GitHub MCP when remote PR/issue/repository state is needed.
+
+Use Vercel MCP for remote project/deployment state and Vercel CLI when a deterministic local deployment command is the shorter path.
+
+Prefer OAuth-based MCP authentication. Do not commit GitHub PATs, Vercel tokens, or other remote-service credentials.
+
 ## Preview delivery
 
 Before deployment:

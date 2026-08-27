@@ -41,6 +41,20 @@ Conditional capabilities:
 9. Do not claim success without executing relevant verification.
 10. Treat `PREVIEW_READY` and `DEV_READY` as different gates.
 
+## Tool policy
+
+Use local deterministic tools first: filesystem, shell, `git`, Node/npm, project checks, Playwright CLI, and Supabase CLI.
+
+Use MCP only for remote state/actions that local tools do not provide cleanly:
+
+- GitHub MCP — PRs, issues, remote repository state/actions;
+- Vercel MCP — projects, deployments, preview state/logs;
+- Supabase MCP — read-only database/docs/debugging by default.
+
+Project MCP config lives in `/.mcp.json` for Claude Code, `/.codex/config.toml` for Codex, and `/.cursor/mcp.json` for Cursor.
+
+Prefer OAuth. Never commit remote-service tokens. Remote database writes, destructive repository actions, and production-impact changes require explicit human approval.
+
 ## Context discipline
 
 A task context should contain only:
@@ -91,6 +105,8 @@ Do not force Level 2/3 architecture into a simple interface.
 - `memory/` — small verified project memory
 - `rules/` — stable invariants
 - `hooks/` / `scripts/` — deterministic checks
-- `.claude/`, `.codex/`, `.cursor/` — runtime-specific configuration only
+- `.mcp.json` — Claude Code project MCP configuration
+- `.codex/`, `.cursor/` — runtime-native configuration
+- `.claude/` — Claude-specific settings/rules/role wrappers when needed
 
 Never duplicate canonical skill content into runtime-specific directories.

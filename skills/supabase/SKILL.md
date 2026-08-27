@@ -20,6 +20,14 @@ When Supabase is needed:
 - keep provider calls behind feature-level API/hooks rather than scattering them through page components;
 - keep seed/demo data non-sensitive and reproducible.
 
+## Tool policy
+
+Use the Supabase CLI and migrations for schema writes because they are reproducible and reviewable.
+
+The repository MCP baseline is read-only and intended for remote database/docs/debugging context. If write-capable Supabase MCP access is needed, scope it to a non-production `project_ref` first and require explicit approval for destructive or production-impact operations.
+
+Never make remote MCP writes the only record of a schema change.
+
 ## Repository shape
 
 Prefer:
