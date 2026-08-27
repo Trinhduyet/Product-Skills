@@ -11,8 +11,16 @@ The goal is simple: **describe a business workflow, get a credible React experie
 ## 🧭 System overview
 
 <p align="center">
-  <img src="./docs/assets/architecture.svg" alt="Product-Skills architecture" width="100%" />
+  <img src="./docs/assets/architecture-v2.svg" alt="Product-Skills architecture" width="560" />
 </p>
+
+The diagram intentionally shows only the architecture flow. The details live in the sections below so the visual stays readable on desktop and mobile.
+
+- **PM / BA** provides business intent.
+- **Product-Skills** guides the coding agent with skills, context, memory, guardrails, tools, and verification.
+- **React + TypeScript + Vite** is the default greenfield frontend target.
+- **Vercel** provides the shareable preview and deployment feedback loop.
+- **Supabase is optional** and only enters when a real backend improves the experience.
 
 ## 🎯 What it solves
 
@@ -48,7 +56,7 @@ Turns business intent into the minimum buildable definition: goal, actors, journ
 Defines flow, hierarchy, states, responsive behavior, and practical accessibility direction.
 
 ### ⚛️ [`react`](./skills/react/)
-Builds maintainable React with simple feature boundaries and reusable UI primitives.
+Builds maintainable React with TypeScript, lint-clean code, simple feature boundaries, and reusable UI primitives.
 
 ### 🗄️ [`supabase`](./skills/supabase/)
 Optional backend accelerator. The agent can use Supabase tools to create data/auth/storage/server-side behavior while keeping SQL, migrations, policies, and API/data contracts reusable by developers later.
@@ -60,6 +68,19 @@ Runs deterministic checks and proves the primary user journey in the running app
 Publishes a verified preview to Vercel and later raises the same repository to developer-ready quality.
 
 Skills are intentionally broad: **split by independent reuse, not conceptual purity.**
+
+## 🧹 Engineering baseline
+
+For a **greenfield React project**, Product-Skills requires a small but real quality baseline:
+
+- **TypeScript is mandatory**; use strict mode unless an existing repository has a deliberate different policy.
+- **ESLint is mandatory**; lint must pass before `PREVIEW_READY` and `DEV_READY`.
+- Do not silence lint/type errors with blanket disables, `any`, or unsafe casts just to make checks pass.
+- Keep components and feature boundaries understandable; avoid giant page components and premature abstraction.
+- The generated project must expose deterministic scripts for at least **typecheck**, **lint**, and **build**.
+- Tests are proportionate to risk; important business behavior should become testable as the product hardens.
+
+For an **existing repository**, preserve its established TypeScript/lint conventions unless there is a concrete reason to change them.
 
 ## 🔌 Tools & MCP
 
@@ -106,7 +127,7 @@ The important frontend seam is:
 
 The provider may start as mock data, use Supabase, or later move behind a dedicated backend without rewriting the UI.
 
-When Supabase is used, the durable handoff is not “the Supabase project itself”. The repository must preserve the pieces developers can own and evolve:
+When Supabase is used, the repository must preserve the pieces developers can own and evolve:
 
 - migrations / SQL
 - RLS policies and auth assumptions
@@ -123,7 +144,7 @@ This lets a developer team keep Supabase, harden it, or migrate backend infrastr
 Product-Skills does not lock generated projects to one package manager.
 
 1. **Existing repository:** use the package manager already selected by lockfile or `packageManager` metadata.
-2. **Greenfield:** prefer **pnpm** for speed and efficient installs.
+2. **Greenfield:** prefer **pnpm**.
 3. **Compatibility:** npm and yarn remain valid; scripts and harness checks must not hard-code one manager.
 
 Typical lockfile detection:
@@ -172,10 +193,10 @@ Small greenfield work should not become a multi-agent ceremony.
 ## ✅ Quality path
 
 ### `PREVIEW_READY`
-Ready for stakeholder feedback when the primary journey works, the interface is usable on desktop/mobile, the preview is reachable, and the acceptance path has been exercised.
+Ready for stakeholder feedback when the primary journey works, TypeScript/typecheck and lint/build checks pass, the interface is usable on desktop/mobile, the preview is reachable, and the acceptance path has been exercised.
 
 ### `DEV_READY`
-The same repository reaches a higher engineering bar: clean feature boundaries, build/type/lint checks, proportionate tests, reproducible backend/data setup, accurate environment documentation, and visible known debt.
+The same repository reaches a higher engineering bar: clean feature boundaries, strict TypeScript/lint discipline, proportionate tests, reproducible backend/data setup, accurate environment documentation, and visible known debt.
 
 ### Production
 The frontend, SQL/migrations, API/data contracts, and server-side logic created during the fast delivery phase become developer-owned assets. Infrastructure can evolve without discarding the useful work.
@@ -226,6 +247,7 @@ See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
 
 - **Speed is a feature.** Harness mechanisms must earn their latency.
 - **Runtime-agnostic core, runtime-specific configuration.**
+- **TypeScript + ESLint are the greenfield code-quality baseline.**
 - **Respect the project's package manager; prefer pnpm for greenfield.**
 - **Local tools first; MCP for remote state/actions.**
 - **Backend tooling must leave reusable artifacts in source control.**
