@@ -40,7 +40,7 @@ Runtime-specific files should contain only the minimum integration needed by tha
 When adding another coding agent:
 
 1. keep `/skills` as the canonical capability source;
-2. add only thin runtime-specific config/adapters;
+2. add only thin runtime-specific configuration;
 3. do not copy shared skill bodies;
 4. preserve the same default workflow and quality gates;
 5. expose only the tools needed for typical Product-Skills delivery.
