@@ -9,14 +9,8 @@ The goal is simple: **describe a business workflow, get a credible React experie
 ## 🧭 System overview
 
 <p align="center">
-  <img src="./docs/assets/architecture.svg" alt="Product-Skills architecture" width="100%" />
+  <img src="./docs/assets/architecture.svg" alt="Product-Skills architecture" width="620" />
 </p>
-
-The main path is intentionally short:
-
-**PM / BA intent → AI Coding Agent → React + Vite → Vercel preview**
-
-Product-Skills sits around that path and supplies only the guidance and tools needed for the current task.
 
 ## 🎯 What it solves
 
@@ -41,7 +35,7 @@ Extra review, subagents, data infrastructure, and hardening are conditional. Str
 
 Use **Supabase only when persistence, authentication, storage, or realistic shared data is needed**.
 
-Repository exploration, deeper review, debugging, and hardening are also activated only when they reduce real risk.
+Repository exploration, deeper review, debugging, and hardening are activated only when they reduce real risk.
 
 ## 🧩 Six core skills
 
@@ -78,7 +72,7 @@ Skills are intentionally broad: **split by independent reuse, not conceptual pur
 - ▲ **Vercel MCP** — projects, deployments, preview state, and logs
 - 🟢 **Supabase MCP** — remote database/docs/debugging context, read-only by default
 
-Project-scoped MCP configuration is committed for supported coding runtimes:
+Project-scoped MCP configuration:
 
 - **Claude Code:** [`.mcp.json`](./.mcp.json)
 - **OpenAI Codex:** [`.codex/config.toml`](./.codex/config.toml)
@@ -114,7 +108,7 @@ This is the key reason a fast first version can remain useful to the developer t
 
 ## 🎨 UX/UI baseline
 
-Before implementation, make the **primary journey** clear and identify the states that materially affect it:
+Before implementation, make the **primary journey** clear and identify only the states that materially affect it:
 
 - loading
 - empty
