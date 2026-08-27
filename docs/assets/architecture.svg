@@ -1,91 +1,111 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 760 520" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="1010" viewBox="0 0 640 1010" role="img" aria-labelledby="title desc">
   <title id="title">Product-Skills architecture</title>
-  <desc id="desc">PM and BA intent flows through an AI coding agent into React and Vite, then to Vercel. Product-Skills guidance and local plus MCP tools support the flow.</desc>
+  <desc id="desc">A mobile-first vertical system diagram showing PM and BA intent flowing into an AI coding agent guided by Product-Skills, then into React and Vite and finally a Vercel preview. Local tools and MCP integrations support the flow.</desc>
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
       <path d="M0 0 L10 5 L0 10 Z" fill="#64748b"/>
     </marker>
-    <path id="flow1" d="M175 154 H205"/>
-    <path id="flow2" d="M360 154 H390"/>
-    <path id="flow3" d="M545 154 H575"/>
+    <path id="main-flow" d="M320 146 V218 M320 462 V524 M320 620 V682"/>
   </defs>
 
-  <rect width="760" height="520" rx="18" fill="#ffffff"/>
-  <text x="28" y="38" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="24" font-weight="750" fill="#0f172a">Product-Skills architecture</text>
-  <text x="28" y="64" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="15" fill="#64748b">Business intent → coding agent → React → Vercel</text>
+  <rect width="640" height="1010" rx="24" fill="#ffffff"/>
 
-  <!-- Main flow -->
-  <g font-family="system-ui,-apple-system,Segoe UI,sans-serif">
-    <g transform="translate(20 96)">
-      <rect width="155" height="116" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
-      <circle cx="30" cy="30" r="15" fill="#0f172a"/>
-      <circle cx="30" cy="25" r="5" fill="#fff"/>
-      <path d="M21 39c2-7 16-7 18 0" fill="#fff"/>
-      <text x="54" y="28" font-size="13" font-weight="700" fill="#64748b">INPUT</text>
-      <text x="18" y="68" font-size="21" font-weight="750" fill="#0f172a">PM / BA</text>
-      <text x="18" y="94" font-size="15" fill="#475569">Business intent</text>
-    </g>
+  <text x="36" y="48" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="26" font-weight="750" fill="#0f172a">Product-Skills architecture</text>
+  <text x="36" y="76" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="15" fill="#64748b">Business intent → coding agent → React → Vercel</text>
 
-    <use href="#flow1" stroke="#64748b" stroke-width="2.2" fill="none" marker-end="url(#arrow)"/>
+  <!-- PM / BA -->
+  <g transform="translate(80 104)" font-family="system-ui,-apple-system,Segoe UI,sans-serif">
+    <rect width="480" height="92" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <circle cx="42" cy="46" r="20" fill="#0f172a"/>
+    <circle cx="42" cy="39" r="6" fill="#ffffff"/>
+    <path d="M30 58c3-10 21-10 24 0" fill="#ffffff"/>
+    <text x="78" y="37" font-size="13" font-weight="700" fill="#64748b">INPUT</text>
+    <text x="78" y="63" font-size="24" font-weight="750" fill="#0f172a">PM / BA</text>
+    <text x="335" y="54" font-size="16" fill="#475569">Business intent</text>
+  </g>
 
-    <g transform="translate(205 96)">
-      <rect width="155" height="116" rx="14" fill="#f8fafc" stroke="#93c5fd"/>
-      <circle cx="30" cy="30" r="15" fill="#eef2ff"/>
-      <path d="M23 30h14M30 23v14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
-      <text x="54" y="28" font-size="13" font-weight="700" fill="#4f46e5">AGENT</text>
-      <text x="18" y="68" font-size="18" font-weight="750" fill="#0f172a">AI Coding Agent</text>
-      <text x="18" y="94" font-size="14" fill="#475569">ChatGPT · Claude</text>
-    </g>
+  <path d="M320 196 V226" stroke="#64748b" stroke-width="2.4" fill="none" marker-end="url(#arrow)"/>
 
-    <use href="#flow2" stroke="#64748b" stroke-width="2.2" fill="none" marker-end="url(#arrow)"/>
+  <!-- Product-Skills around agent -->
+  <g transform="translate(54 238)" font-family="system-ui,-apple-system,Segoe UI,sans-serif">
+    <rect width="532" height="224" rx="20" fill="#faf5ff" stroke="#d8b4fe" stroke-width="1.5"/>
+    <text x="24" y="34" font-size="14" font-weight="800" fill="#7c3aed">PRODUCT-SKILLS</text>
 
-    <g transform="translate(390 96)">
-      <rect width="155" height="116" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
-      <g transform="translate(30 30)" stroke="#61dafb" fill="none" stroke-width="1.8">
-        <ellipse rx="18" ry="7"/><ellipse rx="18" ry="7" transform="rotate(60)"/><ellipse rx="18" ry="7" transform="rotate(120)"/><circle r="3" fill="#61dafb"/>
-      </g>
-      <path d="M57 16 L69 21 L63 34 L73 31 L59 47 L63 34 L54 37 Z" fill="#8b5cf6"/>
-      <text x="18" y="68" font-size="21" font-weight="750" fill="#0f172a">React + Vite</text>
-      <text x="18" y="94" font-size="15" fill="#475569">Frontend app</text>
-    </g>
+    <rect x="24" y="50" width="484" height="92" rx="16" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
+    <circle cx="68" cy="96" r="20" fill="#eef2ff"/>
+    <path d="M60 96h16M68 88v16" stroke="#4f46e5" stroke-width="2.4" stroke-linecap="round"/>
+    <text x="102" y="85" font-size="13" font-weight="700" fill="#4f46e5">AI CODING AGENT</text>
+    <text x="102" y="112" font-size="23" font-weight="750" fill="#0f172a">ChatGPT · Claude · Codex · Cursor</text>
 
-    <use href="#flow3" stroke="#64748b" stroke-width="2.2" fill="none" marker-end="url(#arrow)"/>
-
-    <g transform="translate(575 96)">
-      <rect width="165" height="116" rx="14" fill="#f8fafc" stroke="#cbd5e1"/>
-      <path d="M20 43 L36 17 L52 43 Z" fill="#000"/>
-      <text x="62" y="34" font-size="20" font-weight="750" fill="#0f172a">Vercel</text>
-      <text x="18" y="68" font-size="16" font-weight="700" fill="#0f172a">Preview</text>
-      <text x="18" y="94" font-size="15" fill="#475569">Share · feedback</text>
+    <g font-size="14" font-weight="700" fill="#581c87">
+      <rect x="24" y="158" width="148" height="42" rx="10" fill="#ffffff" stroke="#e9d5ff"/>
+      <text x="98" y="184" text-anchor="middle">Instructions + Skills</text>
+      <rect x="184" y="158" width="148" height="42" rx="10" fill="#ffffff" stroke="#e9d5ff"/>
+      <text x="258" y="184" text-anchor="middle">Context + Memory</text>
+      <rect x="344" y="158" width="164" height="42" rx="10" fill="#ffffff" stroke="#e9d5ff"/>
+      <text x="426" y="184" text-anchor="middle">Guardrails + Verify</text>
     </g>
   </g>
 
-  <!-- subtle motion; static arrows remain visible when animation is unsupported -->
-  <g fill="#2563eb">
-    <circle r="4"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#flow1"/></animateMotion></circle>
-    <circle r="4"><animateMotion dur="2.4s" begin=".8s" repeatCount="indefinite"><mpath href="#flow2"/></animateMotion></circle>
-    <circle r="4"><animateMotion dur="2.4s" begin="1.6s" repeatCount="indefinite"><mpath href="#flow3"/></animateMotion></circle>
+  <path d="M320 462 V506" stroke="#64748b" stroke-width="2.4" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- React -->
+  <g transform="translate(80 520)" font-family="system-ui,-apple-system,Segoe UI,sans-serif">
+    <rect width="480" height="100" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <g transform="translate(46 50)" stroke="#61dafb" fill="none" stroke-width="2.2">
+      <ellipse rx="25" ry="9"/><ellipse rx="25" ry="9" transform="rotate(60)"/><ellipse rx="25" ry="9" transform="rotate(120)"/><circle r="4" fill="#61dafb"/>
+    </g>
+    <path d="M82 25 L96 31 L89 47 L101 43 L84 63 L90 47 L79 51 Z" fill="#8b5cf6"/>
+    <text x="120" y="45" font-size="24" font-weight="750" fill="#0f172a">React + Vite</text>
+    <text x="120" y="70" font-size="16" fill="#475569">Frontend application</text>
   </g>
 
-  <!-- Guidance layer -->
-  <text x="28" y="254" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="15" font-weight="700" fill="#7c3aed">PRODUCT-SKILLS</text>
-  <rect x="20" y="270" width="720" height="84" rx="14" fill="#faf5ff" stroke="#d8b4fe"/>
-  <g font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="14" font-weight="700" fill="#581c87">
-    <text x="65" y="305">Instructions</text>
-    <text x="190" y="305">Skills</text>
-    <text x="285" y="305">Context</text>
-    <text x="390" y="305">Memory</text>
-    <text x="490" y="305">Guardrails</text>
-    <text x="610" y="305">Verification</text>
-    <text x="64" y="333" fill="#64748b" font-weight="500">Only the guidance needed for the current task.</text>
+  <path d="M320 620 V664" stroke="#64748b" stroke-width="2.4" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Vercel -->
+  <g transform="translate(80 678)" font-family="system-ui,-apple-system,Segoe UI,sans-serif">
+    <rect width="480" height="94" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <path d="M32 62 L52 28 L72 62 Z" fill="#000000"/>
+    <text x="104" y="45" font-size="24" font-weight="750" fill="#0f172a">Vercel preview</text>
+    <text x="104" y="70" font-size="16" fill="#475569">Share · feedback · deployment state</text>
   </g>
 
-  <!-- Tool layer -->
-  <text x="28" y="394" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="15" font-weight="700" fill="#059669">TOOLS &amp; REMOTE STATE</text>
-  <g transform="translate(20 410)" font-family="system-ui,-apple-system,Segoe UI,sans-serif">
-    <g><rect width="165" height="76" rx="12" fill="#f8fafc" stroke="#cbd5e1"/><path d="M18 25h20M18 34h16M18 43h12" stroke="#334155" stroke-width="2" stroke-linecap="round"/><text x="50" y="31" font-size="15" font-weight="750" fill="#0f172a">Local tools</text><text x="50" y="53" font-size="13" fill="#64748b">git · npm · browser</text></g>
-    <g transform="translate(185 0)"><rect width="165" height="76" rx="12" fill="#f8fafc" stroke="#cbd5e1"/><circle cx="28" cy="28" r="15" fill="#181717"/><text x="28" y="33" text-anchor="middle" font-size="10" font-weight="800" fill="#fff">GH</text><text x="52" y="31" font-size="15" font-weight="750" fill="#0f172a">GitHub MCP</text><text x="52" y="53" font-size="13" fill="#64748b">repo · PR · issues</text></g>
-    <g transform="translate(370 0)"><rect width="165" height="76" rx="12" fill="#f8fafc" stroke="#cbd5e1"/><path d="M18 43 L29 23 L40 43 Z" fill="#000"/><text x="50" y="31" font-size="15" font-weight="750" fill="#0f172a">Vercel MCP</text><text x="50" y="53" font-size="13" fill="#64748b">deployments · logs</text></g>
-    <g transform="translate(555 0)"><rect width="165" height="76" rx="12" fill="#f8fafc" stroke="#cbd5e1"/><path d="M20 18 L39 18 L30 32 L41 32 L21 54 L27 38 L16 38 Z" fill="#3ecf8e"/><text x="50" y="31" font-size="15" font-weight="750" fill="#0f172a">Supabase</text><text x="50" y="53" font-size="13" fill="#64748b">MCP + CLI</text></g>
+  <!-- motion along main path; static arrows remain the fallback -->
+  <circle r="5" fill="#2563eb">
+    <animateMotion dur="4s" repeatCount="indefinite" path="M320 196 V226 M320 462 V506 M320 620 V664"/>
+  </circle>
+
+  <!-- Tools -->
+  <text x="56" y="822" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="14" font-weight="800" fill="#059669">TOOLS &amp; REMOTE STATE</text>
+
+  <g transform="translate(54 842)" font-family="system-ui,-apple-system,Segoe UI,sans-serif">
+    <g>
+      <rect width="256" height="64" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+      <path d="M20 24h22M20 32h18M20 40h14" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+      <text x="56" y="29" font-size="16" font-weight="750" fill="#0f172a">Local tools</text>
+      <text x="56" y="49" font-size="13" fill="#64748b">git · npm · browser · CLI</text>
+    </g>
+
+    <g transform="translate(276 0)">
+      <rect width="256" height="64" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+      <circle cx="30" cy="30" r="16" fill="#181717"/>
+      <text x="30" y="35" text-anchor="middle" font-size="10" font-weight="800" fill="#ffffff">GH</text>
+      <text x="58" y="29" font-size="16" font-weight="750" fill="#0f172a">GitHub MCP</text>
+      <text x="58" y="49" font-size="13" fill="#64748b">repo · PR · issues</text>
+    </g>
+
+    <g transform="translate(0 78)">
+      <rect width="256" height="64" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+      <path d="M20 44 L32 22 L44 44 Z" fill="#000000"/>
+      <text x="58" y="29" font-size="16" font-weight="750" fill="#0f172a">Vercel MCP</text>
+      <text x="58" y="49" font-size="13" fill="#64748b">deployments · logs</text>
+    </g>
+
+    <g transform="translate(276 78)">
+      <rect width="256" height="64" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+      <path d="M22 18 L42 18 L33 32 L44 32 L23 54 L29 38 L18 38 Z" fill="#3ecf8e"/>
+      <text x="58" y="29" font-size="16" font-weight="750" fill="#0f172a">Supabase</text>
+      <text x="58" y="49" font-size="13" fill="#64748b">MCP + CLI</text>
+    </g>
   </g>
 </svg>
