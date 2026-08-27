@@ -12,6 +12,8 @@ Optimize for a working interface first, with simple boundaries that remain maint
 Prefer the existing repository stack. If starting fresh, default to:
 
 - React + TypeScript + Vite;
+- TypeScript strict mode;
+- ESLint with project-appropriate React/TypeScript rules;
 - Tailwind CSS;
 - shadcn/ui or equivalent mature primitives;
 - React Hook Form + Zod for non-trivial forms;
@@ -19,6 +21,8 @@ Prefer the existing repository stack. If starting fresh, default to:
 - pnpm when no package manager is already established.
 
 Respect `packageManager` metadata and lockfiles. npm and yarn remain supported; do not migrate an existing project without a concrete reason.
+
+Greenfield projects must expose scripts for at least `typecheck`, `lint`, and `build`.
 
 Do not add dependencies without current value.
 
@@ -47,15 +51,18 @@ Keep provider/data access out of large page components. Prefer:
 
 The provider may initially be mock data, Supabase, or another backend. A future backend must be replaceable behind the feature API without rewriting the UI.
 
-## Implementation rules
+## Clean-code rules
 
-- Reuse existing components and patterns before inventing new shared abstractions.
+- Keep TypeScript strict for greenfield work.
+- ESLint must pass; do not use blanket disables to hide issues.
+- Avoid `any` unless a boundary truly cannot be typed and the reason is documented.
+- Avoid unsafe casts whose only purpose is to silence TypeScript.
+- Reuse existing components and patterns before inventing shared abstractions.
 - Keep business-critical transitions understandable and close to the owning feature.
 - Model loading, empty, validation, error, and success states when the journey can reach them.
-- Keep TypeScript strictness and existing lint conventions intact.
 - Do not prematurely introduce DDD/service/repository layers for simple UI work.
 - Avoid giant page components; extract when behavior or reuse gives a concrete reason.
 
 ## Completion
 
-Implementation is not complete until the relevant deterministic checks run with the project's selected package manager and the main acceptance journey is verified in the running application.
+Implementation is not complete until `typecheck`, `lint`, and `build` pass using the selected package manager and the main acceptance journey is verified in the running application.
