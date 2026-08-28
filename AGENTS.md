@@ -9,8 +9,8 @@ Keep the harness lightweight. Prefer the shortest path that can produce verified
 ## Read order
 
 1. Read this file.
-2. For an existing project, read its `memory/PROJECT.md` when present.
-3. If the task changes product behavior, read `memory/FEATURES.md` when present.
+2. For an existing project, read the **nearest scoped project's** `memory/PROJECT.md` when present. In a monorepo or nested app, prefer `app/memory/`, `packages/<name>/memory/`, or the memory nearest the code being changed instead of unrelated repository-root memory.
+3. If the task changes product behavior, read that same project's `memory/FEATURES.md` when present.
 4. Read only the skill(s) relevant to the current task.
 5. Read only relevant specs and source files.
 6. Retrieve project decisions or harness lessons only when the task touches them.
