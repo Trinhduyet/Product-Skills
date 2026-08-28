@@ -54,16 +54,18 @@ Conditional capabilities:
 1. Optimize for a working stakeholder experience first.
 2. Do not invent business behavior that materially changes the user flow; surface blocking ambiguity.
 3. Prefer existing project patterns over introducing new architecture.
-4. Keep React architecture feature-based and simple.
-5. Greenfield React uses TypeScript with strict mode and ESLint as the default code-quality baseline.
-6. Do not suppress type/lint failures with blanket disables, unsafe `any`, or casts merely to pass checks.
-7. Keep remote data access behind a feature API/hook boundary when practical.
-8. Never expose secrets or privileged service credentials in browser code.
-9. Persistent schema changes must be reproducible through source-controlled migrations/SQL.
-10. Backend tooling must leave reusable contracts/artifacts for developer continuation.
-11. Do not add abstraction without demonstrated need.
-12. Do not claim success without executing relevant verification.
-13. Treat `PREVIEW_READY` and `DEV_READY` as different gates.
+4. **Greenfield React must follow Feature-Sliced Design (FSD) v2.1.** Start with `app/`, `pages/`, and `shared/`; add `features/` or `entities/` only for demonstrated reuse. `widgets/` is discouraged and `processes/` is deprecated.
+5. FSD imports flow only downward: `app → pages → widgets → features → entities → shared`; slices expose external imports through public `index.ts` APIs.
+6. Greenfield React uses TypeScript with strict mode and ESLint as the default code-quality baseline.
+7. Greenfield React must expose and pass an `architecture` check, normally `steiger src`, in addition to typecheck/lint/build.
+8. Do not suppress type/lint/architecture failures with blanket disables, unsafe `any`, casts, or undocumented boundary exceptions merely to pass checks.
+9. Keep reusable infrastructure in `shared/` and business logic out of `shared/`; keep single-use product logic in the owning page until real reuse justifies extraction.
+10. Never expose secrets or privileged service credentials in browser code.
+11. Persistent schema changes must be reproducible through source-controlled migrations/SQL.
+12. Backend tooling must leave reusable contracts/artifacts for developer continuation.
+13. Do not add abstraction without demonstrated need.
+14. Do not claim success without executing relevant verification.
+15. Treat `PREVIEW_READY` and `DEV_READY` as different gates.
 
 ## Package manager policy
 
@@ -99,19 +101,21 @@ Use the main agent for low-complexity work. Use `explorer` for unfamiliar patter
 
 ## Verification
 
-For greenfield React, `typecheck`, `lint`, and `build` are required deterministic gates before `PREVIEW_READY`; use the detected package manager.
+For greenfield React, `typecheck`, `lint`, `architecture`, and `build` are required deterministic gates before `PREVIEW_READY`; use the detected package manager. Lint must be warning-free.
 
 For `PREVIEW_READY`, also verify the primary business journey in the running application, not only a successful build.
 
-For `DEV_READY`, additionally verify reproducible setup, relevant tests, documentation, and backend artifacts when a backend exists.
+For `DEV_READY`, additionally verify reproducible setup, relevant tests, documentation, FSD boundaries, and backend artifacts when a backend exists.
 
 ## Architecture escalation
 
+FSD does not mean creating every layer up front.
+
 Start simple:
 
-- Level 0 — React + mock data.
-- Level 1 — React + feature data boundary + optional backend provider such as Supabase.
-- Level 2 — add service/domain logic only when complexity requires it.
+- Level 0 — `app/ + pages/ + shared/`, React + mock data.
+- Level 1 — the same FSD baseline + optional backend provider in `shared/api` / `shared/auth`.
+- Level 2 — extract stable reused interactions to `features/` and stable reused domain models to `entities/` only when current reuse demonstrates the need.
 - Level 3 — dedicated backend/services when production needs require them.
 
 Do not force later-stage architecture into a simple interface.
