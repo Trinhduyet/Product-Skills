@@ -1,8 +1,30 @@
 # Tools & MCP
 
-Product-Skills follows one rule: **local deterministic tools first; MCP for remote state/actions when it helps.**
+Product-Skills follows one rule: **the coding agent owns capability setup; PM/BA users should not need to understand MCP configuration.**
 
-The tool surface is intentionally small so the harness stays fast.
+The tool surface stays small, but required capabilities must be resolved before implementation starts.
+
+## Capability bootstrap
+
+Before implementation, the coding agent must inspect the task and determine the capabilities required to complete it end-to-end.
+
+Then:
+
+1. reuse local tools that are already available;
+2. identify required remote MCP/tool integrations;
+3. if a required remote capability is not authenticated or connected, request that connection immediately;
+4. wait only for the specific required connection;
+5. resume the same task automatically after connection;
+6. never ask the PM/BA to manually inspect settings or connect unrelated services.
+
+Examples:
+
+- Figma URL/design source → require Figma/design access before implementation;
+- GitHub push/PR/repository delivery → require GitHub before implementation;
+- Vercel deployment/preview/logs → require Vercel before implementation;
+- Supabase backend work → require Supabase only when backend behavior is in scope.
+
+If a requested deliverable explicitly includes GitHub push and Vercel deployment, both are required capabilities and should be connected before coding begins rather than discovered near the end.
 
 ## Local tool baseline
 
@@ -26,24 +48,15 @@ For a greenfield project with no established manager, prefer **pnpm**. npm and y
 
 ## Remote MCP baseline
 
-The repository preconfigures:
+The repository currently preconfigures where supported:
 
 - GitHub MCP — repository/PR/issue and remote source-control state;
 - Vercel MCP — projects/deployments/logs/preview state;
 - Supabase MCP — optional backend/database context and supported actions.
 
-These integrations are **preconfigured, not pre-required**.
+Other capabilities such as Figma may be required by a task. A runtime should use its native MCP/tool integration for that capability and request connection during capability bootstrap.
 
-The agent should start the task without asking the user to inspect MCP settings manually. When the task first reaches a capability that needs a remote service, the agent invokes that configured MCP server. If the runtime reports that authentication is required, the user connects only that service and the agent resumes the same task.
-
-Examples:
-
-- implementing a local React screen does not require GitHub/Vercel/Supabase auth;
-- pushing or creating a PR activates GitHub MCP and may trigger GitHub OAuth;
-- deploying a verified preview activates Vercel MCP and may trigger Vercel OAuth;
-- adding a real backend activates Supabase MCP/CLI and may trigger Supabase authentication.
-
-Do not block implementation because an unrelated remote MCP is not authenticated.
+Preconfigured does not mean always used. Required-by-task does mean connected before implementation.
 
 ## Supabase: optional backend accelerator
 
@@ -69,7 +82,7 @@ Remote MCP state must never be the only source of truth for schema/backend behav
 
 Prefer OAuth where supported. Never commit PATs, access tokens, service-role keys, or other privileged credentials.
 
-Authentication should be lazy and task-driven. Authorization is requested only when the agent first invokes a capability that requires it.
+Connection/authentication is task-driven, but it happens during capability bootstrap before implementation when that capability is required by the requested outcome.
 
 Write-capable remote tools should be scoped to the smallest useful environment. Destructive database/repository operations and production-impact actions require explicit human approval.
 
