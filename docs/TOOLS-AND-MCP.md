@@ -26,13 +26,24 @@ For a greenfield project with no established manager, prefer **pnpm**. npm and y
 
 ## Remote MCP baseline
 
-The repository currently provides config for:
+The repository preconfigures:
 
 - GitHub MCP — repository/PR/issue and remote source-control state;
 - Vercel MCP — projects/deployments/logs/preview state;
 - Supabase MCP — optional backend/database context and supported actions.
 
-MCP is not required merely because a config exists. Expose/use a remote server only when the current task benefits from it.
+These integrations are **preconfigured, not pre-required**.
+
+The agent should start the task without asking the user to inspect MCP settings manually. When the task first reaches a capability that needs a remote service, the agent invokes that configured MCP server. If the runtime reports that authentication is required, the user connects only that service and the agent resumes the same task.
+
+Examples:
+
+- implementing a local React screen does not require GitHub/Vercel/Supabase auth;
+- pushing or creating a PR activates GitHub MCP and may trigger GitHub OAuth;
+- deploying a verified preview activates Vercel MCP and may trigger Vercel OAuth;
+- adding a real backend activates Supabase MCP/CLI and may trigger Supabase authentication.
+
+Do not block implementation because an unrelated remote MCP is not authenticated.
 
 ## Supabase: optional backend accelerator
 
@@ -58,6 +69,8 @@ Remote MCP state must never be the only source of truth for schema/backend behav
 
 Prefer OAuth where supported. Never commit PATs, access tokens, service-role keys, or other privileged credentials.
 
+Authentication should be lazy and task-driven. Authorization is requested only when the agent first invokes a capability that requires it.
+
 Write-capable remote tools should be scoped to the smallest useful environment. Destructive database/repository operations and production-impact actions require explicit human approval.
 
 ## Runtime configuration
@@ -67,4 +80,4 @@ Write-capable remote tools should be scoped to the smallest useful environment. 
 - Cursor: `.cursor/mcp.json`.
 - Other coding agents: configure equivalent servers through their own native MCP/tool mechanism.
 
-These files are adapters for current runtimes, not a definition of which AI coding agents Product-Skills supports.
+These files are thin runtime-specific configuration, not a definition of which AI coding agents Product-Skills supports.
