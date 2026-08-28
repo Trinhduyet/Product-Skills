@@ -98,6 +98,16 @@ For an **existing repository**, preserve its established TypeScript/lint convent
 - ▲ **Vercel MCP** — projects, deployments, preview state, and logs
 - 🟢 **Supabase MCP** — optional backend context/actions; keep durable backend artifacts in source control
 
+Remote MCP integrations are **preconfigured but connected on demand**. The user does not need to open settings and verify every connection before starting.
+
+The agent begins with local work. When the task first needs a remote capability, it invokes that MCP server. If authentication is missing, the runtime should ask the user to connect only that service, then continue the same task:
+
+- push / PR / remote repo work → **GitHub**
+- deploy / preview / logs → **Vercel**
+- real backend work → **Supabase**
+
+An unauthenticated service that is not needed must not block the task.
+
 Project-scoped MCP configuration is committed for runtimes that support repository-local MCP config:
 
 - **Claude Code:** [`.mcp.json`](./.mcp.json)
@@ -242,8 +252,8 @@ See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
 ## 📚 Deeper docs
 
 - [`docs/HARNESS-ENGINEERING.md`](./docs/HARNESS-ENGINEERING.md) — model vs harness, context, memory, subagents, verification
-- [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) — GitHub/Vercel/Supabase MCP, OAuth, approvals, local-tool policy
-- [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — runtime compatibility and current preconfigured runtime integration
+- [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) — GitHub/Vercel/Supabase MCP, lazy OAuth, approvals, local-tool policy
+- [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — runtime compatibility and preconfigured integrations
 
 ## Principles
 
@@ -251,6 +261,7 @@ See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
 - **Runtime-agnostic core, runtime-specific configuration.**
 - **TypeScript + ESLint are the greenfield code-quality baseline.**
 - **Respect the project's package manager; prefer pnpm for greenfield.**
+- **Remote tools are preconfigured, authenticated on demand, and used only when needed.**
 - **Local tools first; MCP for remote state/actions.**
 - **Backend tooling must leave reusable artifacts in source control.**
 - **Verified evidence beats agent confidence.**
