@@ -103,7 +103,7 @@ For an **existing repository**, preserve its established architecture and qualit
 
 ## 🧱 Mandatory Feature-Sliced Design
 
-Product-Skills follows the FSD v2.1 principle: **start simple, extract when needed**. The referenced FSD agent skill explicitly recommends beginning with minimal layers and extracting only for real current reuse. urlFeature-Sliced Design skillhttps://www.skills.sh/feature-sliced/skills/feature-sliced-design
+Product-Skills follows the FSD v2.1 principle: **start simple, extract when needed**. The referenced [Feature-Sliced Design skill](https://www.skills.sh/feature-sliced/skills/feature-sliced-design) recommends beginning with minimal layers and extracting only for real current reuse.
 
 A greenfield interface starts with:
 
@@ -304,7 +304,7 @@ See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
 - [`docs/HARNESS-ENGINEERING.md`](./docs/HARNESS-ENGINEERING.md) — model vs harness, context, memory, subagents, verification
 - [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) — capability bootstrap, GitHub/Vercel/Supabase MCP, OAuth, approvals, local-tool policy
 - [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — runtime compatibility and preconfigured integrations
-- urlFeature-Sliced Design v2.1 skillhttps://www.skills.sh/feature-sliced/skills/feature-sliced-design — frontend architecture reference
+- [Feature-Sliced Design v2.1 skill](https://www.skills.sh/feature-sliced/skills/feature-sliced-design) — frontend architecture reference
 
 ## Principles
 
