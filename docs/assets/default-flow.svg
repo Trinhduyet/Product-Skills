@@ -1,59 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="590" viewBox="0 0 560 590" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="560" viewBox="0 0 560 560" role="img" aria-labelledby="title desc">
   <title id="title">Product-Skills default flow</title>
   <desc id="desc">Definition flows to UX and UI, React, Verify, and Delivery.</desc>
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M0 0 L10 5 L0 10 Z" fill="#94a3b8"/>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#596579"/>
     </marker>
   </defs>
 
-  <rect x="1" y="1" width="558" height="588" rx="28" fill="#f6f8fa" stroke="#e2e8f0"/>
+  <rect width="560" height="560" fill="#f7f6f2"/>
 
-  <g font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" fill="#0f172a">
-    <g transform="translate(76 42)">
-      <rect width="408" height="72" rx="17" fill="#ffffff" stroke="#dbe3ec"/>
-      <rect width="6" height="72" rx="3" fill="#6366f1"/>
-      <circle cx="42" cy="36" r="16" fill="#eef2ff"/>
-      <text x="42" y="42" text-anchor="middle" font-size="16" font-weight="800" fill="#4f46e5">1</text>
-      <text x="74" y="43" font-size="22" font-weight="720">Definition</text>
-    </g>
-    <path d="M280 114V142" stroke="#94a3b8" stroke-width="2.4" marker-end="url(#arrow)"/>
+  <g font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" fill="#2d3142">
+    <text x="52" y="44" font-size="12" font-weight="700" letter-spacing="1.8" fill="#7a8399">DEFAULT FLOW</text>
+    <line x1="52" y1="58" x2="508" y2="58" stroke="#2d3142" stroke-opacity=".12"/>
 
-    <g transform="translate(76 142)">
-      <rect width="408" height="72" rx="17" fill="#ffffff" stroke="#dbe3ec"/>
-      <rect width="6" height="72" rx="3" fill="#8b5cf6"/>
-      <circle cx="42" cy="36" r="16" fill="#f3e8ff"/>
-      <text x="42" y="42" text-anchor="middle" font-size="16" font-weight="800" fill="#7c3aed">2</text>
-      <text x="74" y="43" font-size="22" font-weight="720">UX / UI</text>
-    </g>
-    <path d="M280 214V242" stroke="#94a3b8" stroke-width="2.4" marker-end="url(#arrow)"/>
+    <line x1="102" y1="102" x2="102" y2="458" stroke="#596579" stroke-opacity=".34" stroke-width="1.2"/>
 
-    <g transform="translate(76 242)">
-      <rect width="408" height="72" rx="17" fill="#ffffff" stroke="#dbe3ec"/>
-      <rect width="6" height="72" rx="3" fill="#38bdf8"/>
-      <circle cx="42" cy="36" r="16" fill="#e0f2fe"/>
-      <text x="42" y="42" text-anchor="middle" font-size="16" font-weight="800" fill="#0284c7">3</text>
-      <text x="74" y="43" font-size="22" font-weight="720">React</text>
-    </g>
-    <path d="M280 314V342" stroke="#94a3b8" stroke-width="2.4" marker-end="url(#arrow)"/>
-
-    <g transform="translate(76 342)">
-      <rect width="408" height="72" rx="17" fill="#ffffff" stroke="#dbe3ec"/>
-      <rect width="6" height="72" rx="3" fill="#10b981"/>
-      <circle cx="42" cy="36" r="16" fill="#d1fae5"/>
-      <text x="42" y="42" text-anchor="middle" font-size="16" font-weight="800" fill="#059669">4</text>
-      <text x="74" y="43" font-size="22" font-weight="720">Verify</text>
-    </g>
-    <path d="M280 414V442" stroke="#94a3b8" stroke-width="2.4" marker-end="url(#arrow)"/>
-
-    <g transform="translate(76 442)">
-      <rect width="408" height="72" rx="17" fill="#ffffff" stroke="#dbe3ec"/>
-      <rect width="6" height="72" rx="3" fill="#f59e0b"/>
-      <circle cx="42" cy="36" r="16" fill="#fef3c7"/>
-      <text x="42" y="42" text-anchor="middle" font-size="16" font-weight="800" fill="#d97706">5</text>
-      <text x="74" y="43" font-size="22" font-weight="720">Delivery</text>
+    <g transform="translate(82 82)">
+      <circle cx="20" cy="20" r="20" fill="#ffffff" stroke="#2d3142" stroke-opacity=".16"/>
+      <text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700">1</text>
+      <text x="62" y="25" font-size="21" font-weight="650">Definition</text>
+      <text x="62" y="46" font-size="12" fill="#7a8399">goal · actors · rules · acceptance</text>
     </g>
 
-    <text x="280" y="550" text-anchor="middle" font-size="15" font-weight="600" fill="#64748b">Shortest path to verified stakeholder value</text>
+    <g transform="translate(82 170)">
+      <circle cx="20" cy="20" r="20" fill="#ffffff" stroke="#2d3142" stroke-opacity=".16"/>
+      <text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700">2</text>
+      <text x="62" y="25" font-size="21" font-weight="650">UX / UI</text>
+      <text x="62" y="46" font-size="12" fill="#7a8399">journey · hierarchy · responsive states</text>
+    </g>
+
+    <g transform="translate(82 258)">
+      <circle cx="20" cy="20" r="20" fill="#fff7f2" stroke="#eb6c36"/>
+      <text x="20" y="25" text-anchor="middle" font-size="14" font-weight="750" fill="#eb6c36">3</text>
+      <text x="62" y="25" font-size="21" font-weight="650">React</text>
+      <text x="62" y="46" font-size="12" fill="#7a8399">TypeScript · Vite · FSD</text>
+    </g>
+
+    <g transform="translate(82 346)">
+      <circle cx="20" cy="20" r="20" fill="#ffffff" stroke="#2d3142" stroke-opacity=".16"/>
+      <text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700">4</text>
+      <text x="62" y="25" font-size="21" font-weight="650">Verify</text>
+      <text x="62" y="46" font-size="12" fill="#7a8399">typecheck · lint · architecture · browser</text>
+    </g>
+
+    <g transform="translate(82 434)">
+      <circle cx="20" cy="20" r="20" fill="#ffffff" stroke="#2d3142" stroke-opacity=".16"/>
+      <text x="20" y="25" text-anchor="middle" font-size="14" font-weight="700">5</text>
+      <text x="62" y="25" font-size="21" font-weight="650">Delivery</text>
+      <text x="62" y="46" font-size="12" fill="#7a8399">shareable preview + evidence</text>
+    </g>
+
+    <path d="M102 122V158M102 210V246M102 298V334M102 386V422" stroke="#596579" stroke-width="1.2" fill="none" marker-end="url(#arrow)"/>
+
+    <text x="280" y="528" text-anchor="middle" font-size="12" font-weight="550" fill="#7a8399">shortest path to verified stakeholder value</text>
   </g>
 </svg>
