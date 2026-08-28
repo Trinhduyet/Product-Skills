@@ -16,6 +16,27 @@ Keep the harness lightweight. Prefer the shortest path that can produce verified
 
 Do not load every skill or every memory file by default.
 
+## Capability bootstrap — run before implementation
+
+PM/BA users may not know how to configure tools or MCP servers. The coding agent owns capability setup.
+
+Before implementation:
+
+1. Inspect the task and identify the capabilities required to complete it end-to-end.
+2. Check whether those capabilities are already available through local tools or the runtime's configured MCP/tool integrations.
+3. If a required capability needs authentication or connection, request that specific connection immediately before starting implementation.
+4. Resume automatically once the user completes the connection.
+5. Do not ask the user to manually inspect settings or pre-connect unrelated services.
+
+Examples:
+
+- Figma URL / design inspection → require Figma access before implementation.
+- GitHub push / PR / remote repository work → require GitHub connection before implementation.
+- Vercel deployment / preview / logs → require Vercel connection before implementation.
+- Supabase backend work → require Supabase connection only when a backend is actually needed.
+
+Local filesystem, shell, git, package-manager commands, and local browser tooling do not require remote authentication.
+
 ## Default path
 
 `definition → ux-ui → react → verify → delivery`
@@ -56,22 +77,11 @@ Never hard-code `npm run` when the selected manager can be detected.
 
 Use local deterministic tools first: filesystem, shell, `git`, the detected package manager, project checks, Playwright CLI, and Supabase CLI.
 
-Remote MCP servers should be **preconfigured but used lazily**. Do not ask the user to preflight or manually verify every connection before starting work.
+Use MCP for remote state/actions when useful:
 
-When the current task first needs a remote capability:
-
-1. invoke the configured MCP server;
-2. if the runtime reports that authentication/authorization is required, ask the user to connect only that service;
-3. resume the same task immediately after authentication;
-4. do not require unrelated MCP servers to be connected.
-
-Typical remote capabilities:
-
-- GitHub MCP — use when the task needs remote repository state, PRs, issues, or push/PR delivery;
-- Vercel MCP — use when the task reaches deploy/preview/log inspection;
-- Supabase MCP — use only when an optional backend/database capability is actually needed.
-
-A local implementation task must not be blocked because GitHub, Vercel, or Supabase is unauthenticated before that capability is needed.
+- GitHub MCP — PRs, issues, remote repository state/actions;
+- Vercel MCP — projects, deployments, preview state/logs;
+- Supabase MCP — optional backend/database context and actions.
 
 Supabase is not mandatory. For UI-only work, mock data is usually faster. When Supabase is used, preserve migrations/SQL, policies, generated types, API/data contracts, and server-side logic in the repository so developers can keep or migrate the backend later.
 
