@@ -1,13 +1,22 @@
 # Engineering Rules
 
 - Optimize for the smallest working experience that preserves a clean continuation path.
-- Prefer existing repository conventions.
-- Feature-based React structure is the default for greenfield work.
+- Prefer existing repository conventions. Do not migrate an established architecture during unrelated work.
+- **Greenfield React must follow Feature-Sliced Design (FSD) v2.1.**
+- Start FSD with only `app/`, `pages/`, and `shared/`; add `features/` and `entities/` only for demonstrated current reuse. `widgets/` is discouraged and `processes/` is deprecated.
+- FSD imports flow downward only: `app → pages → widgets → features → entities → shared`.
+- Slices expose external imports through `index.ts`; do not bypass another slice's public API.
+- Keep reusable infrastructure without business logic in `shared/`; keep single-use product behavior in its owning page until real reuse justifies extraction.
+- Put generic API/CRUD transport in `shared/api`, auth/session infrastructure in `shared/auth`, reusable UI primitives in `shared/ui`, and app providers/router in `app`.
 - Greenfield React uses TypeScript strict mode and ESLint.
-- `typecheck`, `lint`, and `build` must pass before `PREVIEW_READY`.
-- Do not hide type/lint failures with blanket disables, unsafe `any`, or casts used only to silence checks.
-- Add architectural layers only when current complexity demonstrates a need.
-- Keep remote data/provider access behind feature-level modules/hooks where practical.
-- Do not bury business-critical logic inside giant page components.
-- Do not create shared abstractions used by only one feature without a concrete reason.
+- Greenfield projects expose `typecheck`, `lint`, `architecture`, and `build`; `architecture` normally runs `steiger src`.
+- `typecheck`, warning-free `lint`, `architecture`, and `build` must pass before `PREVIEW_READY`.
+- Do not hide type/lint/architecture failures with blanket disables, unsafe `any`, casts, or undocumented exceptions used only to silence checks.
+- Add architectural layers only when current complexity or reuse demonstrates a need.
+- Do not bury business-critical logic inside giant page components, but do not extract single-use code merely for cosmetic file size reduction.
+- Do not create shared abstractions used by only one consumer without a concrete reason.
+- Never commit reusable demo passwords, access tokens, privileged keys, or other credentials.
+- Auth flows must handle the provider's real confirmation/session semantics instead of assuming immediate sign-in.
+- RLS/authorization is verified with both allowed and denied access evidence when user or role isolation matters.
+- Reusable templates and examples should avoid unnecessary coupling to one remote project/environment.
 - Run actual checks before claiming success.

@@ -1,59 +1,58 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="760" viewBox="0 0 560 760" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="660" viewBox="0 0 560 660" role="img" aria-labelledby="title desc">
   <title id="title">Product-Skills architecture</title>
-  <desc id="desc">Business intent flows through Product-Skills and an AI coding agent into a React TypeScript application and then a Vercel preview.</desc>
+  <desc id="desc">PM and BA intent flows through Product-Skills and an AI coding agent into React TypeScript with Feature-Sliced Design, then to a Vercel preview.</desc>
   <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
-      <path d="M0 0 L10 5 L0 10 Z" fill="#64748b"/>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#596579"/>
     </marker>
-    <path id="a1" d="M280 164 V220"/>
-    <path id="a2" d="M280 354 V410"/>
-    <path id="a3" d="M280 544 V600"/>
   </defs>
-  <rect width="560" height="760" fill="#ffffff"/>
 
-  <g font-family="system-ui,-apple-system,Segoe UI,sans-serif">
-    <g transform="translate(70 60)">
-      <rect width="420" height="104" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
-      <circle cx="58" cy="52" r="23" fill="#111827"/>
-      <circle cx="58" cy="43" r="8" fill="#ffffff"/>
-      <path d="M44 69c3-13 25-13 28 0" fill="#ffffff"/>
-      <text x="105" y="61" font-size="26" font-weight="750" fill="#0f172a">PM / BA</text>
+  <rect width="560" height="660" fill="#f7f6f2"/>
+
+  <g font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" fill="#2d3142">
+    <text x="52" y="48" font-size="12" font-weight="700" letter-spacing="1.8" fill="#7a8399">SYSTEM OVERVIEW</text>
+    <line x1="52" y1="62" x2="508" y2="62" stroke="#2d3142" stroke-opacity=".12"/>
+
+    <g transform="translate(82 92)">
+      <rect width="396" height="82" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <circle cx="48" cy="41" r="18" fill="#2d3142"/>
+      <circle cx="48" cy="35" r="6" fill="#f7f6f2"/>
+      <path d="M37 55c2-10 20-10 22 0" fill="#f7f6f2"/>
+      <text x="86" y="49" font-size="22" font-weight="650">PM / BA</text>
     </g>
 
-    <g transform="translate(45 220)">
-      <rect width="470" height="134" rx="20" fill="#faf5ff" stroke="#c084fc" stroke-width="2"/>
-      <text x="28" y="38" font-size="15" font-weight="800" fill="#7e22ce">PRODUCT-SKILLS</text>
-      <circle cx="57" cy="83" r="24" fill="#eef2ff"/>
-      <path d="M47 83h20M57 73v20" stroke="#4f46e5" stroke-width="3" stroke-linecap="round"/>
-      <text x="102" y="91" font-size="25" font-weight="750" fill="#0f172a">AI Coding Agent</text>
+    <path d="M280 174V214" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+
+    <g transform="translate(64 214)">
+      <rect width="432" height="108" rx="8" fill="#fff7f2" stroke="#eb6c36" stroke-width="1.2"/>
+      <text x="24" y="30" font-size="11" font-weight="750" letter-spacing="1.5" fill="#eb6c36">PRODUCT-SKILLS</text>
+      <circle cx="48" cy="70" r="18" fill="#eb6c36" fill-opacity=".10"/>
+      <path d="M40 70h16M48 62v16" stroke="#eb6c36" stroke-width="2" stroke-linecap="round"/>
+      <text x="82" y="78" font-size="23" font-weight="650">AI Coding Agent</text>
     </g>
 
-    <g transform="translate(70 410)">
-      <rect width="420" height="134" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
-      <g transform="translate(63 67)" stroke="#61dafb" fill="none" stroke-width="2.4">
-        <ellipse rx="30" ry="11"/>
-        <ellipse rx="30" ry="11" transform="rotate(60)"/>
-        <ellipse rx="30" ry="11" transform="rotate(120)"/>
-        <circle r="5" fill="#61dafb"/>
+    <path d="M280 322V362" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+
+    <g transform="translate(82 362)">
+      <rect width="396" height="98" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <g transform="translate(50 49)" stroke="#2e5aa8" fill="none" stroke-width="1.8">
+        <ellipse rx="23" ry="8"/>
+        <ellipse rx="23" ry="8" transform="rotate(60)"/>
+        <ellipse rx="23" ry="8" transform="rotate(120)"/>
+        <circle r="3.8" fill="#2e5aa8"/>
       </g>
-      <text x="118" y="62" font-size="25" font-weight="750" fill="#0f172a">React + TypeScript</text>
-      <text x="118" y="91" font-size="20" font-weight="650" fill="#7c3aed">Vite</text>
+      <text x="92" y="44" font-size="21" font-weight="650">React + TypeScript</text>
+      <text x="92" y="68" font-size="13" font-weight="550" fill="#596579">Vite · FSD v2.1</text>
     </g>
 
-    <g transform="translate(70 600)">
-      <rect width="420" height="104" rx="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
-      <path d="M42 71 L63 34 L84 71 Z" fill="#000000"/>
-      <text x="118" y="62" font-size="26" font-weight="750" fill="#0f172a">Vercel Preview</text>
+    <path d="M280 460V500" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+
+    <g transform="translate(82 500)">
+      <rect width="396" height="82" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <path d="M36 56L50 30l14 26Z" fill="#2d3142"/>
+      <text x="92" y="49" font-size="22" font-weight="650">Vercel Preview</text>
     </g>
-  </g>
 
-  <use href="#a1" stroke="#64748b" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
-  <use href="#a2" stroke="#64748b" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
-  <use href="#a3" stroke="#64748b" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
-
-  <g fill="#2563eb">
-    <circle r="5"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#a1"/></animateMotion></circle>
-    <circle r="5"><animateMotion dur="2s" begin=".65s" repeatCount="indefinite"><mpath href="#a2"/></animateMotion></circle>
-    <circle r="5"><animateMotion dur="2s" begin="1.3s" repeatCount="indefinite"><mpath href="#a3"/></animateMotion></circle>
+    <text x="280" y="622" text-anchor="middle" font-size="12" font-weight="550" fill="#7a8399">business intent → working product experience</text>
   </g>
 </svg>

@@ -11,15 +11,17 @@ A successful build is necessary but not sufficient.
 
 Inspect project scripts first and use the detected package manager.
 
-For greenfield React projects, `typecheck`, `lint`, and `build` are required gates. Run relevant tests when they exist or when risk justifies them.
+For greenfield React projects, `typecheck`, `lint`, `architecture`, and `build` are required gates. `architecture` validates Feature-Sliced Design boundaries, normally with `steiger src`. Run relevant tests when they exist or when risk justifies them.
 
 For a greenfield project, **lint-clean means zero errors and zero warnings** unless the repository explicitly documents an accepted warning budget. Do not report `lint` as clean while warnings remain.
 
-Prefer enforcing the policy in the script itself, for example with ESLint's zero-warning mode, rather than relying on the agent to interpret console output.
+FSD validation must not be skipped because the app builds. Do not silence Steiger/FSD violations merely to make the gate pass; fix the boundary or document an intentional project-specific exception with a concrete reason.
 
-For an existing repository, preserve its established check commands and quality conventions.
+Prefer enforcing warning/architecture policy in deterministic scripts rather than relying on the agent to interpret console output.
 
-Do not invent commands and do not hide failures with blanket TypeScript/ESLint suppression.
+For an existing repository, preserve its established check commands and architecture unless migration to FSD is explicitly in scope.
+
+Do not invent commands and do not hide failures with blanket TypeScript/ESLint/architecture suppression.
 
 ## Acceptance verification
 
@@ -54,7 +56,7 @@ When a verifier subagent is available, give it only the acceptance criteria, run
 
 Return one of:
 
-- `PREVIEW_READY` — deterministic checks are clean and the primary journey is verified;
+- `PREVIEW_READY` — typecheck, warning-free lint, FSD architecture validation, build, and the primary journey are verified;
 - `VERIFY_FAILED` — observed failure with concise evidence;
 - `VERIFY_BLOCKED` — environment/tool issue prevents meaningful verification.
 
