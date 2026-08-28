@@ -9,12 +9,17 @@ Keep the harness lightweight. Prefer the shortest path that can produce verified
 ## Read order
 
 1. Read this file.
-2. Read `memory/PROJECT.md` for an existing project.
-3. Read only the skill(s) relevant to the current task.
-4. Read only relevant specs and source files.
-5. Retrieve decisions/lessons only when the task touches them.
+2. For an existing project, read its `memory/PROJECT.md` when present.
+3. If the task changes product behavior, read `memory/FEATURES.md` when present.
+4. Read only the skill(s) relevant to the current task.
+5. Read only relevant specs and source files.
+6. Retrieve project decisions or harness lessons only when the task touches them.
 
 Do not load every skill or every memory file by default.
+
+`memory/` is **project-specific context**, not a second copy of common Product-Skills policy. Common reusable behavior belongs in `AGENTS.md`, `skills/`, `rules/`, workflows, and deterministic tooling. New projects may initialize lightweight memory from `templates/memory/`.
+
+Cross-project mistakes that should influence future runs belong in `rules/lessons.md`, not in a generated project's memory.
 
 ## Capability bootstrap — run before implementation
 
@@ -49,6 +54,21 @@ Conditional capabilities:
 - use `reviewer` for large/risky/cross-feature work or before `DEV_READY`;
 - use subagents only when context isolation or independent evidence adds value.
 
+## Product feature inventory
+
+For an existing product, a small `memory/FEATURES.md` may record the current product capability map.
+
+This is **not** the same thing as the FSD `features/` layer. Product features describe observable user/business capability; the FSD layer is an architectural extraction used only when interaction reuse justifies it.
+
+Before changing behavior, classify the requested delta for affected capabilities:
+
+- `ADD` — new capability;
+- `CHANGE` — existing capability changes behavior, rules, states, or access;
+- `REMOVE` — capability intentionally disappears;
+- `NONE` — implementation/refactor only.
+
+After verification, update the inventory to the resulting current truth. Do not append every historical change. Git history is the detailed changelog. Intentional removals that must not be accidentally restored should reference a durable entry in `memory/DECISIONS.md`.
+
 ## Non-negotiable rules
 
 1. Optimize for a working stakeholder experience first.
@@ -66,6 +86,7 @@ Conditional capabilities:
 13. Do not add abstraction without demonstrated need.
 14. Do not claim success without executing relevant verification.
 15. Treat `PREVIEW_READY` and `DEV_READY` as different gates.
+16. For meaningful existing-product behavior changes, preserve current capability truth so future agents can distinguish existing, added, changed, and intentionally removed features.
 
 ## Package manager policy
 
@@ -91,9 +112,9 @@ Prefer OAuth. Never commit remote-service tokens. Destructive repository/databas
 
 ## Context discipline
 
-A task context should contain only the task/goal, relevant acceptance criteria, relevant project facts, relevant skill, and relevant source files/interfaces.
+A task context should contain only the task/goal, relevant acceptance criteria, relevant project facts, affected product-feature entries when applicable, relevant skill, and relevant source files/interfaces.
 
-Avoid passing full conversation history, every skill, or the entire repository to a subagent.
+Avoid passing full conversation history, every skill, the full feature inventory for an unrelated task, or the entire repository to a subagent.
 
 ## Subagent policy
 
@@ -103,7 +124,7 @@ Use the main agent for low-complexity work. Use `explorer` for unfamiliar patter
 
 For greenfield React, `typecheck`, `lint`, `architecture`, and `build` are required deterministic gates before `PREVIEW_READY`; use the detected package manager. Lint must be warning-free.
 
-For `PREVIEW_READY`, also verify the primary business journey in the running application, not only a successful build.
+For `PREVIEW_READY`, also verify the primary business journey in the running application, not only a successful build. When a feature is intentionally removed, verify the removed behavior is no longer available when that is material to acceptance.
 
 For `DEV_READY`, additionally verify reproducible setup, relevant tests, documentation, FSD boundaries, and backend artifacts when a backend exists.
 
@@ -125,9 +146,10 @@ Do not force later-stage architecture into a simple interface.
 - `skills/` — reusable capability instructions
 - `workflows/` — short execution recipes
 - `subagents/` — optional isolated role contracts
-- `memory/` — small verified project memory
-- `rules/` — stable invariants
+- `memory/` — small verified memory for this repository/project only
+- `templates/memory/` — starter memory contract for generated or adopted projects
+- `rules/` — stable invariants and cross-project harness lessons
 - `hooks/` / `scripts/` — deterministic checks
 - runtime-specific config files/directories — integration only
 
-Never duplicate canonical skill content into runtime-specific configuration.
+Never duplicate canonical skill content into runtime-specific configuration or project memory.
