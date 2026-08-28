@@ -1,7 +1,6 @@
-import { AuthLoadingScreen } from '@/features/auth/components/AuthLoadingScreen'
-import { LoginPage } from '@/features/auth/components/LoginPage'
-import { useAuth } from '@/features/auth/hooks/useAuth'
-import { AdminLayout } from '@/features/settings/components/AdminLayout'
+import { AuthLoadingScreen, LoginPage } from '@/pages/login'
+import { SettingsPage } from '@/pages/settings'
+import { useAuth } from '@/shared/auth'
 
 function AppRoutes() {
   const { session, loading } = useAuth()
@@ -14,7 +13,7 @@ function AppRoutes() {
     return <LoginPage />
   }
 
-  return <AdminLayout />
+  return <SettingsPage />
 }
 
 export function App() {

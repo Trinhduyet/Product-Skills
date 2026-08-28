@@ -26,7 +26,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['src/components/ui/**/*.{ts,tsx}', 'src/features/auth/**/*.{ts,tsx}'],
+    files: ['src/shared/ui/**/*.{ts,tsx}', 'src/shared/auth/**/*.{ts,tsx}'],
     rules: {
       'react-refresh/only-export-components': 'off',
     },
