@@ -56,11 +56,22 @@ Never hard-code `npm run` when the selected manager can be detected.
 
 Use local deterministic tools first: filesystem, shell, `git`, the detected package manager, project checks, Playwright CLI, and Supabase CLI.
 
-Use MCP for remote state/actions when useful:
+Remote MCP servers should be **preconfigured but used lazily**. Do not ask the user to preflight or manually verify every connection before starting work.
 
-- GitHub MCP — PRs, issues, remote repository state/actions;
-- Vercel MCP — projects, deployments, preview state/logs;
-- Supabase MCP — optional backend/database context and actions.
+When the current task first needs a remote capability:
+
+1. invoke the configured MCP server;
+2. if the runtime reports that authentication/authorization is required, ask the user to connect only that service;
+3. resume the same task immediately after authentication;
+4. do not require unrelated MCP servers to be connected.
+
+Typical remote capabilities:
+
+- GitHub MCP — use when the task needs remote repository state, PRs, issues, or push/PR delivery;
+- Vercel MCP — use when the task reaches deploy/preview/log inspection;
+- Supabase MCP — use only when an optional backend/database capability is actually needed.
+
+A local implementation task must not be blocked because GitHub, Vercel, or Supabase is unauthenticated before that capability is needed.
 
 Supabase is not mandatory. For UI-only work, mock data is usually faster. When Supabase is used, preserve migrations/SQL, policies, generated types, API/data contracts, and server-side logic in the repository so developers can keep or migrate the backend later.
 
