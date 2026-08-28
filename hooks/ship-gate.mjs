@@ -9,7 +9,7 @@ if (!fs.existsSync('package.json')) {
 
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const scripts = pkg.scripts || {};
-const candidates = ['typecheck', 'lint', 'test', 'build'];
+const candidates = ['typecheck', 'lint', 'architecture', 'test', 'build'];
 
 function detectPackageManager() {
   const declared = typeof pkg.packageManager === 'string' ? pkg.packageManager.split('@')[0] : null;
