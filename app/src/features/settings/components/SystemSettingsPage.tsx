@@ -22,6 +22,7 @@ import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { settingsNavItems } from '@/config/navigation'
+import { SettingsPresetsPanel } from '@/features/settings/components/SettingsPresetsPanel'
 import { useSettingsState } from '@/features/settings/hooks/useSettingsState'
 
 function SettingRow({
@@ -52,6 +53,7 @@ export function SystemSettingsPage() {
     updateSetting,
     saveSettings,
     resetSettings,
+    applySettings,
     hasChanges,
     status,
   } = useSettingsState()
@@ -79,6 +81,12 @@ export function SystemSettingsPage() {
           <Badge variant="success" className="shrink-0">
             <CheckCircle2 className="mr-1 h-3 w-3" />
             Changes saved
+          </Badge>
+        ) : null}
+        {status === 'applied' ? (
+          <Badge variant="success" className="shrink-0">
+            <CheckCircle2 className="mr-1 h-3 w-3" />
+            Preset applied
           </Badge>
         ) : null}
       </div>
@@ -374,6 +382,11 @@ export function SystemSettingsPage() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <SettingsPresetsPanel
+        currentSettings={settings}
+        onApplyPreset={applySettings}
+      />
 
       <div className="sticky bottom-0 -mx-4 flex flex-col-reverse gap-3 border-t border-border bg-background/95 px-4 py-4 backdrop-blur sm:static sm:mx-0 sm:flex-row sm:justify-end sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
         <Button
