@@ -11,7 +11,9 @@ Keep this file short and factual. It should be cheap enough to load frequently.
 
 - React + TypeScript + Vite
 - TypeScript strict mode for greenfield
-- ESLint required for greenfield React; lint/typecheck/build must pass before sharing
+- ESLint required for greenfield React; lint must be warning-free
+- Feature-Sliced Design (FSD) v2.1 is mandatory for greenfield React
+- Steiger architecture validation is required for greenfield (`architecture` script, normally `steiger src`)
 - Tailwind CSS + shadcn/ui
 - package manager: respect existing; prefer pnpm for greenfield; npm/yarn supported
 - optional backend: Supabase when persistence/auth/storage/server behavior is useful
@@ -19,10 +21,17 @@ Keep this file short and factual. It should be cheap enough to load frequently.
 
 ## Architecture
 
-- Feature-based React structure.
-- Prefer `component → feature hook → feature API → provider` for remote data.
-- Backend artifacts must remain reproducible in source control.
+- FSD starts with `app/`, `pages/`, and `shared/`.
+- Add `features/` and `entities/` only for demonstrated current reuse; `widgets/` is discouraged and `processes/` is deprecated.
+- Imports flow downward: `app → pages → widgets → features → entities → shared`.
+- Slices expose public APIs through `index.ts`.
+- Generic API/CRUD transport belongs in `shared/api`; auth/session infrastructure in `shared/auth`; business logic does not belong in `shared/`.
 - Do not force DDD/Clean Architecture layers into simple frontend work.
+- Backend artifacts must remain reproducible in source control.
+
+## Quality gates
+
+Greenfield React must pass `typecheck`, warning-free `lint`, `architecture`, and `build` before sharing, plus browser verification of the main journey.
 
 ## Core path
 
