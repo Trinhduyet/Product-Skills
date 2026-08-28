@@ -39,6 +39,23 @@ A successful build is not treated as proof. The main user journey must actually 
 ### ⚡ Stay fast
 Extra review, subagents, backend infrastructure, and hardening are conditional. Straightforward work should remain straightforward.
 
+## 🔌 Capability bootstrap
+
+PM/BA users should **not need to understand MCP settings**.
+
+Before implementation, the AI Coding Agent inspects the requested outcome, determines which capabilities are required, and asks for any missing connection immediately.
+
+Examples:
+
+- Figma/design URL in scope → request Figma/design access before coding
+- GitHub push or PR required → request GitHub connection before coding
+- Vercel preview required → request Vercel connection before coding
+- Supabase backend required → request Supabase connection before coding
+
+The agent should request **only capabilities required by the task**, then continue automatically after authorization. It must not tell the PM/BA to manually inspect runtime settings or pre-connect unrelated services.
+
+This behavior is shared across compatible AI coding runtimes through [`AGENTS.md`](./AGENTS.md) and the workflows in [`workflows/`](./workflows/).
+
 ## ⚡ Default flow
 
 <p align="center">
@@ -84,9 +101,9 @@ For a **greenfield React project**, Product-Skills requires a small but real qua
 
 For an **existing repository**, preserve its established TypeScript/lint conventions unless there is a concrete reason to change them.
 
-## 🔌 Tools & MCP
+## 🛠 Tools & MCP
 
-**Rule: local deterministic tools first; MCP for remote state and remote actions.**
+**Rule: local deterministic tools first; remote MCP/tool connections are selected from the requested outcome during capability bootstrap.**
 
 - 📁 **Filesystem / shell** — native coding-agent tools
 - 🌿 **Git** — local diff, status, commit, history
@@ -98,23 +115,13 @@ For an **existing repository**, preserve its established TypeScript/lint convent
 - ▲ **Vercel MCP** — projects, deployments, preview state, and logs
 - 🟢 **Supabase MCP** — optional backend context/actions; keep durable backend artifacts in source control
 
-Remote MCP integrations are **preconfigured but connected on demand**. The user does not need to open settings and verify every connection before starting.
-
-The agent begins with local work. When the task first needs a remote capability, it invokes that MCP server. If authentication is missing, the runtime should ask the user to connect only that service, then continue the same task:
-
-- push / PR / remote repo work → **GitHub**
-- deploy / preview / logs → **Vercel**
-- real backend work → **Supabase**
-
-An unauthenticated service that is not needed must not block the task.
-
 Project-scoped MCP configuration is committed for runtimes that support repository-local MCP config:
 
 - **Claude Code:** [`.mcp.json`](./.mcp.json)
 - **OpenAI Codex:** [`.codex/config.toml`](./.codex/config.toml)
 - **Cursor:** [`.cursor/mcp.json`](./.cursor/mcp.json)
 
-Other coding agents can use the same canonical skills and rules through their own tool/config mechanism. Runtime support is additive, not exclusive.
+Other coding agents can use the same canonical skills and rules through their own native tool/MCP mechanism. Runtime support is additive, not exclusive.
 
 Authentication uses OAuth where supported. **Tokens and privileged credentials must never be committed.**
 
@@ -219,7 +226,7 @@ Give a coding agent a **business request**, not an implementation blueprint:
 
 > Build a purchase-request interface. Employees create and submit requests. Managers review, approve, or reject them. Start with the shortest credible workflow. Use a backend only if it improves the experience, then deploy a shareable preview to Vercel.
 
-The agent should resolve only ambiguity that materially changes behavior, then move to implementation quickly.
+The agent should resolve required tool connections first, ask only about business ambiguity that materially changes behavior, then move to implementation quickly.
 
 ## 🤖 Coding-agent compatibility
 
@@ -252,16 +259,17 @@ See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
 ## 📚 Deeper docs
 
 - [`docs/HARNESS-ENGINEERING.md`](./docs/HARNESS-ENGINEERING.md) — model vs harness, context, memory, subagents, verification
-- [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) — GitHub/Vercel/Supabase MCP, lazy OAuth, approvals, local-tool policy
+- [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) — capability bootstrap, GitHub/Vercel/Supabase MCP, OAuth, approvals, local-tool policy
 - [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — runtime compatibility and preconfigured integrations
 
 ## Principles
 
 - **Speed is a feature.** Harness mechanisms must earn their latency.
 - **Runtime-agnostic core, runtime-specific configuration.**
+- **The coding agent owns capability setup for non-technical users.**
+- **Required MCP/tools are resolved before implementation.**
 - **TypeScript + ESLint are the greenfield code-quality baseline.**
 - **Respect the project's package manager; prefer pnpm for greenfield.**
-- **Remote tools are preconfigured, authenticated on demand, and used only when needed.**
 - **Local tools first; MCP for remote state/actions.**
 - **Backend tooling must leave reusable artifacts in source control.**
 - **Verified evidence beats agent confidence.**
