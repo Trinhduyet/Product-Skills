@@ -7,6 +7,19 @@ description: Turn a buildable definition into a clear, credible interface direct
 
 Design enough to make the experience understandable, credible, responsive, and fast to implement.
 
+## Source-of-truth access
+
+When the user provides a Figma file, screenshot, design system, or other explicit visual source of truth, inspect that source before implementation.
+
+If the required source cannot be accessed:
+
+- do not silently replace it with a generic design or community-template guess;
+- surface the access problem before coding;
+- ask for the missing permission/export/screenshot, or ask the user to explicitly approve a fallback visual direction;
+- once the user approves a fallback, record that the implementation is intentionally not a fidelity validation of the original design.
+
+A task that requires matching an inaccessible design is `BLOCKED`, not successfully verified against that design.
+
 ## Start with the journey
 
 For each actor, establish:
