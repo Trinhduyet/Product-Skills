@@ -30,12 +30,26 @@ When Supabase is used, preserve in the repository as applicable:
 - RLS policies and authorization assumptions;
 - seed/demo **application data** that is safe to share;
 - generated database types;
-- feature API/data contracts used by the frontend;
+- frontend API/data contracts;
 - Edge Functions or other server-side logic;
 - environment variable requirements;
 - notes for any remote-only resource that cannot be fully represented as code.
 
 These artifacts are developer-owned assets. Developers may keep Supabase for production, harden the implementation, or migrate to another backend while retaining business rules, SQL/data modeling knowledge, API contracts, and frontend boundaries.
+
+## Frontend placement — Feature-Sliced Design
+
+Greenfield Product-Skills React projects follow FSD v2.1.
+
+- Supabase client/provider infrastructure → `shared/api/`.
+- Auth session/token/client infrastructure → `shared/auth/`.
+- Generic CRUD transport/query functions → `shared/api/`.
+- Single-page product logic that consumes Supabase stays in the owning `pages/<page>/` slice.
+- Extract a reusable interaction to `features/` only when it is currently reused across multiple pages.
+- Extract stable reusable domain models to `entities/` only when current reuse justifies the boundary.
+- Never put business rules into `shared/` merely because they touch the backend.
+
+Do not call Supabase directly from page UI components. Page/feature model code should consume a focused lower-layer API boundary.
 
 ## Auth and demo-data rules
 
@@ -62,7 +76,6 @@ For CRUD, exercise the business-critical operations against the real policy boun
 - Use browser-safe/publishable credentials only in frontend code.
 - Never expose service-role or other privileged keys to the browser.
 - Add RLS for user/role-sensitive access when relevant.
-- Keep provider calls behind feature API/hooks rather than scattering them through page components.
 - Never make remote MCP changes the only record of a schema or backend change.
 - Destructive or production-impact changes require explicit approval.
 - Surface Supabase security/advisor warnings. A non-critical hardening warning may be deferred for `PREVIEW_READY`, but production-relevant warnings must be resolved or explicitly recorded before `DEV_READY`.
@@ -87,6 +100,17 @@ supabase/
 └── seed.sql          # optional application data only
 ```
 
+Frontend example:
+
+```text
+src/
+├── app/
+├── pages/
+└── shared/
+    ├── api/          # Supabase client + generic CRUD transport
+    └── auth/         # session/auth infrastructure
+```
+
 ## Completion
 
-Before sharing, verify the required backend journey actually works. When auth/RLS matters, include negative authorization evidence rather than only happy-path CRUD. Before `DEV_READY`, verify a developer can understand/reproduce the data model and backend logic from repository artifacts rather than relying on hidden remote state.
+Before sharing, verify the required backend journey actually works. When auth/RLS matters, include negative authorization evidence rather than only happy-path CRUD. FSD architecture validation must also pass. Before `DEV_READY`, verify a developer can understand/reproduce the data model and backend logic from repository artifacts rather than relying on hidden remote state.
