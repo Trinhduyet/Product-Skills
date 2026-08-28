@@ -13,6 +13,10 @@ Inspect project scripts first and use the detected package manager.
 
 For greenfield React projects, `typecheck`, `lint`, and `build` are required gates. Run relevant tests when they exist or when risk justifies them.
 
+For a greenfield project, **lint-clean means zero errors and zero warnings** unless the repository explicitly documents an accepted warning budget. Do not report `lint` as clean while warnings remain.
+
+Prefer enforcing the policy in the script itself, for example with ESLint's zero-warning mode, rather than relying on the agent to interpret console output.
+
 For an existing repository, preserve its established check commands and quality conventions.
 
 Do not invent commands and do not hide failures with blanket TypeScript/ESLint suppression.
@@ -50,7 +54,7 @@ When a verifier subagent is available, give it only the acceptance criteria, run
 
 Return one of:
 
-- `PREVIEW_READY` — deterministic checks and primary journey verified;
+- `PREVIEW_READY` — deterministic checks are clean and the primary journey is verified;
 - `VERIFY_FAILED` — observed failure with concise evidence;
 - `VERIFY_BLOCKED` — environment/tool issue prevents meaningful verification.
 
