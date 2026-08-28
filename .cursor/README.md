@@ -4,18 +4,19 @@ Canonical skills remain in `/skills` and shared behavior remains in `/AGENTS.md`
 
 `.cursor/mcp.json` preconfigures project-scoped GitHub, Vercel, and Supabase MCP servers.
 
-## Connection behavior
+## Capability bootstrap
 
-Cursor should not require the user to manually pre-check every MCP connection before starting a task.
+Before implementation, Cursor must inspect the requested outcome and determine which tools/MCP servers are required to finish the task end-to-end.
 
-Use remote tools on demand:
+If a required capability needs authentication, request that connection immediately before coding starts, then resume automatically after authorization.
 
-- GitHub MCP when remote repository/PR/push state is needed;
-- Vercel MCP when deployment, preview, or logs are needed;
-- Supabase MCP only when the task actually needs an optional backend.
+Examples:
 
-If the first tool call requires OAuth/authentication, Cursor should request that connection at that moment, then resume the same task after authorization. Unrelated MCP servers do not need to be connected.
+- Figma/design URL in scope → require design/Figma access first;
+- GitHub push/PR in scope → require GitHub first;
+- Vercel deployment in scope → require Vercel first;
+- Supabase backend in scope → require Supabase first.
 
-This keeps the happy path fast while the repository still ships with the required integrations ready to activate.
+Do not ask the PM/BA to open Settings and inspect connections manually. Do not require unrelated services.
 
 Keep other Cursor-specific rules/hooks/agent wrappers here only when needed. Do not duplicate canonical skill instructions.
