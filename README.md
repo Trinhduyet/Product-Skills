@@ -2,43 +2,55 @@
 
 > **Product-Skills is a lightweight AI coding harness for Product Managers and Business Analysts to turn business ideas into deployable React experiences while preserving a codebase developers can continue toward production.**
 
-You describe the business outcome. Product-Skills gives an AI Coding Agent reusable **skills** plus a lightweight **harness** that helps it choose the right context, tools, guardrails, and verification for the task.
+You describe the business outcome. Your AI Coding Agent does the implementation work. Product-Skills gives it reusable skills plus a lightweight repository harness for context, guardrails, tools, memory, and verification.
 
 You do **not** need to understand MCP, Feature-Sliced Design, Supabase, Vercel, or agent internals before you start.
 
-## Contents
+## What this repo is
 
-- [Core skills](#-core-skills)
-- [What the harness adds](#-what-the-harness-adds)
-- [What Product-Skills helps you achieve](#-what-product-skills-helps-you-achieve)
-- [Installation](#-installation)
-  - [New product](#new-product--recommended)
-  - [Existing product](#existing-product)
-  - [Claude Code](#claude-code)
-  - [OpenAI Codex](#openai-codex)
-  - [Cursor](#cursor)
-  - [Other coding agents](#other-coding-agents)
-- [Using Product-Skills](#-using-product-skills)
-- [Project context and memory](#-project-context-and-memory)
-- [Quality gates](#-quality-gates)
-- [Technical reference](#-technical-reference)
+Product-Skills is designed for a simple handoff:
 
-## 🧩 Core skills
+```text
+Business idea
+    ↓
+AI Coding Agent + Product-Skills
+    ↓
+Working React experience
+    ↓
+Verified preview
+    ↓
+Same repository continues toward production
+```
 
-The `skills/` directory is the reusable capability library. Each skill has a focused job and can be used independently when the task needs it.
+It is:
 
-| Skill | What it helps with | Typical result |
+- a small library of reusable product-delivery **skills**;
+- a lightweight **coding harness** around an AI agent;
+- a set of repository conventions for project context, safety, and verification;
+- a starter path for new React products and an adoptable layer for existing repositories.
+
+It is **not**:
+
+- a React framework;
+- a generic skills marketplace;
+- an MCP server;
+- a replacement for your coding agent;
+- a requirement to migrate an existing project's architecture.
+
+## Core skills
+
+The [`skills/`](./skills/) directory contains reusable capabilities. Each skill has a focused job and can be used independently when relevant.
+
+| Skill | Purpose | Typical output |
 | --- | --- | --- |
-| 🧭 [`definition`](./skills/definition/) | Turn business intent into buildable scope | Goal, actors, journey, rules, screens, acceptance criteria |
-| 🎨 [`ux-ui`](./skills/ux-ui/) | Shape a usable product experience | Flow, hierarchy, states, responsive and accessibility direction |
-| ⚛️ [`react`](./skills/react/) | Build the frontend | React + TypeScript implementation with clean architecture |
-| 🗄️ [`supabase`](./skills/supabase/) | Add a real backend when useful | Auth, persistence, storage, RLS, migrations, data contracts |
-| ✅ [`verify`](./skills/verify/) | Prove the product actually works | Type/lint/build/architecture checks + primary journey verification |
-| 🚀 [`delivery`](./skills/delivery/) | Share and hand off the result | Verified preview, one Share URL, developer continuation notes |
+| [`definition`](./skills/definition/) | Turn business intent into buildable scope | Goal, actors, journey, rules, screens, acceptance criteria |
+| [`ux-ui`](./skills/ux-ui/) | Shape the user experience | Flow, hierarchy, states, responsive/accessibility direction |
+| [`react`](./skills/react/) | Build the frontend | React + TypeScript implementation with a continuation-friendly structure |
+| [`supabase`](./skills/supabase/) | Add a backend when useful | Auth, persistence, storage, RLS, migrations, data contracts |
+| [`verify`](./skills/verify/) | Prove the product works | Deterministic checks + primary journey verification |
+| [`delivery`](./skills/delivery/) | Share and hand off the result | Verified preview, one Share URL, continuation notes |
 
-The agent does not need to run every skill for every task.
-
-A common delivery path is:
+A common path is:
 
 <p align="center">
   <img src="./docs/assets/default-flow.svg" alt="Default Product-Skills delivery flow" width="560" />
@@ -46,84 +58,37 @@ A common delivery path is:
 
 **Definition → UX/UI → React → Verify → Delivery**
 
-**Supabase is optional.** It enters only when authentication, persistence, storage, shared data, or server-side behavior materially improves the requested experience.
+`supabase` is optional. The agent should use only the skills the task actually needs.
 
-For an existing product, the agent can also use `memory/FEATURES.md` to classify requested behavior changes as:
+## Skills, harness, tools, and runtime
 
-- **ADD** — new capability;
-- **CHANGE** — existing capability changes behavior;
-- **REMOVE** — capability intentionally disappears;
-- **NONE** — implementation/refactor only.
+These are related, but they are not the same thing.
 
-This helps prevent duplicate work and accidental restoration of intentionally removed behavior.
+| Layer | Role | In this repo |
+| --- | --- | --- |
+| **Skills** | Teach the agent how to perform a class of work | `skills/` |
+| **Harness** | Controls context, workflow, memory, guardrails, and verification | `AGENTS.md`, `rules/`, `memory/`, `workflows/`, hooks/scripts |
+| **Tools / MCP** | Give the agent access to external systems and actions | GitHub, Vercel, Supabase, Figma when required |
+| **Runtime** | The coding agent that reads instructions and executes work | Claude Code, Codex, Cursor, or another compatible agent |
 
-## 🧰 What the harness adds
-
-Skills are the reusable capabilities. The **harness is the surrounding execution layer** that helps an AI Coding Agent apply those capabilities consistently inside a real repository.
-
-The harness includes:
-
-- `AGENTS.md` — shared instructions and task-routing rules;
-- `rules/` — engineering, security, and delivery invariants;
-- `memory/` — small verified project context;
-- `workflows/` — short execution recipes;
-- `subagents/` — optional isolated roles when they add value;
-- tool/MCP configuration — only for capabilities required by the task;
-- hooks/scripts — deterministic checks;
-- verification — evidence before claiming success.
-
-A useful mental model is:
-
-```text
-AI Coding Agent
-      │
-      ├── selects relevant skills
-      ├── loads small project context
-      ├── uses required tools
-      ├── follows guardrails
-      └── verifies the result
-```
-
-The harness is **not** a separate product architecture and it is not a `harness/` folder. It is the repository behavior around the agent.
-
-## 🎯 What Product-Skills helps you achieve
-
-### Keep product intent visible
-
-Goals, actors, rules, feature state, and acceptance criteria stay explicit so the agent does not silently invent important business behavior.
-
-### Get better UX/UI than a generic generated screen
-
-The agent reasons about the primary journey, important states, responsive behavior, permissions, and accessibility basics.
-
-### Iterate without losing product context
-
-Small project memory keeps verified facts, current capabilities, and durable decisions available across future changes without becoming a transcript archive.
-
-### Verify before sharing
-
-A successful build command is not treated as proof. Product-Skills checks code quality and the primary user journey.
-
-### Keep a path to production
-
-Frontend code, backend contracts, migrations, and product knowledge stay in the same repository so developers can continue instead of rebuilding from scratch.
+Skills define **how to work**. Tools provide **what the agent can act on**. The harness decides **how those capabilities are applied consistently inside the repository**.
 
 ---
 
-# 📦 Installation
+# Installation
 
-Product-Skills is currently a **repository-based coding harness**, not a package or marketplace plugin. Installation means putting the harness files in the repository where your AI coding agent will work.
+Product-Skills is currently **repository-based**, not a package or marketplace plugin. Install it by making the harness part of the repository where your coding agent works.
 
 ## New product — recommended
 
-Start from Product-Skills, then use that checkout as the product workspace:
+Clone Product-Skills as the starting workspace:
 
 ```bash
 git clone https://github.com/Trinhduyet/Product-Skills.git my-product
 cd my-product
 ```
 
-Point the Git remote at your own product repository before shipping product code:
+Then point `origin` at your own product repository:
 
 ```bash
 git remote rename origin product-skills-source
@@ -131,30 +96,28 @@ git remote add origin <YOUR_GITHUB_REPOSITORY_URL>
 git push -u origin main
 ```
 
-This keeps Product-Skills available as an optional upstream reference while your own repository becomes the product source of truth.
-
-If you prefer GitHub UI, you can fork/copy the repository first and then clone your own copy.
+You can also fork/copy the repository first and clone your own copy.
 
 ## Existing product
 
-If you already have a codebase, **do not replace its architecture just to install Product-Skills**.
+Do **not** replace an established architecture just to adopt Product-Skills.
 
-Adopt the harness around the existing project. Bring in the reusable areas you need:
+Bring the harness into the existing repository around the current codebase:
 
 ```text
 AGENTS.md
 skills/
 rules/
 workflows/
-subagents/        # optional
 templates/memory/
-hooks/            # optional deterministic harness checks
-scripts/          # optional validation helpers
+subagents/    # optional
+hooks/        # optional
+scripts/      # optional
 ```
 
-Then add only the runtime-specific configuration for the coding agent you use, for example `.cursor/`, `.codex/`, `.mcp.json`, or `CLAUDE.md`.
+Add only the runtime-specific files for the coding agent you use.
 
-Do **not** blindly copy Product-Skills' root `memory/` into another product. That memory describes this repository. Initialize the target project's own memory from [`templates/memory/`](./templates/memory/):
+Do not copy Product-Skills' root `memory/` into another product. Initialize that product's own memory from [`templates/memory/`](./templates/memory/):
 
 ```text
 memory/
@@ -165,62 +128,34 @@ memory/
 
 The existing project's stack, package manager, and architecture remain authoritative unless you explicitly request a migration.
 
-## Claude Code
+## Start your coding agent
 
-Product-Skills includes `CLAUDE.md`, `.claude/`, and root [`.mcp.json`](./.mcp.json).
+Product-Skills currently includes thin repository configuration for these runtimes:
 
-From the repository root:
+| Runtime | Entry point |
+| --- | --- |
+| **Claude Code** | `CLAUDE.md`, `.claude/`, `.mcp.json` |
+| **OpenAI Codex** | `AGENTS.md`, `.codex/config.toml` |
+| **Cursor** | `AGENTS.md`, `.cursor/mcp.json` |
+| **Other compatible agents** | Use `AGENTS.md` + `skills/` through the runtime's native project/tool mechanism |
+
+For CLI runtimes, start from the repository root as usual, for example:
 
 ```bash
 claude
-```
-
-Then describe the business outcome. Claude Code should follow the shared contract in `AGENTS.md` and load relevant files from `skills/`.
-
-If the task needs GitHub, Vercel, Supabase, Figma, or another remote capability, authorize it when the agent requests it. You do not need to connect unrelated services first.
-
-## OpenAI Codex
-
-Product-Skills includes `AGENTS.md` and [`.codex/config.toml`](./.codex/config.toml).
-
-Open the repository in Codex or start Codex CLI from the repository root:
-
-```bash
+# or
 codex
 ```
 
-Give Codex the product request directly. `AGENTS.md` is the shared harness contract; Codex should load only the relevant skill files for the task.
+For Cursor, open the repository and use Agent chat.
 
-## Cursor
-
-Product-Skills includes `AGENTS.md` and [`.cursor/mcp.json`](./.cursor/mcp.json).
-
-1. Open the repository folder in Cursor.
-2. Open **Agent** chat.
-3. Give it the product request.
-4. Approve only the external connections required by that request.
-
-Cursor should follow `AGENTS.md` and use `skills/` as the canonical skill source.
-
-## Other coding agents
-
-A runtime can use Product-Skills when it can reasonably:
-
-- read repository instructions and Markdown skill files;
-- inspect and edit project files;
-- run project commands;
-- access tools required by the task;
-- preserve changes in the repository.
-
-Use `AGENTS.md` as the main entry point and `/skills` as the canonical capability library. Add only thin runtime-specific configuration; do not duplicate the skill bodies.
-
-See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
+See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) for the runtime contract.
 
 ---
 
-# 🚀 Using Product-Skills
+# Using Product-Skills
 
-After installation, use Product-Skills by **asking for a product outcome**, not by manually calling individual skills.
+You normally use Product-Skills by asking for a **product outcome**, not by manually invoking individual skills.
 
 ## Your first request
 
@@ -230,35 +165,35 @@ For example:
 
 That is enough to start.
 
-If useful context already exists, attach or mention it:
-
-- Figma/design URL;
-- business rules;
-- acceptance criteria;
-- API/OpenAPI specification;
-- existing repository constraints;
-- screenshots or reference products.
-
-Do not write an implementation blueprint unless you actually want to constrain the implementation.
+Include existing context when it matters: Figma/design links, business rules, acceptance criteria, API specs, screenshots, or repository constraints.
 
 ## What the agent should do
 
-Before coding, the agent should determine which capabilities are required by the requested outcome:
+Before implementation, the agent should determine which capabilities are actually required:
 
 ```text
-Figma URL in scope   → request design access first
-GitHub push required → request GitHub access
-Vercel preview       → request Vercel access
-Real backend needed  → request Supabase access
+Figma source required → request design access
+GitHub push required  → request GitHub access
+Vercel preview needed → request Vercel access
+Real backend needed   → request Supabase access
 ```
 
-You should not need to inspect MCP configuration manually.
+PM/BA users should not need to inspect MCP settings or pre-connect unrelated services.
 
-The agent then selects the relevant skills, loads only useful context, builds the shortest credible experience, verifies it, and reports the result.
+Then the agent should:
+
+1. load only relevant project context and skills;
+2. resolve blocking business ambiguity;
+3. implement the shortest credible experience;
+4. verify deterministic quality gates;
+5. exercise the primary user journey;
+6. deliver a concise result.
+
+If verification fails: **fix → verify again**.
 
 ## What you should receive
 
-A successful delivery should include:
+A successful delivery should tell you:
 
 - what was built;
 - what was verified;
@@ -266,11 +201,11 @@ A successful delivery should include:
 - important blockers or deferred work;
 - developer continuation notes when relevant.
 
-A successful build command alone is not enough to claim the product is ready for feedback.
+A successful build command alone is not proof that the product journey works.
 
 ## Continuing an existing product
 
-You can ask for product changes in normal business language:
+Ask for changes in normal business language:
 
 > Add duplicate preset to Settings Presets.
 
@@ -278,250 +213,120 @@ You can ask for product changes in normal business language:
 
 > Remove public sign-up and keep existing sign-in behavior.
 
-When `memory/FEATURES.md` exists, the agent should read the current capability inventory first, determine whether the request is `ADD`, `CHANGE`, `REMOVE`, or `NONE`, implement it, verify it, and update the inventory to the new current truth.
+When `memory/FEATURES.md` exists, the agent should use it as the current capability map and classify the requested delta as:
 
-Git remains the detailed history; `FEATURES.md` is the current capability map, not a changelog.
+- **ADD** — new capability;
+- **CHANGE** — existing capability changes behavior;
+- **REMOVE** — capability intentionally disappears;
+- **NONE** — implementation/refactor only.
 
-## 🔄 Typical execution flow
+After verification, the inventory should reflect the new current truth. Git remains the detailed changelog.
 
-In practice, the agent selects the skills it needs:
+## Project memory
 
-1. **Definition** — clarify goal, actors, primary journey, business rules, screens, and acceptance criteria.
-2. **UX/UI** — establish hierarchy, important states, responsive behavior, and practical accessibility direction.
-3. **React** — implement the shortest credible experience.
-4. **Supabase, when needed** — add real backend behavior while preserving reproducible source-controlled artifacts.
-5. **Verify** — run deterministic checks and exercise the primary journey.
-6. **Delivery** — publish a verified preview and report one stakeholder-facing Share URL.
-
-If something fails:
-
-**Implement → Verify → Fix → Verify again**
-
-## 🧠 Project context and memory
-
-Product-Skills keeps project memory intentionally small:
+Product memory stays intentionally small:
 
 ```text
 memory/
-├── PROJECT.md    # verified project facts and local conventions
-├── FEATURES.md   # current product capabilities, not a full changelog
+├── PROJECT.md    # verified project facts and conventions
+├── FEATURES.md   # current product capabilities
 └── DECISIONS.md  # durable product/technical decisions
 ```
 
-Starter contracts live under [`templates/memory/`](./templates/memory/).
+Cross-project lessons belong in [`rules/lessons.md`](./rules/lessons.md), not in generated product memory.
 
-Cross-project mistakes and recoveries that should improve future Product-Skills runs belong in [`rules/lessons.md`](./rules/lessons.md), not in generated project memory.
+## Delivery gates
 
-## 🧱 Code developers can continue
+### `PREVIEW_READY`
+
+Ready for stakeholder feedback when the primary journey works and the relevant deterministic checks pass. For greenfield React, this normally includes warning-free lint, typecheck, architecture validation, build, responsive smoke checks, and an exercised acceptance path.
+
+### `DEV_READY`
+
+A higher bar for developer continuation: stable boundaries, proportionate tests, reproducible backend/data setup, accurate environment documentation, and visible known debt.
+
+`PREVIEW_READY` and `DEV_READY` are intentionally different.
+
+## Developer continuation
 
 <p align="center">
   <img src="./docs/assets/production-path.svg" alt="React production continuation path" width="560" />
 </p>
 
-For a simple greenfield screen, the continuation path is roughly:
-
-**Page UI/model → shared API/auth infrastructure → Provider**
-
-The provider can start with mock data, use Supabase, or later move to another backend without forcing a rewrite of route-level UI.
-
-When Supabase is used, preserve durable backend assets such as migrations/SQL, RLS policies, database types, API/data contracts, server-side functions when used, and environment requirements.
-
-This is what makes the output useful for developer continuation instead of a disposable POC.
-
-## ✅ Quality gates
-
-### `PREVIEW_READY`
-
-Ready for stakeholder feedback when:
-
-- the primary journey works;
-- typecheck passes;
-- lint passes with **0 warnings**;
-- FSD architecture validation passes;
-- build passes;
-- desktop/mobile usage is credible;
-- the preview is reachable when requested;
-- the acceptance path has actually been exercised.
-
-### `DEV_READY`
-
-The same repository reaches a higher engineering bar with proportionate tests, reproducible backend/data setup, accurate environment documentation, stable FSD boundaries, and visible known debt.
-
-`PREVIEW_READY` and `DEV_READY` are intentionally different gates.
+The goal is not a disposable prototype. Product code, migrations, API/data contracts, environment requirements, and useful project knowledge stay in the same repository so a development team can continue from the verified preview.
 
 ---
 
-# 🔧 Technical reference
+# Technical reference
 
-The sections below explain the implementation contract behind the beginner workflow. You do not need to understand all of them before starting.
+You do not need this section to get started. It explains the implementation contract behind the workflow above.
 
-## 🧭 Harness architecture
+## Harness architecture
 
 <p align="center">
   <img src="./docs/assets/architecture-v2.svg" alt="Product-Skills harness architecture" width="560" />
 </p>
 
-This diagram describes the **delivery context around the AI Coding Agent**, not a product system architecture.
+This diagram describes the **delivery context around the AI Coding Agent**, not a product-system architecture.
 
-- PM/BA supplies business intent.
-- The AI Coding Agent performs the implementation work.
-- Product-Skills provides reusable skills plus harness instructions, context, guardrails, tools, and verification.
-- React + TypeScript + Vite is the default greenfield frontend target.
-- Vercel is the default preview/delivery target.
-- Supabase is an optional backend accelerator.
+The harness is the repository behavior around the agent: instructions, selected skills, small context, project memory, tools, guardrails, optional subagents, execution loops, and verification.
 
-## 🧹 Engineering baseline
+## Greenfield engineering baseline
 
-For a **greenfield React project**, Product-Skills uses:
+The default greenfield frontend target is React + TypeScript + Vite. Product-Skills uses strict TypeScript, warning-free lint, Feature-Sliced Design v2.1, Steiger architecture validation, and deterministic `typecheck`, `lint`, `architecture`, and `build` gates.
 
-- React;
-- TypeScript strict mode;
-- Vite;
-- Tailwind CSS + shadcn/ui by default;
-- ESLint with zero warnings;
-- Feature-Sliced Design v2.1;
-- Steiger architecture validation;
-- deterministic scripts for `typecheck`, `lint`, `architecture`, and `build`;
-- pnpm when no package manager has already been selected.
+FSD follows **start simple, extract when needed**: begin with `app/`, `pages/`, and `shared/`; add `features/` or `entities/` only when real reuse justifies them.
 
-For an **existing repository**, preserve its established stack and architecture unless migration is explicitly requested or required for safe delivery.
+Existing repositories keep their established stack and architecture unless migration is explicitly requested.
 
-## 🧱 Feature-Sliced Design, without folder ceremony
+See:
 
-Product-Skills follows the FSD v2.1 principle: **start simple, extract when needed**.
+- [`skills/react/SKILL.md`](./skills/react/SKILL.md) — React/FSD implementation contract;
+- [`rules/engineering.md`](./rules/engineering.md) — engineering invariants;
+- [Feature-Sliced Design v2.1 skill](https://www.skills.sh/feature-sliced/skills/feature-sliced-design) — architecture reference.
 
-A greenfield interface starts with:
+## Tools and MCP
 
-```text
-src/
-├── app/       # providers, routing, initialization
-├── pages/     # route-level composition + single-use product logic
-└── shared/    # reusable infrastructure only
-    ├── api/
-    ├── auth/
-    ├── config/
-    ├── lib/
-    └── ui/
-```
+Local deterministic tools come first. Remote integrations are selected from the requested outcome.
 
-Add only when current reuse justifies them:
-
-```text
-features/     # reusable user interactions
-entities/     # reusable domain models
-widgets/      # discouraged; not a default layer
-```
-
-Important rules:
-
-- imports flow downward: **app → pages → widgets → features → entities → shared**;
-- slices expose public APIs through `index.ts`;
-- business logic does not belong in `shared/`;
-- generic transport/CRUD infrastructure belongs in `shared/api`;
-- auth/session infrastructure belongs in `shared/auth`;
-- single-use product behavior stays in its page until real reuse exists;
-- `processes/` is deprecated.
-
-The normal architecture gate is:
-
-```text
-steiger src
-```
-
-Reference: [Feature-Sliced Design v2.1 skill](https://www.skills.sh/feature-sliced/skills/feature-sliced-design).
-
-## 🛠 Tools & MCP
-
-The human-facing rule is simple:
-
-> **The coding agent owns capability setup. PM/BA users should not need to understand MCP configuration.**
-
-Local deterministic tools are preferred for filesystem, shell, Git, package-manager commands, project checks, and browser verification.
-
-Remote integrations are used only when the requested outcome needs remote state or actions:
-
-- **GitHub MCP** — repository, PR, issue, and remote source-control work;
-- **Vercel MCP** — preview/deployment state and logs;
-- **Supabase MCP** — optional backend/database context and supported actions;
-- task-specific integrations such as Figma when required.
-
-Project-scoped configuration currently exists for:
-
-- **Claude Code:** [`.mcp.json`](./.mcp.json)
-- **OpenAI Codex:** [`.codex/config.toml`](./.codex/config.toml)
-- **Cursor:** [`.cursor/mcp.json`](./.cursor/mcp.json)
+Product-Skills preconfigures GitHub, Vercel, and Supabase where supported, while task-specific capabilities such as Figma can be connected through the runtime's native mechanism.
 
 Prefer OAuth where supported. Never commit access tokens, service-role keys, or privileged credentials.
 
 See [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md).
 
-## 🤖 Runtime compatibility
+## Repository map
 
-The canonical skills and harness rules are runtime-agnostic.
+```text
+AGENTS.md           shared harness instructions
+skills/             reusable capabilities
+rules/              engineering/security/delivery invariants
+workflows/          short execution recipes
+subagents/          optional isolated roles
+memory/             memory for this Product-Skills repository
+templates/memory/   starter memory for product repositories
+hooks/              deterministic safety/ship checks
+scripts/            validation helpers
+docs/               deeper reference documentation
+```
 
-A coding agent can use Product-Skills when it can reasonably:
+Runtime-specific configuration stays thin. `skills/` remains the canonical capability source.
 
-- read repository instructions and relevant skills;
-- inspect and edit files;
-- run project commands;
-- use the tools required by the task;
-- preserve project state in the repository.
+## Deeper docs
 
-**Preconfigured today:** Claude Code, OpenAI Codex, Cursor.  
-**Also usable:** ChatGPT with repository context/connectors and other capable agents through their own native project/tool configuration.
-
-See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md).
-
-## 📦 Package manager policy
-
-Product-Skills does not force every project onto the same package manager.
-
-1. Existing repository → respect `packageManager` metadata or existing lockfile.
-2. Greenfield with no selected manager → prefer **pnpm**.
-3. npm and yarn remain supported.
-
-The harness should not migrate package managers during unrelated work.
-
-## 🗂 Repository map
-
-- `README.md` — human entry point
-- `AGENTS.md` — shared harness instructions, workflow, guardrails, and invariants
-- `skills/` — canonical reusable capabilities
-- `workflows/` — short execution recipes
-- `subagents/` — optional isolated role contracts
-- `memory/` — memory for this Product-Skills repository itself
-- `templates/memory/` — starter memory contract for product projects
-- `rules/` — engineering, security, delivery invariants, and cross-project lessons
-- `hooks/` — deterministic safety and ship checks
-- `scripts/` — validation/setup utilities
-- `.mcp.json` — Claude Code project MCP configuration
-- `.codex/config.toml` — Codex project/MCP configuration
-- `.cursor/mcp.json` — Cursor MCP configuration
-- `docs/` — deeper architecture, runtime, and tool documentation
-
-`skills/` remains the canonical skill source. Runtime-specific configuration must stay thin and must not duplicate shared skill bodies.
-
-## 📚 Deeper docs
-
-- [`docs/HARNESS-ENGINEERING.md`](./docs/HARNESS-ENGINEERING.md) — model vs harness, context, memory, subagents, verification
+- [`docs/HARNESS-ENGINEERING.md`](./docs/HARNESS-ENGINEERING.md) — harness, context, memory, subagents, verification
 - [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) — capability bootstrap, tools, OAuth, approvals, MCP policy
 - [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — compatible coding runtimes and repository configuration
-- [Feature-Sliced Design v2.1 skill](https://www.skills.sh/feature-sliced/skills/feature-sliced-design) — frontend architecture reference
 
 ## Principles
 
-- **Skills are reusable capabilities; the harness is the execution layer around the agent.**
-- **Start from business intent, not implementation ceremony.**
-- **Skills are selected by need, not run as mandatory ceremony.**
-- **Speed is a feature.** Harness mechanisms must earn their latency.
-- **The coding agent owns capability setup for non-technical users.**
-- **Required capabilities are resolved before implementation.**
-- **Feature-Sliced Design v2.1 is mandatory for greenfield React.**
-- **Start simple, extract when needed.**
-- **Verified evidence beats agent confidence.**
-- **Keep context and memory small.**
-- **Do not abstract before the problem requires it.**
-- **The same repository should have a credible path from first preview to production.**
+- Start from business intent, not implementation ceremony.
+- Skills are reusable capabilities; the harness is the execution layer around them.
+- Use only the context, skills, tools, and subagents the task needs.
+- The coding agent owns capability setup for non-technical users.
+- Verify evidence before claiming success.
+- Start simple; add architecture only when complexity or reuse earns it.
+- Keep the same repository useful from first preview through developer continuation.
 
 ## License
 
