@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="300" viewBox="0 0 560 300" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="280" viewBox="0 0 560 280" role="img" aria-labelledby="title desc">
   <title id="title">Product-Skills overview</title>
   <desc id="desc">Business intent goes to an AI coding agent. Product-Skills supports the agent with skills, harness behavior, and tools. The result is verified product work.</desc>
 
@@ -8,29 +8,28 @@
     </marker>
   </defs>
 
-  <rect width="560" height="300" fill="#f7f6f2"/>
+  <rect width="560" height="280" fill="#f7f6f2"/>
 
   <g font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" fill="#2d3142">
     <text x="40" y="38" font-size="11" font-weight="700" letter-spacing="1.7" fill="#7a8399">PRODUCT-SKILLS OVERVIEW</text>
     <line x1="40" y1="52" x2="520" y2="52" stroke="#2d3142" stroke-opacity=".12"/>
 
-    <text x="82" y="112" text-anchor="middle" font-size="17" font-weight="650">Business intent</text>
-    <text x="280" y="112" text-anchor="middle" font-size="20" font-weight="700">AI Coding Agent</text>
-    <text x="478" y="103" text-anchor="middle" font-size="17" font-weight="650">Verified</text>
-    <text x="478" y="124" text-anchor="middle" font-size="17" font-weight="650">product work</text>
+    <text x="82" y="111" text-anchor="middle" font-size="17" font-weight="650">Business intent</text>
+    <text x="280" y="111" text-anchor="middle" font-size="20" font-weight="700">AI Coding Agent</text>
+    <text x="478" y="102" text-anchor="middle" font-size="17" font-weight="650">Verified</text>
+    <text x="478" y="123" text-anchor="middle" font-size="17" font-weight="650">product work</text>
 
-    <path d="M145 106H202" stroke="#596579" stroke-width="1.35" fill="none" marker-end="url(#arrow)"/>
-    <path d="M358 106H411" stroke="#596579" stroke-width="1.35" fill="none" marker-end="url(#arrow)"/>
+    <path d="M145 105H202" stroke="#596579" stroke-width="1.35" fill="none" marker-end="url(#arrow)"/>
+    <path d="M358 105H411" stroke="#596579" stroke-width="1.35" fill="none" marker-end="url(#arrow)"/>
 
-    <path d="M280 192V137" stroke="#eb6c36" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+    <path d="M280 187V136" stroke="#eb6c36" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
 
-    <text x="280" y="216" text-anchor="middle" font-size="11" font-weight="750" letter-spacing="1.6" fill="#eb6c36">PRODUCT-SKILLS</text>
-    <text x="280" y="247" text-anchor="middle" font-size="16" font-weight="650">Skills</text>
-    <circle cx="335" cy="242" r="2" fill="#7a8399"/>
-    <text x="380" y="247" text-anchor="middle" font-size="16" font-weight="650">Harness</text>
-    <circle cx="431" cy="242" r="2" fill="#7a8399"/>
-    <text x="470" y="247" text-anchor="middle" font-size="16" font-weight="650">Tools</text>
+    <text x="280" y="211" text-anchor="middle" font-size="11" font-weight="750" letter-spacing="1.6" fill="#eb6c36">PRODUCT-SKILLS</text>
 
-    <line x1="90" y1="270" x2="470" y2="270" stroke="#2d3142" stroke-opacity=".08"/>
+    <text x="190" y="244" text-anchor="middle" font-size="16" font-weight="650">Skills</text>
+    <circle cx="235" cy="239" r="2" fill="#7a8399"/>
+    <text x="280" y="244" text-anchor="middle" font-size="16" font-weight="650">Harness</text>
+    <circle cx="330" cy="239" r="2" fill="#7a8399"/>
+    <text x="372" y="244" text-anchor="middle" font-size="16" font-weight="650">Tools</text>
   </g>
 </svg>
