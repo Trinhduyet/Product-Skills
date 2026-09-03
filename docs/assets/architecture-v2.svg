@@ -1,35 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="280" viewBox="0 0 560 280" role="img" aria-labelledby="title desc">
-  <title id="title">Product-Skills overview</title>
-  <desc id="desc">Business intent goes to an AI coding agent. Product-Skills supports the agent with skills, harness behavior, and tools. The result is verified product work.</desc>
-
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="300" viewBox="0 0 560 300" role="img" aria-labelledby="title desc">
+  <title id="title">Product-Skills harness overview</title>
+  <desc id="desc">Business intent enters an AI Coding Agent supported by the Product-Skills harness. The harness contains skills, context, rules, tools, and verification. The result is verified product work.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M0 0 L10 5 L0 10 Z" fill="#596579"/>
     </marker>
   </defs>
 
-  <rect width="560" height="280" fill="#f7f6f2"/>
+  <rect width="560" height="300" fill="#f7f6f2"/>
 
   <g font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" fill="#2d3142">
-    <text x="40" y="38" font-size="11" font-weight="700" letter-spacing="1.7" fill="#7a8399">PRODUCT-SKILLS OVERVIEW</text>
+    <text x="40" y="38" font-size="11" font-weight="700" letter-spacing="1.7" fill="#7a8399">PRODUCT-SKILLS</text>
     <line x1="40" y1="52" x2="520" y2="52" stroke="#2d3142" stroke-opacity=".12"/>
 
-    <text x="82" y="111" text-anchor="middle" font-size="17" font-weight="650">Business intent</text>
-    <text x="280" y="111" text-anchor="middle" font-size="20" font-weight="700">AI Coding Agent</text>
-    <text x="478" y="102" text-anchor="middle" font-size="17" font-weight="650">Verified</text>
-    <text x="478" y="123" text-anchor="middle" font-size="17" font-weight="650">product work</text>
+    <text x="72" y="151" text-anchor="middle" font-size="16" font-weight="650">Business intent</text>
+    <path d="M132 145H166" stroke="#596579" stroke-width="1.35" fill="none" marker-end="url(#arrow)"/>
 
-    <path d="M145 105H202" stroke="#596579" stroke-width="1.35" fill="none" marker-end="url(#arrow)"/>
-    <path d="M358 105H411" stroke="#596579" stroke-width="1.35" fill="none" marker-end="url(#arrow)"/>
+    <rect x="174" y="78" width="252" height="146" rx="10" fill="#fff7f2" stroke="#eb6c36" stroke-width="1.1"/>
+    <text x="194" y="104" font-size="10" font-weight="750" letter-spacing="1.4" fill="#eb6c36">HARNESS</text>
+    <text x="300" y="145" text-anchor="middle" font-size="20" font-weight="700">AI Coding Agent</text>
+    <line x1="202" y1="166" x2="398" y2="166" stroke="#2d3142" stroke-opacity=".10"/>
+    <text x="300" y="194" text-anchor="middle" font-size="13" font-weight="600" fill="#596579">Skills · Context · Rules · Tools · Verify</text>
 
-    <path d="M280 187V136" stroke="#eb6c36" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+    <path d="M426 145H458" stroke="#596579" stroke-width="1.35" fill="none" marker-end="url(#arrow)"/>
+    <text x="502" y="142" text-anchor="middle" font-size="16" font-weight="650">Verified</text>
+    <text x="502" y="162" text-anchor="middle" font-size="16" font-weight="650">work</text>
 
-    <text x="280" y="211" text-anchor="middle" font-size="11" font-weight="750" letter-spacing="1.6" fill="#eb6c36">PRODUCT-SKILLS</text>
-
-    <text x="190" y="244" text-anchor="middle" font-size="16" font-weight="650">Skills</text>
-    <circle cx="235" cy="239" r="2" fill="#7a8399"/>
-    <text x="280" y="244" text-anchor="middle" font-size="16" font-weight="650">Harness</text>
-    <circle cx="330" cy="239" r="2" fill="#7a8399"/>
-    <text x="372" y="244" text-anchor="middle" font-size="16" font-weight="650">Tools</text>
+    <text x="300" y="260" text-anchor="middle" font-size="12" font-weight="550" fill="#7a8399">Product-Skills is the repository harness around the agent</text>
   </g>
 </svg>
