@@ -2,13 +2,90 @@
 
 > **Product-Skills is a lightweight AI coding harness for Product Managers and Business Analysts to turn business ideas into deployable React experiences while preserving a codebase developers can continue toward production.**
 
+You describe the business outcome. Product-Skills gives an AI Coding Agent the skills, context, guardrails, tools, and verification needed to move from idea to a credible working product experience.
+
 You do **not** need to understand MCP, Feature-Sliced Design, Supabase, Vercel, or agent internals before you start.
 
-Describe the business outcome. The AI Coding Agent uses Product-Skills to work out the implementation path, request only the connections it actually needs, build the experience, verify it, and return a shareable result.
+## 🧩 What Product-Skills gives your AI agent
 
-## 🚀 Start here
+Product-Skills is built around **six core skills**. Think of them as a small product-delivery team the coding agent can use when needed.
 
-### What you need
+| Skill | What it helps with | Typical result |
+| --- | --- | --- |
+| 🧭 [`definition`](./skills/definition/) | Turn business intent into a buildable scope | Goal, actors, journey, rules, screens, acceptance criteria |
+| 🎨 [`ux-ui`](./skills/ux-ui/) | Shape a usable product experience | Flow, hierarchy, states, responsive and accessibility direction |
+| ⚛️ [`react`](./skills/react/) | Build the frontend | React + TypeScript implementation with clean architecture |
+| 🗄️ [`supabase`](./skills/supabase/) | Add a real backend when it is useful | Auth, persistence, storage, RLS, migrations, data contracts |
+| ✅ [`verify`](./skills/verify/) | Prove the product actually works | Type/lint/build/architecture checks + primary journey verification |
+| 🚀 [`delivery`](./skills/delivery/) | Share and hand off the result | Verified preview, one Share URL, developer continuation notes |
+
+The agent does not need to run every skill for every task. It selects the smallest useful path.
+
+### How the skills work together
+
+<p align="center">
+  <img src="./docs/assets/default-flow.svg" alt="Default Product-Skills delivery flow" width="560" />
+</p>
+
+The default path is:
+
+**Definition → UX/UI → React → Verify → Delivery**
+
+**Supabase is optional.** It enters only when authentication, persistence, storage, shared data, or server-side behavior materially improves the requested experience.
+
+For an existing product, the agent can also use `memory/FEATURES.md` to understand what already exists and classify requested changes as:
+
+- **ADD** — a new capability;
+- **CHANGE** — an existing capability changes behavior;
+- **REMOVE** — a capability intentionally disappears;
+- **NONE** — implementation/refactor only.
+
+This helps prevent duplicate work and accidental restoration of intentionally removed product behavior.
+
+## 🧭 System overview
+
+<p align="center">
+  <img src="./docs/assets/architecture-v2.svg" alt="Product-Skills architecture" width="560" />
+</p>
+
+- **PM / BA** provides business intent.
+- **AI Coding Agent** performs the implementation work.
+- **Product-Skills** supplies reusable skills, project context, guardrails, tools, and verification.
+- **React + TypeScript + Vite** is the default greenfield frontend target.
+- **Vercel** is the default preview/delivery target.
+- **Supabase** is an optional backend accelerator.
+
+The goal is not a throwaway prototype. The same repository should remain useful when developers take ownership and continue toward production.
+
+## 🎯 What it helps you achieve
+
+### Keep product intent visible
+
+Goals, actors, rules, feature state, and acceptance criteria stay explicit so the agent does not silently invent important business behavior.
+
+### Get better UX/UI than a generic generated screen
+
+The agent reasons about the primary journey, loading/empty/error/success states, permissions, responsive behavior, and accessibility basics.
+
+### Iterate without losing product context
+
+Small project memory keeps verified facts, current capabilities, and durable decisions available across future changes without turning memory into a transcript archive.
+
+### Verify before sharing
+
+A successful build command is not treated as proof. Product-Skills checks both code quality and the primary user journey.
+
+### Keep a path to production
+
+The frontend, backend contracts, migrations, and project knowledge stay in the same repository so developers can continue rather than rebuild from scratch.
+
+---
+
+# 🚀 Getting started
+
+You can start using Product-Skills without learning the internal harness first.
+
+## What you need
 
 At minimum:
 
@@ -17,12 +94,12 @@ At minimum:
 
 Product-Skills currently includes project configuration for **Claude Code, OpenAI Codex, and Cursor**. Other capable coding agents can use the same `AGENTS.md`, `skills/`, rules, and workflow conventions through their own project/tool mechanism.
 
-Depending on your request, the agent may also ask you to authorize access to:
+Depending on your request, the agent may ask you to authorize:
 
 - **Figma/design tools** — when a design is the source of truth;
 - **GitHub** — when code must be pushed or a PR created;
 - **Vercel** — when a shareable preview must be deployed;
-- **Supabase** — when real authentication, persistence, storage, or server behavior is required.
+- **Supabase** — when real backend behavior is required.
 
 You do not need to connect unrelated services in advance.
 
@@ -57,9 +134,7 @@ If you have a Figma design, business rules, API specification, or existing repos
 
 ### 4. Approve only required connections
 
-Before implementation, the agent determines what capabilities are needed to complete the requested outcome.
-
-For example:
+Before implementation, the agent determines which capabilities are required to complete the requested outcome.
 
 ```text
 Figma URL in scope   → request design access first
@@ -72,7 +147,7 @@ The PM/BA should not need to inspect MCP settings manually.
 
 ### 5. Receive a verified result
 
-A successful run should return a concise report with:
+A successful run should return:
 
 - what was built;
 - what was verified;
@@ -80,97 +155,20 @@ A successful run should return a concise report with:
 - important blockers or deferred work;
 - developer continuation notes when relevant.
 
-A successful build command alone is not enough to claim success.
+## 🔄 What happens after your prompt
 
-## 🧭 What happens after your prompt
-
-<p align="center">
-  <img src="./docs/assets/default-flow.svg" alt="Default Product-Skills delivery flow" width="560" />
-</p>
-
-The default path is:
-
-**Definition → UX/UI → React → Verify → Delivery**
-
-In practice:
+In practice, the agent moves through the skills as needed:
 
 1. **Definition** — clarify goal, actors, primary journey, business rules, screens, and acceptance criteria.
 2. **UX/UI** — establish hierarchy, important states, responsive behavior, and practical accessibility direction.
 3. **React** — implement the shortest credible experience using the project engineering contract.
-4. **Verify** — run deterministic checks and exercise the primary user journey in the running app.
-5. **Delivery** — publish a verified preview and report one stakeholder-facing Share URL.
+4. **Supabase, when needed** — add real backend behavior without making remote state the only source of truth.
+5. **Verify** — run deterministic checks and exercise the primary user journey in the running app.
+6. **Delivery** — publish a verified preview and report one stakeholder-facing Share URL.
 
-**Supabase is optional.** It enters only when a real backend materially improves the requested experience.
+If something fails, the loop is simply:
 
-## 🧭 System overview
-
-<p align="center">
-  <img src="./docs/assets/architecture-v2.svg" alt="Product-Skills architecture" width="560" />
-</p>
-
-- **PM / BA** provides business intent.
-- **Product-Skills** provides skills, context discipline, memory conventions, guardrails, tools, and verification around the coding agent.
-- **React + TypeScript + Vite** is the default greenfield frontend target.
-- **Feature-Sliced Design (FSD) v2.1** is the mandatory greenfield frontend architecture.
-- **Vercel** is the default preview/delivery target.
-- **Supabase** is an optional backend accelerator.
-
-The goal is not a throwaway prototype. The same repository should remain useful when developers take ownership and continue toward production.
-
-## 🎯 What Product-Skills solves
-
-### Keep product intent visible
-
-Goal, actors, rules, feature state, and acceptance criteria stay explicit so the agent does not silently invent material business behavior.
-
-### Make iteration safer
-
-For an existing product, `memory/FEATURES.md` can record the current product capability map so the agent can distinguish:
-
-- **ADD** — new capability;
-- **CHANGE** — existing capability changes behavior;
-- **REMOVE** — capability intentionally disappears;
-- **NONE** — implementation/refactor only.
-
-Git history remains the detailed changelog.
-
-### Improve UX/UI output
-
-The agent reasons about the primary journey, loading/empty/error/success states, permissions, responsive behavior, and accessibility basics instead of only generating static screens.
-
-### Preserve a production path
-
-Generated frontend code follows strict TypeScript, warning-free lint, FSD boundaries, deterministic architecture checks, and a provider seam that developers can continue later.
-
-### Verify before sharing
-
-Product-Skills distinguishes a build that compiles from a product journey that actually works.
-
-## 🧩 Six core skills
-
-### 🧭 [`definition`](./skills/definition/)
-
-Turns business intent into the minimum buildable definition and, for existing products, identifies feature deltas before implementation.
-
-### 🎨 [`ux-ui`](./skills/ux-ui/)
-
-Defines flow, hierarchy, important states, responsive behavior, and practical accessibility direction.
-
-### ⚛️ [`react`](./skills/react/)
-
-Builds React + TypeScript using the greenfield engineering contract and mandatory Feature-Sliced Design boundaries.
-
-### 🗄️ [`supabase`](./skills/supabase/)
-
-Optional backend accelerator for authentication, persistence, storage, shared data, or server behavior while preserving reusable migrations, RLS, types, and contracts in source control.
-
-### ✅ [`verify`](./skills/verify/)
-
-Runs deterministic checks and proves the primary journey in the running application.
-
-### 🚀 [`delivery`](./skills/delivery/)
-
-Publishes a verified preview and later helps raise the same repository from stakeholder-ready to developer-ready quality.
+**Implement → Verify → Fix → Verify again**
 
 ## 🧠 Project context and memory
 
@@ -189,8 +187,6 @@ Starter contracts live under [`templates/memory/`](./templates/memory/).
 
 Cross-project mistakes and recoveries that should improve future Product-Skills runs belong in [`rules/lessons.md`](./rules/lessons.md), not in generated project memory.
 
-Memory is not a conversation transcript archive.
-
 ## 🧱 Code developers can continue
 
 <p align="center">
@@ -203,15 +199,7 @@ For a simple greenfield screen, the continuation path is roughly:
 
 The provider can start with mock data, use Supabase, or later move to another backend without forcing a rewrite of route-level UI.
 
-When Supabase is used, the repository should preserve durable backend assets such as:
-
-- migrations / SQL;
-- RLS policies and auth assumptions;
-- safe seed application data where useful;
-- database types;
-- API/data contracts;
-- server-side functions when used;
-- environment requirements.
+When Supabase is used, the repository should preserve durable backend assets such as migrations/SQL, RLS policies, database types, API/data contracts, server-side functions when used, and environment requirements.
 
 This is what makes the output useful for developer continuation instead of a disposable POC.
 
@@ -235,6 +223,12 @@ Ready for stakeholder feedback when:
 The same repository reaches a higher engineering bar with proportionate tests, reproducible backend/data setup, accurate environment documentation, stable FSD boundaries, and visible known debt.
 
 `PREVIEW_READY` and `DEV_READY` are intentionally different gates.
+
+---
+
+# 🔧 Technical reference
+
+The sections below explain the engineering contract behind the beginner workflow. You do not need to understand all of them before starting.
 
 ## 🧹 Engineering baseline
 
@@ -378,6 +372,7 @@ The harness should not migrate package managers during unrelated work.
 ## Principles
 
 - **Start from business intent, not implementation ceremony.**
+- **Skills are selected by need, not run as mandatory ceremony.**
 - **Speed is a feature.** Harness mechanisms must earn their latency.
 - **The coding agent owns capability setup for non-technical users.**
 - **Required capabilities are resolved before implementation.**
