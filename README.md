@@ -18,6 +18,21 @@ Product-Skills adds three things around your AI Coding Agent:
 
 The goal is simple: **business intent → verified product work → developer continuation in the same repository**.
 
+## Responsibility boundary
+
+Product-Skills is designed around a clear handoff between product work and engineering ownership.
+
+| Product team focuses on | Development team / SA owns |
+| --- | --- |
+| Functional requirements | Non-functional requirements |
+| Features and user flows | System architecture |
+| Business rules | Scalability and performance |
+| UI/UX and interaction states | Security and integrations |
+| Acceptance criteria | Data model and technology choices |
+| Stakeholder feedback | Coding standards and long-term maintainability |
+
+Product-Skills helps generated code land closer to development expectations, but it does not replace engineering review or architecture ownership.
+
 ## Core skills
 
 The [`skills/`](./skills/) directory is the reusable capability library.
@@ -40,6 +55,12 @@ A common path is:
 **Definition → UX/UI → React → Verify → Delivery**
 
 `supabase` joins the flow when backend behavior is needed. The agent selects only the skills relevant to the task.
+
+## Reuse strategy
+
+The first priority is **frontend reuse**. Product flows, UI states, validation, responsive behavior, and interaction code are closest to the Product team's functional responsibility and have the clearest reuse boundary.
+
+Backend work is optional. It can make a preview credible and preserve useful contracts, migrations, or data assumptions, but reuse should be decided later with the Development team based on the real system context.
 
 ---
 
@@ -210,9 +231,9 @@ Ready for stakeholder feedback when the primary journey works and the relevant c
 
 ### `DEV_READY`
 
-Ready for developer continuation with stable boundaries, proportionate tests, reproducible backend/data setup, accurate environment documentation, and visible known debt.
+Ready for the Development team to continue and review the repository with stable boundaries, proportionate tests, reproducible setup, accurate environment documentation, and visible known debt.
 
-`PREVIEW_READY` and `DEV_READY` are intentionally different gates.
+`DEV_READY` is a handoff/readiness signal, not production approval or NFR sign-off.
 
 ## Developer continuation
 
@@ -220,7 +241,16 @@ Ready for developer continuation with stable boundaries, proportionate tests, re
   <img src="./docs/assets/production-path.svg" alt="React production continuation path" width="560" />
 </p>
 
-Product code, migrations, API/data contracts, environment requirements, and useful project knowledge stay in the same repository so developers can continue from the verified preview.
+The main reuse target is the frontend experience. Product code and useful contracts stay in the same repository so the Development team can review, keep, harden, or replace implementation pieces without losing the validated product behavior.
+
+## Improve through real projects
+
+Product-Skills is intended to evolve from real usage rather than trying to define every rule upfront. Feedback from Product and Development teams should improve:
+
+- skills and prompts;
+- coding conventions and development rules;
+- the boundary between Product-generated and Dev-owned code;
+- the amount of frontend and backend code that can be safely reused.
 
 ---
 
@@ -250,10 +280,12 @@ docs/               deeper reference documentation
 ## Principles
 
 - Start from business intent.
+- Product owns functional intent; Development/SA owns system-level technical decisions.
+- Prioritize frontend reuse first; evaluate backend reuse from real project experience.
 - Let the agent select only the skills and tools the task needs.
 - Keep project context small and durable.
 - Verify before claiming success.
-- Keep the same repository useful from first preview through developer continuation.
+- Improve the harness from real Product and Development feedback.
 
 ## License
 
