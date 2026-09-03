@@ -1,20 +1,22 @@
 # Product-Skills
 
-> **Product-Skills is a lightweight collection of product-delivery skills plus a repository harness for AI Coding Agents. It helps Product Managers and Business Analysts turn business intent into verified product work that developers can continue in the same repository.**
+> **Product-Skills is a lightweight repository harness for AI Coding Agents. It packages reusable product-delivery skills, project context, rules, workflows, tools, and verification so Product Managers and Business Analysts can turn business intent into verified product work that developers can continue in the same repository.**
 
-Describe the outcome. Your AI Coding Agent reads the repository, selects the relevant skills, performs the work, verifies the result, and keeps useful project context in source control.
+Describe the outcome. Your AI Coding Agent reads the harness, selects the relevant skills, performs the work, verifies the result, and keeps useful project context in source control.
 
 ## Overview
 
 <p align="center">
-  <img src="./docs/assets/architecture-v2.svg" alt="Product-Skills overview" width="560" />
+  <img src="./docs/assets/architecture-v2.svg" alt="Product-Skills harness overview" width="560" />
 </p>
 
-Product-Skills adds three things around your AI Coding Agent:
+**Product-Skills is the harness around the AI Coding Agent.** The harness contains the reusable capabilities and repository behavior that guide execution:
 
-- **Skills** — reusable product-delivery capabilities.
-- **Harness** — repository instructions, context, memory, workflows, rules, and verification.
-- **Tools** — external capabilities used when the task needs them.
+- **Skills** — product-delivery capabilities.
+- **Context & memory** — verified project knowledge.
+- **Rules & workflows** — shared execution conventions.
+- **Tools** — capabilities used when the task needs them.
+- **Verification** — evidence before delivery.
 
 The goal is simple: **business intent → verified product work → developer continuation in the same repository**.
 
@@ -35,7 +37,7 @@ Product-Skills helps generated code land closer to development expectations, but
 
 ## Core skills
 
-The [`skills/`](./skills/) directory is the reusable capability library.
+The [`skills/`](./skills/) directory is the reusable capability library inside the harness.
 
 | Skill | Purpose |
 | --- | --- |
@@ -66,7 +68,7 @@ Backend work is optional. It can make a preview credible and preserve useful con
 
 # Install
 
-Product-Skills is repository-based. Put it in the repository where your AI Coding Agent will work.
+Product-Skills is repository-based. Put the harness in the repository where your AI Coding Agent will work.
 
 ## New product
 
@@ -89,7 +91,7 @@ You can also fork or copy the repository first and use that as your product repo
 
 ## Existing product
 
-Bring the Product-Skills layer into your existing repository:
+Bring the Product-Skills harness into your existing repository:
 
 ```text
 AGENTS.md
@@ -149,7 +151,7 @@ Add useful context when you have it: business rules, acceptance criteria, API sp
 
 ## How skills are selected
 
-The agent reads the task and chooses the smallest useful skill path.
+The harness helps the agent read the task and choose the smallest useful skill path.
 
 ```text
 New business workflow
@@ -279,10 +281,11 @@ docs/               deeper reference documentation
 
 ## Principles
 
+- Product-Skills is the repository harness around the AI Coding Agent.
 - Start from business intent.
 - Product owns functional intent; Development/SA owns system-level technical decisions.
 - Prioritize frontend reuse first; evaluate backend reuse from real project experience.
-- Let the agent select only the skills and tools the task needs.
+- Let the harness select only the skills and tools the task needs.
 - Keep project context small and durable.
 - Verify before claiming success.
 - Improve the harness from real Product and Development feedback.
