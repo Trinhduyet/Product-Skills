@@ -1,56 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="520" viewBox="0 0 560 520" role="img" aria-labelledby="title desc">
-  <title id="title">Product-Skills repository overview</title>
-  <desc id="desc">Business intent goes to an AI Coding Agent. Product-Skills contributes reusable skills, a lightweight harness, and optional tools. The result is verified product work.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="430" viewBox="0 0 560 430" role="img" aria-labelledby="title desc">
+  <title id="title">Product-Skills overview</title>
+  <desc id="desc">Business intent flows through an AI coding agent supported by Product-Skills skills, harness, and tools to verified product work.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M0 0 L10 5 L0 10 Z" fill="#596579"/>
     </marker>
   </defs>
 
-  <rect width="560" height="520" fill="#f7f6f2"/>
+  <rect width="560" height="430" fill="#f7f6f2"/>
 
   <g font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" fill="#2d3142">
-    <text x="52" y="44" font-size="12" font-weight="700" letter-spacing="1.8" fill="#7a8399">PRODUCT-SKILLS · OVERVIEW</text>
+    <text x="52" y="44" font-size="12" font-weight="700" letter-spacing="1.7" fill="#7a8399">PRODUCT-SKILLS</text>
     <line x1="52" y1="58" x2="508" y2="58" stroke="#2d3142" stroke-opacity=".12"/>
 
-    <g transform="translate(82 88)">
-      <rect width="396" height="64" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
-      <text x="198" y="39" text-anchor="middle" font-size="20" font-weight="670">Business intent</text>
+    <g transform="translate(96 86)">
+      <rect width="368" height="58" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <text x="184" y="36" text-anchor="middle" font-size="19" font-weight="650">Business intent</text>
     </g>
 
-    <path d="M280 152V184" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+    <path d="M280 144V174" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
 
-    <g transform="translate(64 184)">
-      <rect width="432" height="72" rx="8" fill="#fff7f2" stroke="#eb6c36" stroke-width="1.2"/>
-      <text x="216" y="29" text-anchor="middle" font-size="11" font-weight="750" letter-spacing="1.5" fill="#eb6c36">AI CODING AGENT</text>
-      <text x="216" y="52" text-anchor="middle" font-size="18" font-weight="670">Builds the product</text>
+    <g transform="translate(96 174)">
+      <rect width="368" height="64" rx="8" fill="#fff7f2" stroke="#eb6c36" stroke-width="1.2"/>
+      <text x="184" y="39" text-anchor="middle" font-size="20" font-weight="680">AI Coding Agent</text>
     </g>
 
-    <text x="280" y="300" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="1.5" fill="#7a8399">PRODUCT-SKILLS ADDS</text>
-
-    <g transform="translate(52 320)">
-      <rect width="140" height="76" rx="8" fill="#ffffff" stroke="#eb6c36" stroke-width="1.1"/>
-      <text x="70" y="31" text-anchor="middle" font-size="12" font-weight="750" letter-spacing="1.2" fill="#eb6c36">SKILLS</text>
-      <text x="70" y="55" text-anchor="middle" font-size="14" font-weight="650">How to work</text>
+    <g transform="translate(52 272)">
+      <rect width="136" height="62" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <text x="68" y="37" text-anchor="middle" font-size="17" font-weight="650">Skills</text>
     </g>
 
-    <g transform="translate(210 320)">
-      <rect width="140" height="76" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
-      <text x="70" y="31" text-anchor="middle" font-size="12" font-weight="750" letter-spacing="1.2" fill="#596579">HARNESS</text>
-      <text x="70" y="55" text-anchor="middle" font-size="14" font-weight="650">How to execute</text>
+    <g transform="translate(212 272)">
+      <rect width="136" height="62" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <text x="68" y="37" text-anchor="middle" font-size="17" font-weight="650">Harness</text>
     </g>
 
-    <g transform="translate(368 320)">
-      <rect width="140" height="76" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
-      <text x="70" y="31" text-anchor="middle" font-size="12" font-weight="750" letter-spacing="1.2" fill="#596579">TOOLS</text>
-      <text x="70" y="55" text-anchor="middle" font-size="14" font-weight="650">When needed</text>
+    <g transform="translate(372 272)">
+      <rect width="136" height="62" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <text x="68" y="37" text-anchor="middle" font-size="17" font-weight="650">Tools</text>
     </g>
 
-    <path d="M280 396V430" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+    <path d="M280 238V258" stroke="#596579" stroke-width="1.2" fill="none"/>
+    <path d="M120 258H440" stroke="#596579" stroke-width="1.2" fill="none"/>
+    <path d="M120 258V272M280 258V272M440 258V272" stroke="#596579" stroke-width="1.2" fill="none"/>
 
-    <g transform="translate(82 430)">
-      <rect width="396" height="58" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
-      <text x="198" y="36" text-anchor="middle" font-size="19" font-weight="680">Verified product work</text>
-    </g>
+    <path d="M280 334V360" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+
+    <text x="280" y="397" text-anchor="middle" font-size="19" font-weight="680">Verified product work</text>
   </g>
 </svg>
