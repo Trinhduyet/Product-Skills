@@ -8,7 +8,7 @@ You do **not** need to understand MCP, Feature-Sliced Design, Supabase, Vercel, 
 
 ## What this repo is
 
-Product-Skills is designed for a simple handoff:
+Product-Skills supports a simple delivery path:
 
 ```text
 Business idea
@@ -68,10 +68,10 @@ These are related, but they are not the same thing.
 | --- | --- | --- |
 | **Skills** | Teach the agent how to perform a class of work | `skills/` |
 | **Harness** | Controls context, workflow, memory, guardrails, and verification | `AGENTS.md`, `rules/`, `memory/`, `workflows/`, hooks/scripts |
-| **Tools / MCP** | Give the agent access to external systems and actions | GitHub, Vercel, Supabase, Figma when required |
+| **Tools / MCP** | Give the agent access to external systems and actions | Selected only when the requested outcome needs them |
 | **Runtime** | The coding agent that reads instructions and executes work | Claude Code, Codex, Cursor, or another compatible agent |
 
-Skills define **how to work**. Tools provide **what the agent can act on**. The harness decides **how those capabilities are applied consistently inside the repository**.
+Skills define **how to work**. Tools provide **what the agent can act on**. The harness helps apply those capabilities consistently inside the repository.
 
 ---
 
@@ -165,18 +165,22 @@ For example:
 
 That is enough to start.
 
-Include existing context when it matters: Figma/design links, business rules, acceptance criteria, API specs, screenshots, or repository constraints.
+Include existing context only when it matters: business rules, acceptance criteria, API specs, screenshots, repository constraints, or an authoritative design/source link.
 
 ## What the agent should do
 
-Before implementation, the agent should determine which capabilities are actually required:
+Before implementation, the agent should determine which capabilities are actually required by the requested outcome.
+
+Examples:
 
 ```text
-Figma source required → request design access
-GitHub push required  → request GitHub access
-Vercel preview needed → request Vercel access
-Real backend needed   → request Supabase access
+Authoritative design/source required → request access before coding
+GitHub push required                → request GitHub access
+Preview deployment required         → request deployment access
+Real backend required               → request backend access
 ```
+
+A Figma link is one possible authoritative design source; it is **not** a required Product-Skills dependency.
 
 PM/BA users should not need to inspect MCP settings or pre-connect unrelated services.
 
@@ -257,43 +261,15 @@ The goal is not a disposable prototype. Product code, migrations, API/data contr
 
 ---
 
-# Technical reference
+# Reference
 
-You do not need this section to get started. It explains the implementation contract behind the workflow above.
+The README intentionally stays focused on setup and usage. Deeper implementation contracts live in the repository docs and skill files.
 
-## Harness architecture
-
-<p align="center">
-  <img src="./docs/assets/architecture-v2.svg" alt="Product-Skills harness architecture" width="560" />
-</p>
-
-This diagram describes the **delivery context around the AI Coding Agent**, not a product-system architecture.
-
-The harness is the repository behavior around the agent: instructions, selected skills, small context, project memory, tools, guardrails, optional subagents, execution loops, and verification.
-
-## Greenfield engineering baseline
-
-The default greenfield frontend target is React + TypeScript + Vite. Product-Skills uses strict TypeScript, warning-free lint, Feature-Sliced Design v2.1, Steiger architecture validation, and deterministic `typecheck`, `lint`, `architecture`, and `build` gates.
-
-FSD follows **start simple, extract when needed**: begin with `app/`, `pages/`, and `shared/`; add `features/` or `entities/` only when real reuse justifies them.
-
-Existing repositories keep their established stack and architecture unless migration is explicitly requested.
-
-See:
-
-- [`skills/react/SKILL.md`](./skills/react/SKILL.md) — React/FSD implementation contract;
-- [`rules/engineering.md`](./rules/engineering.md) — engineering invariants;
-- [Feature-Sliced Design v2.1 skill](https://www.skills.sh/feature-sliced/skills/feature-sliced-design) — architecture reference.
-
-## Tools and MCP
-
-Local deterministic tools come first. Remote integrations are selected from the requested outcome.
-
-Product-Skills preconfigures GitHub, Vercel, and Supabase where supported, while task-specific capabilities such as Figma can be connected through the runtime's native mechanism.
-
-Prefer OAuth where supported. Never commit access tokens, service-role keys, or privileged credentials.
-
-See [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md).
+- [`docs/HARNESS-ENGINEERING.md`](./docs/HARNESS-ENGINEERING.md) — harness behavior, context, memory, subagents, and verification
+- [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) — capability bootstrap, local tools, remote integrations, authentication, and approvals
+- [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — runtime compatibility and repository-specific configuration
+- [`skills/react/SKILL.md`](./skills/react/SKILL.md) — React/FSD implementation contract
+- [`rules/engineering.md`](./rules/engineering.md) — engineering invariants and quality expectations
 
 ## Repository map
 
@@ -311,12 +287,6 @@ docs/               deeper reference documentation
 ```
 
 Runtime-specific configuration stays thin. `skills/` remains the canonical capability source.
-
-## Deeper docs
-
-- [`docs/HARNESS-ENGINEERING.md`](./docs/HARNESS-ENGINEERING.md) — harness, context, memory, subagents, verification
-- [`docs/TOOLS-AND-MCP.md`](./docs/TOOLS-AND-MCP.md) — capability bootstrap, tools, OAuth, approvals, MCP policy
-- [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) — compatible coding runtimes and repository configuration
 
 ## Principles
 
