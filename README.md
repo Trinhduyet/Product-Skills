@@ -6,6 +6,24 @@ You describe the business outcome. Product-Skills gives an AI Coding Agent the s
 
 You do **not** need to understand MCP, Feature-Sliced Design, Supabase, Vercel, or agent internals before you start.
 
+## Contents
+
+- [What Product-Skills gives your AI agent](#-what-product-skills-gives-your-ai-agent)
+- [How the skills work together](#how-the-skills-work-together)
+- [System overview](#-system-overview)
+- [Installation](#-installation)
+  - [New product — recommended](#new-product--recommended)
+  - [Existing product](#existing-product)
+  - [Claude Code](#claude-code)
+  - [OpenAI Codex](#openai-codex)
+  - [Cursor](#cursor)
+  - [Other coding agents](#other-coding-agents)
+- [Using Product-Skills](#-using-product-skills)
+- [What happens after your prompt](#-what-happens-after-your-prompt)
+- [Project context and memory](#-project-context-and-memory)
+- [Quality gates](#-quality-gates)
+- [Technical reference](#-technical-reference)
+
 ## 🧩 What Product-Skills gives your AI agent
 
 Product-Skills is built around **six core skills**. Think of them as a small product-delivery team the coding agent can use when needed.
@@ -81,60 +99,142 @@ The frontend, backend contracts, migrations, and project knowledge stay in the s
 
 ---
 
-# 🚀 Getting started
+# 📦 Installation
 
-You can start using Product-Skills without learning the internal harness first.
+Product-Skills is currently a **repository-based coding harness**, not a package or marketplace plugin. Installation means putting the harness files in the repository where your AI coding agent will work.
 
-## What you need
+You normally choose one of two paths.
 
-At minimum:
+## New product — recommended
 
-- Git and a copy of this repository;
-- an AI coding agent that can read repository instructions, edit files, and run project commands.
-
-Product-Skills currently includes project configuration for **Claude Code, OpenAI Codex, and Cursor**. Other capable coding agents can use the same `AGENTS.md`, `skills/`, rules, and workflow conventions through their own project/tool mechanism.
-
-Depending on your request, the agent may ask you to authorize:
-
-- **Figma/design tools** — when a design is the source of truth;
-- **GitHub** — when code must be pushed or a PR created;
-- **Vercel** — when a shareable preview must be deployed;
-- **Supabase** — when real backend behavior is required.
-
-You do not need to connect unrelated services in advance.
-
-## ⚡ Quick start
-
-### 1. Create your working repository
-
-Clone, fork, or use this repository as the starting point for your product work.
+Start from Product-Skills itself, then use that repository as the product workspace.
 
 ```bash
-git clone https://github.com/Trinhduyet/Product-Skills.git
-cd Product-Skills
+git clone https://github.com/Trinhduyet/Product-Skills.git my-product
+cd my-product
 ```
 
-If you use a fork or copied repository, replace the URL with your own project repository.
+Point the Git remote at your own product repository before you start shipping product code:
 
-### 2. Open it in your AI coding agent
+```bash
+git remote rename origin product-skills-source
+git remote add origin <YOUR_GITHUB_REPOSITORY_URL>
+git push -u origin main
+```
 
-Open the repository root in Claude Code, Codex, Cursor, or another compatible coding agent.
+This keeps Product-Skills available as an optional upstream reference while your own repository becomes the product source of truth.
 
-The agent should read `AGENTS.md` first and load only the skill(s) relevant to the current task.
+If you prefer GitHub UI, you can also fork/copy the repository first and then clone your own copy.
 
-### 3. Describe the business outcome
+## Existing product
 
-Write a product request, not a technical implementation specification.
+If you already have a codebase, **do not replace its application architecture just to install Product-Skills**.
+
+Adopt the harness around the existing project. Bring in the reusable harness areas you need:
+
+```text
+AGENTS.md
+skills/
+rules/
+workflows/
+subagents/        # optional
+templates/memory/
+hooks/            # when you want deterministic harness checks
+scripts/          # when you want repository validation helpers
+```
+
+Then add only the runtime-specific configuration for the coding agent you use, for example `.cursor/`, `.codex/`, `.mcp.json`, or `CLAUDE.md`.
+
+Do **not** blindly copy Product-Skills' root `memory/` into another product. That memory describes this repository. Initialize the target product's own lightweight memory from [`templates/memory/`](./templates/memory/):
+
+```text
+memory/
+├── PROJECT.md
+├── FEATURES.md
+└── DECISIONS.md
+```
+
+For an existing project, its established stack, package manager, and architecture remain authoritative unless you explicitly request a migration.
+
+## Claude Code
+
+Product-Skills includes `CLAUDE.md`, `.claude/`, and the root [`.mcp.json`](./.mcp.json).
+
+From the repository root, start Claude Code normally:
+
+```bash
+claude
+```
+
+Then describe the business outcome. Claude Code should use `CLAUDE.md` as the runtime entry point and follow the canonical rules in `AGENTS.md` and `skills/`.
+
+If the task needs GitHub, Vercel, Supabase, Figma, or another remote capability, authorize it when the agent requests it. You do not need to connect unrelated services first.
+
+## OpenAI Codex
+
+Product-Skills includes `AGENTS.md` and [`.codex/config.toml`](./.codex/config.toml).
+
+Open the repository in Codex or start Codex CLI from the repository root:
+
+```bash
+codex
+```
+
+Give Codex the product request directly. `AGENTS.md` is the shared harness contract; Codex should load only the relevant skill files for the task rather than reading every skill up front.
+
+## Cursor
+
+Product-Skills includes `AGENTS.md` and [`.cursor/mcp.json`](./.cursor/mcp.json).
+
+1. Open the repository folder in Cursor.
+2. Open **Agent** chat.
+3. Give it the product request.
+4. Approve only the external connections required by that request.
+
+Cursor should follow `AGENTS.md` and use `skills/` as the canonical skill source.
+
+## Other coding agents
+
+A runtime can use Product-Skills when it can reasonably:
+
+- read repository instructions and Markdown skill files;
+- inspect and edit project files;
+- run project commands;
+- access tools required by the task;
+- preserve changes in the repository.
+
+Use `AGENTS.md` as the main entry point and `/skills` as the canonical capability library. Add only thin runtime-specific configuration; do not duplicate the skill bodies.
+
+See [`docs/RUNTIME-COMPATIBILITY.md`](./docs/RUNTIME-COMPATIBILITY.md) for the runtime contract.
+
+---
+
+# 🚀 Using Product-Skills
+
+After installation, you normally use Product-Skills by **asking for a product outcome**, not by manually calling individual skills.
+
+## Your first request
 
 For example:
 
 > Build a purchase-request application. Employees can create and submit requests. Managers can review, approve, or reject them. Make the main flow work on desktop and mobile. Use a backend only if it materially improves the experience, then deploy a shareable preview when the flow is verified.
 
-If you have a Figma design, business rules, API specification, or existing repository constraints, include them in the request.
+That is enough to start.
 
-### 4. Approve only required connections
+If you already have useful context, attach or mention it in the same request:
 
-Before implementation, the agent determines which capabilities are required to complete the requested outcome.
+- Figma/design URL;
+- business rules;
+- acceptance criteria;
+- API/OpenAPI specification;
+- existing repository constraints;
+- screenshots or reference products.
+
+Do not write an implementation blueprint unless you actually want to constrain the implementation.
+
+## What the agent should do for you
+
+Before coding, the agent should determine what capabilities the requested outcome requires.
 
 ```text
 Figma URL in scope   → request design access first
@@ -143,17 +243,35 @@ Vercel preview       → request Vercel access
 Real backend needed  → request Supabase access
 ```
 
-The PM/BA should not need to inspect MCP settings manually.
+You should not need to inspect MCP configuration manually.
 
-### 5. Receive a verified result
+The agent then selects the relevant skills, builds the shortest credible experience, verifies it, and reports the result.
 
-A successful run should return:
+## What you should receive
+
+A successful delivery should include:
 
 - what was built;
 - what was verified;
-- one primary **Share URL** when a preview was requested;
+- one primary **Share URL** when preview deployment was requested;
 - important blockers or deferred work;
 - developer continuation notes when relevant.
+
+A build command succeeding by itself is not enough to claim the product is ready for feedback.
+
+## Continuing an existing product
+
+You can ask for product changes in normal business language, for example:
+
+> Add duplicate preset to Settings Presets.
+
+> Change sign-up so only invited users can create an account.
+
+> Remove public sign-up and keep existing sign-in behavior.
+
+When `memory/FEATURES.md` exists, the agent should read the current capability inventory first, determine whether the request is an `ADD`, `CHANGE`, `REMOVE`, or `NONE` delta, implement it, verify it, and update the inventory to the new current truth.
+
+You do not need to maintain a separate feature changelog for every iteration; Git remains the detailed history.
 
 ## 🔄 What happens after your prompt
 
