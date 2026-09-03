@@ -1,11 +1,11 @@
 ---
 name: delivery
-description: Publish a verified React experience to Vercel and, when requested, harden the same repository for developer continuation. Use after verification or when preparing the accepted preview for engineering handoff.
+description: Publish a verified React experience to Vercel and, when requested, prepare the same repository for developer continuation. Use after verification or when preparing the accepted preview for engineering handoff.
 ---
 
 # Delivery
 
-Delivery has two depths: stakeholder preview and developer-ready handoff.
+Delivery has two depths: stakeholder preview and engineering handoff.
 
 ## Tool policy
 
@@ -42,18 +42,22 @@ Classify additional values only when useful:
 
 Do not deploy to production merely to obtain a stable-looking URL. A stakeholder preview should remain a preview unless the user explicitly asks for production promotion.
 
-## Developer-ready depth
+## Engineering handoff depth
 
-After stakeholder acceptance, harden the same repository rather than creating a replacement implementation.
+After stakeholder acceptance, prepare the same repository so the Development team can understand, review, and continue the work.
 
 Check:
 
-- feature boundaries and data access remain understandable;
+- frontend boundaries and data access remain understandable;
 - TypeScript/build/lint checks pass cleanly;
 - important business behavior has proportionate tests;
-- Supabase migrations/RLS/auth are reproducible and reviewed when relevant;
+- backend artifacts such as Supabase migrations/RLS/auth setup are reproducible when relevant;
 - `.env.example` and local setup are accurate;
-- known deferred work and architecture decisions are visible;
+- known deferred work and technical assumptions are visible;
 - unnecessary demo hacks, dead mocks, hidden credentials, and temporary bypasses are removed.
 
+Prioritize preserving the validated frontend experience. Backend implementation should be treated as candidate reusable work until Development/SA reviews it in the context of the target architecture, security, data model, integrations, scalability, and other NFRs.
+
 Return `DEV_READY` only when the repository is genuinely understandable and runnable by a developer who did not author the preview.
+
+`DEV_READY` means **ready for engineering continuation and review**. It is not production approval, architecture sign-off, or NFR acceptance.

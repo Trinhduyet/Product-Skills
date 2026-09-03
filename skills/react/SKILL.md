@@ -7,14 +7,16 @@ description: Build or change a React interface quickly while preserving a clean 
 
 Optimize for a working interface first, with boundaries developers can continue toward production.
 
+Product-Skills provides a **frontend generation baseline**, not final system architecture ownership. Existing project standards and Development/SA decisions remain authoritative.
+
 ## Greenfield baseline
 
-Prefer the existing repository stack. If starting fresh, default to:
+Prefer the existing repository stack. If starting fresh and no project standard has been defined yet, default to:
 
 - React + TypeScript + Vite;
 - TypeScript strict mode;
 - ESLint with project-appropriate React/TypeScript rules;
-- **Feature-Sliced Design (FSD) v2.1** for frontend architecture;
+- **Feature-Sliced Design (FSD) v2.1** as the Product-Skills frontend structure baseline;
 - `@feature-sliced/steiger` for architecture validation;
 - Tailwind CSS;
 - shadcn/ui or equivalent mature primitives;
@@ -24,13 +26,13 @@ Prefer the existing repository stack. If starting fresh, default to:
 
 Respect `packageManager` metadata and lockfiles. npm and yarn remain supported; do not migrate an existing project without a concrete reason.
 
-Greenfield projects must expose scripts for at least `typecheck`, `lint`, `architecture`, and `build`. `architecture` must validate FSD boundaries, normally with `steiger src`.
+Greenfield projects must expose scripts for at least `typecheck`, `lint`, `architecture`, and `build`. `architecture` must validate the selected frontend boundaries, normally with `steiger src` when FSD is used.
 
 Do not add dependencies without current value.
 
-## Mandatory Feature-Sliced Design rules
+## Product-Skills FSD baseline
 
-Use FSD v2.1 with the principle **start simple, extract when needed**.
+Use FSD v2.1 with the principle **start simple, extract when needed** when no stronger project architecture standard exists.
 
 Minimal greenfield structure:
 
@@ -96,11 +98,13 @@ When a reusable feature/entity genuinely exists, it may own product-specific orc
 
 Supabase, HTTP, or mock provider details must not leak through page UI. Keep browser-safe client setup in `shared/api` or `shared/auth` as appropriate.
 
+Treat backend integration as replaceable infrastructure unless the Development team adopts it as part of the target architecture. Preserve useful contracts and source-controlled setup so engineering can evaluate reuse later.
+
 ## Clean-code rules
 
 - Keep TypeScript strict for greenfield work.
 - ESLint must pass with zero warnings; do not use blanket disables to hide issues.
-- FSD architecture validation must pass before `PREVIEW_READY`.
+- Selected frontend architecture validation must pass before `PREVIEW_READY`.
 - Avoid `any` unless a boundary truly cannot be typed and the reason is documented.
 - Avoid unsafe casts whose only purpose is to silence TypeScript.
 - Reuse existing components and patterns before inventing shared abstractions.
@@ -110,8 +114,10 @@ Supabase, HTTP, or mock provider details must not leak through page UI. Keep bro
 
 ## Existing repositories
 
-Do not mechanically migrate an established project to FSD during an unrelated change. Preserve its architecture unless the task explicitly requests migration or the current structure blocks safe delivery. New greenfield Product-Skills projects, however, must follow FSD.
+Do not mechanically migrate an established project to FSD during an unrelated change. Preserve its architecture unless the task explicitly requests migration or the current structure blocks safe delivery.
+
+When a Development/SA standard exists, follow it instead of the Product-Skills greenfield baseline.
 
 ## Completion
 
-Implementation is not complete until `typecheck`, `lint`, `architecture`, and `build` pass using the selected package manager and the main acceptance journey is verified in the running application.
+Implementation is not complete until the relevant `typecheck`, `lint`, architecture, and `build` checks pass using the selected package manager and the main acceptance journey is verified in the running application.
