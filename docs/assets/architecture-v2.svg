@@ -1,55 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="690" viewBox="0 0 560 690" role="img" aria-labelledby="title desc">
-  <title id="title">How Product-Skills fits into an AI coding workflow</title>
-  <desc id="desc">Business intent goes to an AI Coding Agent. The Product-Skills repository provides reusable skills, a lightweight harness, and optional tool connections. The agent produces verified product work that can continue in the same repository.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="520" viewBox="0 0 560 520" role="img" aria-labelledby="title desc">
+  <title id="title">Product-Skills repository overview</title>
+  <desc id="desc">Business intent goes to an AI Coding Agent. Product-Skills contributes reusable skills, a lightweight harness, and optional tools. The result is verified product work.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
       <path d="M0 0 L10 5 L0 10 Z" fill="#596579"/>
     </marker>
   </defs>
 
-  <rect width="560" height="690" fill="#f7f6f2"/>
+  <rect width="560" height="520" fill="#f7f6f2"/>
 
   <g font-family="system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" fill="#2d3142">
-    <text x="52" y="46" font-size="12" font-weight="700" letter-spacing="1.8" fill="#7a8399">PRODUCT-SKILLS · REPO OVERVIEW</text>
-    <line x1="52" y1="60" x2="508" y2="60" stroke="#2d3142" stroke-opacity=".12"/>
+    <text x="52" y="44" font-size="12" font-weight="700" letter-spacing="1.8" fill="#7a8399">PRODUCT-SKILLS · OVERVIEW</text>
+    <line x1="52" y1="58" x2="508" y2="58" stroke="#2d3142" stroke-opacity=".12"/>
 
-    <text x="52" y="94" font-size="13" font-weight="650" fill="#596579">YOU PROVIDE</text>
-    <text x="52" y="124" font-size="24" font-weight="680">Business intent</text>
-    <text x="52" y="148" font-size="13" fill="#596579">goal · users · rules · constraints · references</text>
-
-    <path d="M280 166V198" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
-
-    <g transform="translate(64 198)">
-      <rect width="432" height="84" rx="8" fill="#fff7f2" stroke="#eb6c36" stroke-width="1.2"/>
-      <text x="24" y="28" font-size="11" font-weight="750" letter-spacing="1.5" fill="#eb6c36">AI CODING AGENT</text>
-      <text x="24" y="58" font-size="21" font-weight="670">Reads the repo and performs the work</text>
+    <g transform="translate(82 88)">
+      <rect width="396" height="64" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <text x="198" y="39" text-anchor="middle" font-size="20" font-weight="670">Business intent</text>
     </g>
 
-    <text x="52" y="322" font-size="13" font-weight="650" fill="#596579">PRODUCT-SKILLS PROVIDES</text>
+    <path d="M280 152V184" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
 
-    <g transform="translate(52 344)">
-      <rect width="456" height="82" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
-      <text x="20" y="28" font-size="11" font-weight="750" letter-spacing="1.3" fill="#eb6c36">SKILLS</text>
-      <text x="20" y="55" font-size="15" font-weight="650">definition · ux-ui · react · supabase · verify · delivery</text>
-      <text x="20" y="73" font-size="12" fill="#596579">Reusable capabilities — selected only when relevant</text>
+    <g transform="translate(64 184)">
+      <rect width="432" height="72" rx="8" fill="#fff7f2" stroke="#eb6c36" stroke-width="1.2"/>
+      <text x="216" y="29" text-anchor="middle" font-size="11" font-weight="750" letter-spacing="1.5" fill="#eb6c36">AI CODING AGENT</text>
+      <text x="216" y="52" text-anchor="middle" font-size="18" font-weight="670">Builds the product</text>
     </g>
 
-    <g transform="translate(52 438)">
-      <rect width="456" height="82" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
-      <text x="20" y="28" font-size="11" font-weight="750" letter-spacing="1.3" fill="#596579">HARNESS</text>
-      <text x="20" y="55" font-size="15" font-weight="650">instructions · context · memory · rules · workflows · verification</text>
-      <text x="20" y="73" font-size="12" fill="#596579">Repository behavior that keeps execution consistent</text>
+    <text x="280" y="300" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="1.5" fill="#7a8399">PRODUCT-SKILLS ADDS</text>
+
+    <g transform="translate(52 320)">
+      <rect width="140" height="76" rx="8" fill="#ffffff" stroke="#eb6c36" stroke-width="1.1"/>
+      <text x="70" y="31" text-anchor="middle" font-size="12" font-weight="750" letter-spacing="1.2" fill="#eb6c36">SKILLS</text>
+      <text x="70" y="55" text-anchor="middle" font-size="14" font-weight="650">How to work</text>
     </g>
 
-    <g transform="translate(52 532)">
-      <rect width="456" height="72" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
-      <text x="20" y="27" font-size="11" font-weight="750" letter-spacing="1.3" fill="#596579">OPTIONAL TOOLS</text>
-      <text x="20" y="53" font-size="14" font-weight="620">Connect only what the requested outcome needs</text>
+    <g transform="translate(210 320)">
+      <rect width="140" height="76" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <text x="70" y="31" text-anchor="middle" font-size="12" font-weight="750" letter-spacing="1.2" fill="#596579">HARNESS</text>
+      <text x="70" y="55" text-anchor="middle" font-size="14" font-weight="650">How to execute</text>
     </g>
 
-    <path d="M280 604V632" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+    <g transform="translate(368 320)">
+      <rect width="140" height="76" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <text x="70" y="31" text-anchor="middle" font-size="12" font-weight="750" letter-spacing="1.2" fill="#596579">TOOLS</text>
+      <text x="70" y="55" text-anchor="middle" font-size="14" font-weight="650">When needed</text>
+    </g>
 
-    <text x="280" y="657" text-anchor="middle" font-size="17" font-weight="680">Verified product work</text>
-    <text x="280" y="678" text-anchor="middle" font-size="12" font-weight="550" fill="#7a8399">same repository · stakeholder feedback · developer continuation</text>
+    <path d="M280 396V430" stroke="#596579" stroke-width="1.4" fill="none" marker-end="url(#arrow)"/>
+
+    <g transform="translate(82 430)">
+      <rect width="396" height="58" rx="8" fill="#ffffff" stroke="#2d3142" stroke-opacity=".14"/>
+      <text x="198" y="36" text-anchor="middle" font-size="19" font-weight="680">Verified product work</text>
+    </g>
   </g>
 </svg>
